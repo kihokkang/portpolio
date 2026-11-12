@@ -1,34 +1,56 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="김기호의 소프트웨어 개발 포트폴리오. AX Frontier, 기업용 하이브리드 앱, AI 헬스케어 프로젝트.">
-<title>김기호 · 소프트웨어 개발자</title>
-<link rel="stylesheet" href="style.css">
-<script src="portfolio.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="기업용 웹과 하이브리드 앱을 개발하는 김기호의 포트폴리오.">
+  <title>김기호 · 소프트웨어 개발자</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body id="top">
-<a class="skip" href="#work">프로젝트로 바로 이동</a>
+<a class="skip" href="#main">본문으로 바로 이동</a>
 <header class="shell masthead">
-  <a class="brand" href="#top"><span aria-hidden="true">⌘</span> <span id="brand-name">개발자 포트폴리오</span></a>
-  <nav aria-label="주 메뉴"><a href="#work">프로젝트</a><a href="#about">소개</a><a id="contact-nav" href="#contact">연락 <span aria-hidden="true">↗</span></a></nav>
+  <a class="brand" href="#top"><span aria-hidden="true">⌘</span> 김기호</a>
+  <nav aria-label="주 메뉴"><a href="#about">소개</a><a href="#work">프로젝트</a></nav>
 </header>
-<main class="shell">
+<main id="main" class="shell">
   <section class="hero" aria-labelledby="hero-title">
-    <p class="eyebrow"><span class="dot"></span> SOFTWARE DEVELOPER</p>
-    <h1 id="hero-title">만든 것과,<br><em>그 안의 고민.</em></h1>
-    <p id="intro">아이디어를 직접 써볼 수 있는 제품으로 만듭니다.<br>프로젝트마다 어떤 문제를 풀었고, 어떻게 구현했는지 기록합니다.</p>
-    <a class="primary" href="#work">프로젝트 둘러보기 <span aria-hidden="true">↓</span></a>
+    <p class="eyebrow">SOFTWARE DEVELOPER</p>
+    <h1 id="hero-title">김기호<br><em>소프트웨어 개발자</em></h1>
+    <p>기업용 웹과 모바일 앱을 개발하고 운영합니다. 현장에서 반복되는 문제를 발견하면, 팀이 같은 기준으로 해결할 수 있는 도구와 업무 흐름을 설계합니다.</p>
+    <a class="primary" href="#work">프로젝트 보기 <span aria-hidden="true">↓</span></a>
+  </section>
+  <section id="about" class="info" aria-labelledby="about-title">
+    <h2 id="about-title">소개</h2>
+    <div class="bio">
+      <h3>웹과 모바일이 만나는 곳에서 일합니다</h3>
+      <p>유라클에서 기업용 iOS·Android 하이브리드 앱과 웹 시스템을 개발하고 운영하고 있습니다. 현대엔지니어링의 전사 시스템 9종에서 모바일 클라이언트 운영을 맡아 웹뷰와 네이티브 기능을 연결하고, OS와 앱스토어 정책 변경에 대응했습니다. 홈플러스 PDA 앱에서는 Windows에서 Android로 전환하면서 기존 업무 흐름과 새 앱의 동작을 대조하고, 현장에서 발생한 오류를 추적해 배포 전후 안정성을 확인했습니다.</p>
+      <h3>여러 화면과 서비스가 공유하는 기반을 만듭니다</h3>
+      <p>아이비즈소프트웨어에서는 SK MIS 차세대 구축에 참여해 Vue와 TypeScript로 공통 UI와 화면 템플릿을 설계하고, Spring Boot와 Oracle SQL로 대용량 데이터를 처리하는 배치를 개발했습니다. 화면 개발부터 API 연동과 데이터 처리까지 경험하면서, 공통 로직을 어디에 두고 서비스 간에 어떤 계약을 정할지 고민해 왔습니다.</p>
+      <h3>AI 기능과 팀의 검토 절차를 함께 설계합니다</h3>
+      <p>2025년 유라클 사내 AI 경진대회에서 3인 팀을 이끌어 맞춤형 헬스케어 앱으로 헬스케어 부문 대상을 받았습니다. AX Frontier에서는 4인 팀의 프로젝트 리드로 전체 아키텍처를 설계했습니다. 요구사항과 코드 작업, 테스트 결과가 같은 일감에 연결되도록 구성하고, 에이전트가 결과를 제출한 뒤 담당자가 근거를 확인하고 승인하는 절차를 두었습니다.</p>
+      <p>캐나다 Centennial College에서 소프트웨어공학을 전공했습니다.</p>
+      <ul class="tags" aria-label="주요 기술">
+        <li>JavaScript</li><li>TypeScript</li><li>Vue.js</li><li>Node.js</li><li>Java</li><li>Spring Boot</li><li>iOS·Android WebView</li>
+      </ul>
+    </div>
   </section>
   <section id="work" aria-labelledby="work-title">
-    <div class="section-head"><h2 id="work-title">프로젝트</h2><span class="eyebrow" id="sample-label">예시 프로젝트</span></div>
-    <div id="projects" class="projects"></div>
-    <noscript>프로젝트 목록을 보려면 자바스크립트를 켜 주세요.</noscript>
+    <div class="section-head"><h2 id="work-title">프로젝트</h2></div>
+    <article>
+      <a class="project" href="ax-frontier.html">
+        <img src="ax-frontier-overview.jpg" width="1200" height="675" alt="">
+        <div class="project-body">
+          <p class="eyebrow">사내 4인 팀 프로젝트 · 2026.10 발표</p>
+          <h3>AX Frontier</h3>
+          <p>메일로 들어온 요구사항부터 구현·검증·배포까지, 개발자와 IDE 에이전트의 작업을 하나의 일감으로 연결하는 플랫폼입니다.</p>
+          <p class="role">프로젝트 리드 · 전체 아키텍처 설계</p>
+          <span class="project-action">프로젝트 상세 보기 <span aria-hidden="true">↗</span></span>
+        </div>
+      </a>
+    </article>
   </section>
-  <section id="about" class="info"><h2>소개</h2><div><p id="bio">이곳에 자신을 소개해 보세요. 주로 해결하는 문제, 즐겨 쓰는 기술, 최근 관심사를 두세 문장으로 정리하면 좋습니다.</p><div class="tags" id="skills"></div></div></section>
-  <section id="contact" class="info"><h2>연락</h2><div><p id="contact-note">이메일과 GitHub 주소를 연결해 주세요.</p><div class="links" id="contacts"></div></div></section>
 </main>
-<footer class="shell"><span id="footer-name">개발자 포트폴리오</span><a href="#top">맨 위로 ↑</a></footer>
+<footer class="shell"><span>김기호</span><a href="#top">맨 위로 ↑</a></footer>
 </body>
 </html>

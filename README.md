@@ -1,7 +1,7 @@
-# 개발자 포트폴리오
+# 김기호 개발자 포트폴리오
 
-브라우저에서 `dist/index.html`을 열면 바로 볼 수 있습니다. 설치와 빌드 없이 동작합니다.
+브라우저에서 `dist/index.html`을 열면 포트폴리오를 확인할 수 있습니다. 설치와 빌드 없이 동작합니다.
 
-`dist/portfolio.js` 상단의 `profile`에 이름, 한 줄 소개, 기술 스택, 이메일, GitHub 주소를 입력하세요. `projects` 배열의 예시 항목을 실제 프로젝트로 바꾸고 `sample: false`로 설정하세요. 배열의 첫 항목이 대표 프로젝트로 크게 표시됩니다.
-
-각 프로젝트에 해결한 문제, 맡은 역할과 구현 내용, 결과를 입력할 수 있습니다. 스크린샷을 `dist`에 추가하고 `image`에 경로, `imageAlt`에 화면 설명을 적으세요. `repository`와 `demo`에 주소를 추가하면 상세 영역에 링크가 표시됩니다.
+- `dist/index.html`에는 소개와 AX Frontier 프로젝트 카드가 있습니다.
+- `dist/ax-frontier.html`에는 AX Frontier의 기능, 아키텍처, 업무 흐름과 설계 판단이 있습니다.
+- `dist/style.css`는 두 페이지가 공유하는 스타일입니다.
