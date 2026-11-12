@@ -6,7 +6,7 @@
   <meta name="description" content="기업용 웹과 하이브리드 앱을 개발하는 김기호의 포트폴리오.">
   <title>김기호 · 소프트웨어 개발자</title>
   <link rel="stylesheet" href="style.css">
-</head>
+<script src="motion.js" defer></script></head>
 <body id="top">
 <a class="skip" href="#main">본문으로 바로 이동</a>
 <header class="shell masthead">
@@ -17,10 +17,10 @@
   <section class="hero" aria-labelledby="hero-title">
     <div>
       <p class="eyebrow">김기호 · 소프트웨어 개발자</p>
-      <h1 id="hero-title">기업용 앱과<br>개발 도구를 만듭니다</h1>
+      <h1 id="hero-title">AI와 함께 만드는<br>더 나은 업무 경험</h1>
       <p class="hero-copy">웹과 모바일 앱의 개발부터 운영까지 맡아 왔습니다. AX Frontier에서는 요구사항, 코드 변경, 검증 기록을 한곳에서 관리하는 개발 협업 플랫폼을 설계했습니다.</p>
       <div class="hero-actions">
-        <a class="primary" href="ax-frontier.html">AX Frontier 보기 <span aria-hidden="true">↗</span></a>
+        <a class="primary" href="ax-frontier.html">대표 프로젝트 보기 <span aria-hidden="true">↗</span></a>
         <a class="hero-link" href="#about">경력과 소개 <span aria-hidden="true">↓</span></a>
       </div>
     </div>
@@ -33,20 +33,16 @@
   <section id="about" class="info" aria-labelledby="about-title">
     <h2 id="about-title">소개</h2>
     <div class="bio">
-      <h3>웹과 모바일이 만나는 곳에서 일합니다</h3>
-      <p>기업용 iOS·Android 하이브리드 앱과 웹 시스템을 개발하고 운영하고 있습니다. 전사 시스템 9종에서 모바일 클라이언트 운영을 맡아 웹뷰와 네이티브 기능을 연결하고, OS와 앱스토어 정책 변경에 대응했습니다. 매장 운영용 PDA 앱에서는 Windows에서 Android로 전환하면서 기존 업무 흐름과 새 앱의 동작을 대조하고, 현장에서 발생한 오류를 추적해 배포 전후 안정성을 확인했습니다.</p>
-      <h3>여러 화면과 서비스가 공유하는 기반을 만듭니다</h3>
-      <p>기업 업무 시스템 개편에서는 Vue와 TypeScript로 공통 UI와 화면 템플릿을 설계하고, Spring Boot와 Oracle SQL로 대용량 데이터를 처리하는 배치를 개발했습니다. 화면 개발부터 API 연동과 데이터 처리까지 경험하면서, 공통 로직을 어디에 두고 서비스 간에 어떤 계약을 정할지 고민해 왔습니다.</p>
-      <h3>AI 기능과 팀의 검토 절차를 함께 설계합니다</h3>
-      <p>2025년 사내 AI 경진대회에서 3인 팀을 이끌어 맞춤형 헬스케어 앱으로 헬스케어 부문 대상을 받았습니다. AX Frontier에서는 4인 팀의 프로젝트 리드로 전체 아키텍처를 설계했습니다. 요구사항과 코드 작업, 테스트 결과가 같은 일감에 연결되도록 구성하고, 에이전트가 결과를 제출한 뒤 담당자가 근거를 확인하고 승인하는 절차를 두었습니다.</p>
-      <p>캐나다 Centennial College에서 소프트웨어공학을 전공했습니다.</p>
+      <p class="intro-large">웹과 모바일을 개발하고 운영하며,<br>업무 전반에 AI를 적극 활용합니다.</p>
+      <p>요구사항 분석부터 코드 구현, 검증과 문서화까지 AI와 협업합니다. 하이브리드 앱 운영과 공통 UI·서버 개발 경험을 바탕으로 팀의 반복 업무를 줄이는 도구를 설계합니다.</p>
+      <div class="career-notes"><span>웹·모바일 개발 및 운영</span><span>AI 기반 개발 협업</span><span>팀 리딩·아키텍처 설계</span></div>
       <ul class="tags" aria-label="주요 기술">
         <li>JavaScript</li><li>TypeScript</li><li>Vue.js</li><li>Node.js</li><li>Java</li><li>Spring Boot</li><li>iOS·Android WebView</li>
       </ul>
     </div>
   </section>
   <section id="work" aria-labelledby="work-title">
-    <div class="section-head"><h2 id="work-title">프로젝트</h2></div>
+    <div class="section-head"><h2 id="work-title">만들어 온 프로젝트</h2><span class="eyebrow">SELECTED WORK</span></div>
     <article>
       <a class="project" href="ax-frontier.html">
         <img src="ax-frontier-overview.jpg" width="1200" height="675" alt="">
@@ -54,7 +50,7 @@
           <p class="eyebrow">사내 4인 팀 프로젝트 · 2026.10 발표</p>
           <h3>AX Frontier</h3>
           <p>메일로 들어온 요구사항부터 구현·검증·배포까지, 개발자와 IDE 에이전트의 작업을 하나의 일감으로 연결하는 플랫폼입니다.</p>
-          <p class="role">프로젝트 리드 · 전체 아키텍처 설계</p>
+          <p class="role">프로젝트 리드 · 전체 아키텍처 설계</p><p class="recognition">사내 AX 적용 우수사례 선정·발표</p>
           <span class="project-action">프로젝트 상세 보기 <span aria-hidden="true">↗</span></span>
         </div>
       </a>
