@@ -245,7 +245,7 @@
 
       <div class="slide-deck-grid">
         <!-- Screen 1: Issues -->
-        <article class="slide-item-card">
+        <article class="slide-item-card" onclick="openClueLightbox(0)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openClueLightbox(0);}" role="button" tabindex="0" style="cursor: zoom-in;" aria-label="CONSOLE 01 오류 이벤트 타임라인 화면 확대">
           <div class="slide-thumb-frame">
             <img src="clue-screen-issues.png" alt="Clue Issues 대시보드 화면" loading="lazy">
           </div>
@@ -257,7 +257,7 @@
         </article>
 
         <!-- Screen 2: Issue Detail -->
-        <article class="slide-item-card">
+        <article class="slide-item-card" onclick="openClueLightbox(1)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openClueLightbox(1);}" role="button" tabindex="0" style="cursor: zoom-in;" aria-label="CONSOLE 02 스택트레이스 상세 화면 확대">
           <div class="slide-thumb-frame">
             <img src="clue-screen-issue-detail.png" alt="Clue Issue 상세 진단 화면" loading="lazy">
           </div>
@@ -269,7 +269,7 @@
         </article>
 
         <!-- Screen 3: Performance -->
-        <article class="slide-item-card">
+        <article class="slide-item-card" onclick="openClueLightbox(2)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openClueLightbox(2);}" role="button" tabindex="0" style="cursor: zoom-in;" aria-label="CONSOLE 03 APM 및 웹 바이탈 화면 확대">
           <div class="slide-thumb-frame">
             <img src="clue-screen-performance.png" alt="Clue Performance APM 화면" loading="lazy">
           </div>
@@ -281,7 +281,7 @@
         </article>
 
         <!-- Screen 4: Releases -->
-        <article class="slide-item-card">
+        <article class="slide-item-card" onclick="openClueLightbox(3)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openClueLightbox(3);}" role="button" tabindex="0" style="cursor: zoom-in;" aria-label="CONSOLE 04 릴리즈 안정성 및 심볼리케이터 화면 확대">
           <div class="slide-thumb-frame">
             <img src="clue-screen-releases.png" alt="Clue Releases 안정성 화면" loading="lazy">
           </div>
@@ -293,7 +293,7 @@
         </article>
 
         <!-- Screen 5: Discover -->
-        <article class="slide-item-card">
+        <article class="slide-item-card" onclick="openClueLightbox(4)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openClueLightbox(4);}" role="button" tabindex="0" style="cursor: zoom-in;" aria-label="CONSOLE 05 다차원 텔레메트리 쿼리 화면 확대">
           <div class="slide-thumb-frame">
             <img src="clue-screen-discover.png" alt="Clue Discover 쿼리 화면" loading="lazy">
           </div>
@@ -305,7 +305,7 @@
         </article>
 
         <!-- Screen 6: SDK & Settings -->
-        <article class="slide-item-card">
+        <article class="slide-item-card" onclick="openClueLightbox(5)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openClueLightbox(5);}" role="button" tabindex="0" style="cursor: zoom-in;" aria-label="CONSOLE 06 SDK 다운로드 센터 및 API 명세 화면 확대">
           <div class="slide-thumb-frame">
             <img src="clue-screen-sdk.png" alt="Clue SDK 및 API 명세 화면" loading="lazy">
           </div>
@@ -420,5 +420,118 @@
       </nav>
     </div>
   </footer>
+
+  <!-- Fullscreen Modal Lightbox for Clue Console Screens -->
+  <div class="modal-lightbox" id="clue-lightbox-modal" role="dialog" aria-modal="true" aria-label="Clue 콘솔 화면 고해상도 확대 모달">
+    <div class="lightbox-box">
+      <div class="lightbox-head">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-primary); font-weight: 700;" id="clue-lightbox-counter">[ 01 / 06 ]</span>
+          <span style="color: var(--text-tertiary);">|</span>
+          <strong style="color: var(--text-primary); font-size: 0.95rem;" id="clue-lightbox-title">콘솔 화면 제목</strong>
+        </div>
+        <button class="nav-btn-outline" type="button" onclick="closeClueLightbox()" style="padding: 4px 12px; font-size: 0.78rem;">닫기 (ESC)</button>
+      </div>
+
+      <div class="lightbox-body">
+        <button class="lightbox-arrow left" type="button" onclick="navClueLightbox(-1)" aria-label="이전 화면">‹</button>
+        <img id="clue-lightbox-img" src="clue-screen-issues.png" alt="Clue 콘솔 화면 고해상도 확대">
+        <button class="lightbox-arrow right" type="button" onclick="navClueLightbox(1)" aria-label="다음 화면">›</button>
+      </div>
+
+      <div class="lightbox-foot">
+        <p style="color: var(--text-secondary); font-size: 0.9rem;" id="clue-lightbox-desc">상세 설명</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const clueScreens = [
+        {
+          img: 'clue-screen-issues.png',
+          title: 'CONSOLE 01 · ISSUES DASHBOARD — 오류 이벤트 타임라인 및 크래시 목록',
+          desc: '최근 24시간 플랫폼별(AOS/iOS/웹뷰) 오류 분포와 미해결 8건 이슈의 영향받은 사용자 및 최근 발생 시각'
+        },
+        {
+          img: 'clue-screen-issue-detail.png',
+          title: 'CONSOLE 02 · ISSUE DETAIL — 스택트레이스, 탐색경로 & 디바이스 상태',
+          desc: 'COMMERCE-101 NullPointerException 발생 위치, 단말 기종(Galaxy S24), 배터리/메모리, 브레드크럼 및 Spike 경보'
+        },
+        {
+          img: 'clue-screen-performance.png',
+          title: 'CONSOLE 03 · APM & WEB VITALS — 6대 핵심 성능 메트릭 & 브릿지 트랜잭션',
+          desc: 'LCP 1,120ms, 앱 기동 890ms, Apdex 0.94 관제 및 주문서 결제 등 3개 구간의 P95 병목 소요시간 폭포수 분해'
+        },
+        {
+          img: 'clue-screen-releases.png',
+          title: 'CONSOLE 04 · RELEASES & SYMBOLICATOR — 버전별 건전도 추적 & 심볼리케이터',
+          desc: 'v2.4.0 78.4% 채택률, Crash-Free 세션 모니터링 및 ProGuard/dSYM/SourceMap 실시간 역난독화 툴'
+        },
+        {
+          img: 'clue-screen-discover.png',
+          title: 'CONSOLE 05 · DISCOVER TELEMETRY — 다차원 텔레메트리 이벤트 쿼리',
+          desc: 'Event ID, 플랫폼, 치명도(Fatal/Error/Info), 디바이스 기종 및 단말 진단 페이로드 JSON 익스포트'
+        },
+        {
+          img: 'clue-screen-sdk.png',
+          title: 'CONSOLE 06 · SDK & REST APIS — SDK 다운로드 센터 & REST API 규격',
+          desc: 'AOS/iOS/WebView 올인원 바이너리 패키지, DSN Client Key 발급 및 8개 수집 엔드포인트 명세'
+        }
+      ];
+
+      let currentIdx = 0;
+
+      function updateClueLightbox() {
+        const item = clueScreens[currentIdx];
+        if (!item) return;
+        const pad = n => String(n).padStart(2, '0');
+        document.getElementById('clue-lightbox-counter').textContent = `[ ${pad(currentIdx + 1)} / ${pad(clueScreens.length)} ]`;
+        document.getElementById('clue-lightbox-title').textContent = item.title;
+        document.getElementById('clue-lightbox-img').src = item.img;
+        document.getElementById('clue-lightbox-img').alt = item.title;
+        document.getElementById('clue-lightbox-desc').textContent = item.desc;
+      }
+
+      window.openClueLightbox = function (idx) {
+        currentIdx = (idx >= 0 && idx < clueScreens.length) ? idx : 0;
+        updateClueLightbox();
+        const modal = document.getElementById('clue-lightbox-modal');
+        if (modal) {
+          modal.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        }
+      };
+
+      window.closeClueLightbox = function () {
+        const modal = document.getElementById('clue-lightbox-modal');
+        if (modal) {
+          modal.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      };
+
+      window.navClueLightbox = function (delta) {
+        currentIdx = (currentIdx + delta + clueScreens.length) % clueScreens.length;
+        updateClueLightbox();
+      };
+
+      document.addEventListener('click', function (e) {
+        const modal = document.getElementById('clue-lightbox-modal');
+        if (modal && modal.classList.contains('open') && e.target === modal) {
+          window.closeClueLightbox();
+        }
+      });
+
+      document.addEventListener('keydown', function (e) {
+        const modal = document.getElementById('clue-lightbox-modal');
+        if (modal && modal.classList.contains('open')) {
+          if (e.key === 'Escape') window.closeClueLightbox();
+          if (e.key === 'ArrowLeft') window.navClueLightbox(-1);
+          if (e.key === 'ArrowRight') window.navClueLightbox(1);
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
