@@ -1,0 +1,600 @@
+{
+  "analysis": {
+    "libs": {
+      "three": false,
+      "gsap": false,
+      "lenis": false,
+      "framerMotion": false
+    },
+    "canvases": [
+      {
+        "width": 1440,
+        "height": 900,
+        "style": "--v6a362505: 0; --v8912b324: 0; --v194b9925: 580; --v2f44c9ff: 377; width: 1440px; height: 900px;",
+        "className": "controls",
+        "hasGL": true,
+        "glRenderer": "WebKit WebGL",
+        "glVendor": "WebKit"
+      }
+    ],
+    "animatedCount": 1588,
+    "sampleAnimated": [
+      {
+        "tag": "HTML",
+        "className": "lenis",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "HEAD",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "META",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "META",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "SCRIPT",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "TITLE",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "STYLE",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "STYLE",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "STYLE",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "STYLE",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "STYLE",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "STYLE",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "STYLE",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "STYLE",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      },
+      {
+        "tag": "STYLE",
+        "className": "",
+        "id": "",
+        "transform": "none",
+        "transition": "all",
+        "animation": "none",
+        "opacity": "1"
+      }
+    ],
+    "indicators": [
+      {
+        "className": "step-content",
+        "text": "The future is built on Artificial Intelligence.\n\nSCROLL TO EXPLORE",
+        "style": "opacity: 1; visibility: inherit;",
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "step-container",
+        "text": "The future is built on Artificial Intelligence.\n\nSCROLL TO EXPLORE",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "step-content",
+        "text": "Inkwell makes it possible by helping orchestrate through intelligent, end-to-end automation,\nwhile proactively raising issues around costs and constraints to support better decision-making.",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "step-container step2-1",
+        "text": "",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "step-container step2-2",
+        "text": "",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "step-list",
+        "text": "",
+        "style": "opacity: 1; visibility: inherit;",
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "step-content step-mobile",
+        "text": "AI is changing the way we approachCybersecurityAI transforms the 24-step, years-long building process into a parallel, real-time system.This compresses timelines, eliminates waste, and drives massive cost savings. Inkwell makes it possible by helping orchestrate through intelligent, end-to-end automation,  while proactively raising issues around costs and constraints to support better decision-making. 2625242322212019181716151413121110987654321Pre-DesignClient ConsultationSite AnalysisBudgetingConcept DevelopmentSchematic DesignSite Plan ReviewDesign RefinementMaterials & 3DDesign DevelopmentCost & DrawingsSpecifications & CoordinationDocumentation & PermittingCompliance & SubmissionApprovalsProcurementBidding & NegotiationConstruction OversightSite MeetingsQuality ControlHandoverInspections & Punch ListOccupancy & TrainingPost-OccupancyWarranty & Final TouchesOpening Event",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "step-container step2-1",
+        "text": "AI is changing the way we approachCybersecurity",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "step-container step2-2",
+        "text": "AI transforms the 24-step, years-long building process into a parallel, real-time system.",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "step-list",
+        "text": "2625242322212019181716151413121110987654321Pre-DesignClient ConsultationSite AnalysisBudgetingConcept DevelopmentSchematic DesignSite Plan ReviewDesign RefinementMaterials & 3DDesign DevelopmentCost & DrawingsSpecifications & CoordinationDocumentation & PermittingCompliance & SubmissionApprovalsProcurementBidding & NegotiationConstruction OversightSite MeetingsQuality ControlHandoverInspections & Punch ListOccupancy & TrainingPost-OccupancyWarranty & Final TouchesOpening Event",
+        "style": "opacity: 1; visibility: inherit;",
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "form-step",
+        "text": "01 / 03",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "form-step",
+        "text": "01 / 03",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "form-step",
+        "text": "01 / 03",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "text-indicator --behind",
+        "text": "INTRO\nVISION\nINTELLIGENCE\nAPPLICATIONS\nTALENTS\nWORK\nCONTACT",
+        "style": "opacity: 1; visibility: inherit;",
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "indicator-wrapper",
+        "text": "INTRO\nVISION\nINTELLIGENCE\nAPPLICATIONS\nTALENTS\nWORK\nCONTACT",
+        "style": "translate: none; rotate: none; scale: none; transform: translate(-78.3047px, 0px);",
+        "computedTransform": "matrix(1, 0, 0, 1, -78.3047, 0)",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "steps-container",
+        "text": "INTRO\nVISION\nINTELLIGENCE\nAPPLICATIONS\nTALENTS\nWORK\nCONTACT",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "step-name passed",
+        "text": "INTRO",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(211, 211, 211)"
+      },
+      {
+        "className": "step-name active",
+        "text": "VISION",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(255, 255, 255)"
+      },
+      {
+        "className": "step-name",
+        "text": "INTELLIGENCE",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(211, 211, 211)"
+      },
+      {
+        "className": "step-name",
+        "text": "APPLICATIONS",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(211, 211, 211)"
+      },
+      {
+        "className": "step-name",
+        "text": "TALENTS",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(211, 211, 211)"
+      },
+      {
+        "className": "step-name",
+        "text": "WORK",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(211, 211, 211)"
+      },
+      {
+        "className": "step-name",
+        "text": "CONTACT",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(211, 211, 211)"
+      },
+      {
+        "className": "indicator-ui",
+        "text": "INTRO\nVISION\nINTELLIGENCE\nAPPLICATIONS\nTALENTS\nWORK\nCONTACT",
+        "style": "opacity:1;",
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "text-indicator",
+        "text": "INTRO\nVISION\nINTELLIGENCE\nAPPLICATIONS\nTALENTS\nWORK\nCONTACT",
+        "style": "opacity: 1; visibility: inherit;",
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "indicator-wrapper",
+        "text": "INTRO\nVISION\nINTELLIGENCE\nAPPLICATIONS\nTALENTS\nWORK\nCONTACT",
+        "style": "translate: none; rotate: none; scale: none; transform: translate(-78.3047px, 0px);",
+        "computedTransform": "matrix(1, 0, 0, 1, -78.3047, 0)",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "steps-container",
+        "text": "INTRO\nVISION\nINTELLIGENCE\nAPPLICATIONS\nTALENTS\nWORK\nCONTACT",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "step-name passed",
+        "text": "INTRO",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(211, 211, 211)"
+      },
+      {
+        "className": "step-name active",
+        "text": "VISION",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(30, 39, 45)"
+      },
+      {
+        "className": "step-name",
+        "text": "INTELLIGENCE",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(211, 211, 211)"
+      },
+      {
+        "className": "step-name",
+        "text": "APPLICATIONS",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(211, 211, 211)"
+      },
+      {
+        "className": "step-name",
+        "text": "TALENTS",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(211, 211, 211)"
+      },
+      {
+        "className": "step-name",
+        "text": "WORK",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(211, 211, 211)"
+      },
+      {
+        "className": "step-name",
+        "text": "CONTACT",
+        "style": null,
+        "computedTransform": "none",
+        "computedOpacity": "1",
+        "computedColor": "rgb(211, 211, 211)"
+      }
+    ]
+  },
+  "scrollKeyframes": [
+    {
+      "scrollY": 0,
+      "indicatorTransform": "matrix(1, 0, 0, 1, -78.3047, 0)",
+      "activeStepText": "VISION",
+      "visibleHeading": "Bespoke AI and human ingenuity come together to radically transform your business",
+      "textSample": [
+        "The future is built on Artificial Intelligence.",
+        "SCROLL TO EXPLORE",
+        "Inkwell makes it possible by helping orchestrate through intelligent, end-to-end automation,",
+        "while proactively raising issues around costs and constraints to support better decision-making.",
+        "VISIONARY",
+        "GRANULAR",
+        "OPERATIONAL",
+        "HIGH LEVEL"
+      ]
+    },
+    {
+      "scrollY": 2500,
+      "indicatorTransform": "matrix(1, 0, 0, 1, -78.3047, 0)",
+      "activeStepText": "VISION",
+      "visibleHeading": "Bespoke AI and human ingenuity come together to radically transform your business",
+      "textSample": [
+        "The future is built on Artificial Intelligence.",
+        "SCROLL TO EXPLORE",
+        "AI is changing the way we approach",
+        "Architecture",
+        "Inkwell makes it possible by helping orchestrate through intelligent, end-to-end automation,",
+        "while proactively raising issues around costs and constraints to support better decision-making.",
+        "VISIONARY",
+        "GRANULAR"
+      ]
+    },
+    {
+      "scrollY": 5000,
+      "indicatorTransform": "matrix(1, 0, 0, 1, -78.3047, 0)",
+      "activeStepText": "VISION",
+      "visibleHeading": "Bespoke AI and human ingenuity come together to radically transform your business",
+      "textSample": [
+        "The future is built on Artificial Intelligence.",
+        "SCROLL TO EXPLORE",
+        "AI is changing the way we approach",
+        "Architecture",
+        "AI transforms the 24-step, years-long building process into a parallel, real-time system.",
+        "Inkwell makes it possible by helping orchestrate through intelligent, end-to-end automation,",
+        "while proactively raising issues around costs and constraints to support better decision-making.",
+        "VISIONARY"
+      ]
+    },
+    {
+      "scrollY": 7500,
+      "indicatorTransform": "matrix(1, 0, 0, 1, -162.261, 0)",
+      "activeStepText": "INTELLIGENCE",
+      "visibleHeading": "Bespoke AI and human ingenuity come together to radically transform your business",
+      "textSample": [
+        "The future is built on Artificial Intelligence.",
+        "SCROLL TO EXPLORE",
+        "AI is changing the way we approach",
+        "Architecture",
+        "AI transforms the 24-step, years-long building process into a parallel, real-time system.",
+        "Inkwell makes it possible by helping orchestrate through intelligent, end-to-end automation,",
+        "while proactively raising issues around costs and constraints to support better decision-making.",
+        "VISIONARY"
+      ]
+    },
+    {
+      "scrollY": 10000,
+      "indicatorTransform": "matrix(1, 0, 0, 1, -162.461, 0)",
+      "activeStepText": "INTELLIGENCE",
+      "visibleHeading": "Bespoke AI and human ingenuity come together to radically transform your business",
+      "textSample": [
+        "The future is built on Artificial Intelligence.",
+        "SCROLL TO EXPLORE",
+        "AI is changing the way we approach",
+        "Architecture",
+        "This compresses timelines, eliminates waste, and drives massive cost savings.",
+        "Inkwell makes it possible by helping orchestrate through intelligent, end-to-end automation,",
+        "while proactively raising issues around costs and constraints to support better decision-making.",
+        "26"
+      ]
+    },
+    {
+      "scrollY": 12500,
+      "indicatorTransform": "matrix(1, 0, 0, 1, -162.461, 0)",
+      "activeStepText": "INTELLIGENCE",
+      "visibleHeading": "Bespoke AI and human ingenuity come together to radically transform your business",
+      "textSample": [
+        "The future is built on Artificial Intelligence.",
+        "SCROLL TO EXPLORE",
+        "AI is changing the way we approach",
+        "Architecture",
+        "This compresses timelines, eliminates waste, and drives massive cost savings.",
+        "Inkwell makes it possible by helping orchestrate through intelligent, end-to-end automation,",
+        "while proactively raising issues around costs and constraints to support better decision-making.",
+        "26"
+      ]
+    },
+    {
+      "scrollY": 15000,
+      "indicatorTransform": "matrix(1, 0, 0, 1, -263.694, 0)",
+      "activeStepText": "APPLICATIONS",
+      "visibleHeading": "Bespoke AI and human ingenuity come together to radically transform your business",
+      "textSample": [
+        "The future is built on Artificial Intelligence.",
+        "SCROLL TO EXPLORE",
+        "AI is changing the way we approach",
+        "Inkwell makes it possible by helping orchestrate through intelligent, end-to-end automation,",
+        "while proactively raising issues around costs and constraints to support better decision-making.",
+        "VISIONARY",
+        "GRANULAR",
+        "OPERATIONAL"
+      ]
+    }
+  ],
+  "scriptsCount": 117,
+  "scripts": [
+    {
+      "url": "https://inkwell.tech/_nuxt/DeuiHYW7.js",
+      "length": 11405,
+      "snippet": "import I, { __tla as __tla_0 } from \"./B0GZ2IOc.js\";\nimport { a_ as d, b1 as g, bl as S, bw as C, bx as k, aT as u, aU as h, bE as f, aV as e, bV as y, bb as E, aR as P, bq as b, aY as p, aZ as l, b4 as M, aX as c, by as V, bB as W, b6 as v } from \"#entry\";\nimport { u as x } from \"./Dqxtvgko.js\";\nimport { u as m } from \"./Xp6c5SBg.js\";\nimport \"./ARqvZgwl.js\";\nimport \"./BCYjiYTg.js\";\nimport { __tla as __tla_1 } from \"./MA743oI9.js\";\nlet J;\nlet __tla = Promise.all([\n  (() => {\n    try {\n      retu"
+    },
+    {
+      "url": "https://inkwell.tech/_nuxt/ARqvZgwl.js",
+      "length": 826,
+      "snippet": "import { aT as d, aU as o, aV as t } from \"#entry\";\n(function() {\n  try {\n    var e = typeof window < \"u\" ? window : typeof global < \"u\" ? global : typeof globalThis < \"u\" ? globalThis : typeof self < \"u\" ? self : {}, n = new e.Error().stack;\n    n && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[n] = \"e5f0fd5d-32ad-4e31-99db-bf63779eda06\", e._sentryDebugIdIdentifier = \"sentry-dbid-e5f0fd5d-32ad-4e31-99db-bf63779eda06\");\n  } catch {\n  }\n})();\nconst r = { xmlns: \"http://www.w3.o"
+    },
+    {
+      "url": "https://inkwell.tech/_nuxt/rmnZ4jQO.js",
+      "length": 2292,
+      "snippet": "import { a_ as i, bq as b, aY as u, bp as f, bU as _, b6 as d, aT as p, aV as a, bV as g, bb as n, bi as m, bD as v, aR as y } from \"#entry\";\nimport { __tla as __tla_0 } from \"./MA743oI9.js\";\nlet D;\nlet __tla = Promise.all([\n  (() => {\n    try {\n      return __tla_0;\n    } catch {\n    }\n  })()\n]).then(async () => {\n  (function() {\n    try {\n      var e = typeof window < \"u\" ? window : typeof global < \"u\" ? global : typeof globalThis < \"u\" ? globalThis : typeof self < \"u\" ? self : {}, s = new e.E"
+    },
+    {
+      "url": "https://inkwell.tech/_nuxt/B0GZ2IOc.js",
+      "length": 6333,
+      "snippet": "import { a_ as L, cN as N, cO as P, b2 as F, bd as W, bn as O, b4 as z, be as A, bl as E, aU as g, aV as t, aX as i, aY as k, bJ as T, bp as m, b6 as e, bf as H, a$ as D, aT as x, br as J, bb as M, bi as U, bh as r, bD as X, aR as Y } from \"#entry\";\nimport { I as f } from \"./ARqvZgwl.js\";\nimport { V as y } from \"./BCYjiYTg.js\";\nimport { __tla as __tla_0 } from \"./MA743oI9.js\";\nlet le;\nlet __tla = Promise.all([\n  (() => {\n    try {\n      return __tla_0;\n    } catch {\n    }\n  })()\n]).then(async ()"
+    },
+    {
+      "url": "https://inkwell.tech/static/fonts/FKGroteskMono-Regular.woff2",
+      "length": 31300,
+      "snippet": "wOF2\u0000\u0001\u0000\u0000\u0000\u0000��\u0000\u000f\u0000\u0000\u0000\u0002=�\u0000\u0000�`\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000?FFTM\u001c\u001a�B\u001b��\n\u001c�d\u0006`\u0000�6\u0011\b\n��H��\u0016\u000b�\u001c\u0000\u00016\u0002$\u0003�\u0004\u0004 \u0005�h\u0007�~[��\u0007��vKD�OeQ\u0005��\u0000�y�u�\u0016��\rq�:x�\\�S�)�=��\u0001�k�qwK�0��������w-\u0013����z��ucc\u000e\u0004TTP��煀$MQܻ�*Uj�\n�{o\u0012T�)�\u0018F=̈́:0+�\u0016��L2k.�`L|d6s\u0013���\u0012�X���G|*eƭ�\u0003��dگϵ��e#ac�\u000b$[k��I-n�\u0004��bo.��K��\u0014\"����>Q{)��@����e�Q�WOB�n��R��r�oLt�\u000f��|꾔?��E(Wv�+��&�$��쐙A\u0012�Y\u0006G�2�3��Wb���6�ݤZ����6V=��w?*�\u001f\t�|^%6.�����%Tu���:�L����\u001e�\u0004�sZ\u001c����dT�M����ϊIu��\u0003��\u0001��Ӧ<�-Ǹ�wر<�傽��\u0001\u0007��g�\u001ac���D�#>�\u0004\\R\u001a;i�\b\u0010�\u0019j\u0011-Wu��Z�r�Z8B��\t�z�`�\u000e1?D=�A���Ã��\u0019g\u001e.���p�"
+    },
+    {
+      "url": "https://inkwell.tech/_nuxt/B-06O309.js",
+      "length": 5401,
+      "snippet": "import { _ as i, __tla as __tla_0 } from \"./CDIHjJk7.js\";\nimport { aR as u, aS as d, aT as l, aU as c, aV as n, aW as r, aX as f, aY as p, aZ as b } from \"#entry\";\nimport { __tla as __tla_1 } from \"./MA743oI9.js\";\nlet z;\nlet __tla = Promise.all([\n  (() => {\n    try {\n      return __tla_0;\n    } catch {\n    }\n  })(),\n  (() => {\n    try {\n      return __tla_1;\n    } catch {\n    }\n  })()\n]).then(async () => {\n  (function() {\n    try {\n      var e = typeof window < \"u\" ? window : typeof global < \"u\""
+    },
+    {
+      "url": "https://inkwell.tech/_nuxt/Dqxtvgko.js",
+      "length": 561,
+      "snippet": "import { cN as s, cD as t } from \"#entry\";\n(function() {\n  try {\n    var e = typeof window < \"u\" ? window : typeof global < \"u\" ? global : typeof globalThis < \"u\" ? globalThis : typeof self < \"u\" ? self : {}, d = new e.Error().stack;\n    d && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[d] = \"a19465fb-eda8-4ed9-9a12-8d431f5ac5d9\", e._sentryDebugIdIdentifier = \"sentry-dbid-a19465fb-eda8-4ed9-9a12-8d431f5ac5d9\");\n  } catch {\n  }\n})();\nconst r = (e) => {\n  const { createState: d "
+    },
+    {
+      "url": "https://inkwell.tech/_nuxt/Xp6c5SBg.js",
+      "length": 685,
+      "snippet": "import { c5 as i } from \"#entry\";\n(function() {\n  try {\n    var e = typeof window < \"u\" ? window : typeof global < \"u\" ? global : typeof globalThis < \"u\" ? globalThis : typeof self < \"u\" ? self : {}, s = new e.Error().stack;\n    s && (e._sentryDebugIds = e._sentryDebugIds || {}, e._sentryDebugIds[s] = \"c8f7c7a0-c000-49e5-9824-d70202027734\", e._sentryDebugIdIdentifier = \"sentry-dbid-c8f7c7a0-c000-49e5-9824-d70202027734\");\n  } catch {\n  }\n})();\nconst a = i(\"legalStore\", { state: () => ({ termsIsVi"
+    },
+    {
+      "url": "https://inkwell.tech/_nuxt/BCYjiYTg.js",
+      "length": 3936,
+      "snippet": "(function() {\n  try {\n    var r = typeof window < \"u\" ? window : typeof global < \"u\" ? global : typeof globalThis < \"u\" ? globalThis : typeof self < \"u\" ? self : {}, t = new r.Error().stack;\n    t && (r._sentryDebugIds = r._sentryDebugIds || {}, r._sentryDebugIds[t] = \"188fe804-3147-4ad3-be49-de29f0d34915\", r._sentryDebugIdIdentifier = \"sentry-dbid-188fe804-3147-4ad3-be49-de29f0d34915\");\n  } catch {\n  }\n})();\nfunction o(r, t) {\n  return r[0] = t[0], r[1] = t[1], r;\n}\nfunction p(r, t, e) {\n  retu"
+    },
+    {
+      "url": "https://inkwell.tech/static/fonts/FKGrotesk-Regular.woff2",
+      "length": 43413,
+      "snippet": "wOF2\u0000\u0001\u0000\u0000\u0000\u0000��\u0000\u000f\u0000\u0000\u0000\u0002��\u0000\u0000��\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000?FFTM\u001c\u001a�B\u001b��\u0018\u001c�\u001e\u0006`\u0000�6\u0011\b\n��x��Q\u000b�\u001c\u0000\u00016\u0002$\u0003�\u0004\u0004 \u0005�#\u0007�~[���\b�cx_K\u0001���%��1 �m}^�U͏���\u000e3��\\tAڨ�\u000e�[̯;�����><������[��5�\u001ddv�\u0010@����W{m�\u0013\u0002��4�<���k\u001a��CJ���!�2J�(��L�ƩA���M��>�}��!ΪˈBD!�\u001c�����L��N.Y��\\\u0016x]�v6Y�\fj�9<\u0011ީf�ƵwG2�0=z^�\u000e\u001c}�,�P$ID\u0014���\u001d\u0006!��\\\u0005\u001bBrP�\u001d\u0014��D�O��R�C\u0012N���!�˩w�|\u00165�_6��U�Q����7�<\u0000�8\u001c�B�e}��#X���(TM\u001f>Z��R��{յ�\\�S\f\u0013�\u0016�.I{mrF�]�Qz�+�\u0012��o��\u0014��U�O�=�\u0013ea�G)G�G��u�t���n5�{hfQy�\u001f�\u0003Wvx�\u000eL7)E��@���5*��<�A�ڽ��\u0015�@\u0012�De�p0\u0018Xɩw�ޅy��_B\u0012�\u00032��R��u��՟�\u0019�?�\u0015qimt\u0003$"
+    }
+  ]
+}

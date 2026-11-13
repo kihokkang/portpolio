@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="김기호의 Clue Observability 엔터프라이즈 APM 관제 시스템 심층 연구. 하이브리드 모바일 웹뷰 오류, Android/iOS 네이티브 크래시, 6대 성능 메트릭 및 ProGuard/dSYM 실시간 심볼리케이터 아키텍처를 설명합니다.">
+  <title>CLUE OBSERVABILITY // ARCHITECTURE DOSSIER · KIM GIHO</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231d4ed8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 12h-4l-3 9L9 3l-3 9H2'/></svg>">
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;850&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="ax-frontier.css">
+  <script src="ax-frontier.js" defer></script>
+</head>
+<body id="top">
+  <!-- Top Reading Progress Bar -->
+  <div id="reading-progress" class="reading-progress-bar"></div>
+
+  <!-- Signature Apple Dot Cursor -->
+  <div id="dot-cursor" class="dot-cursor" aria-hidden="true"></div>
+
+  <a class="skip" href="#case-main" style="position:absolute; top:-100px;">본문으로 건너뛰기</a>
+
+  <!-- Ambient Backdrop Lighting -->
+  <div class="ambient-backdrop-aura" aria-hidden="true">
+    <div class="aura-orb-top"></div>
+    <div class="aura-orb-mid"></div>
+  </div>
+
+  <!-- Apple-Style Frosted Header -->
+  <header class="site-header">
+    <div class="nav-bar-container">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <a class="brand-dev" href="/" aria-label="김기호 포트폴리오 홈으로 이동">
+          <span class="brand-logo-mark" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </span>
+          <span class="brand-name">KIM GIHO</span>
+          <span class="brand-home-hint">← 홈</span>
+        </a>
+        <span style="color:var(--border-medium); font-weight:300;">/</span>
+        <span style="font-size:0.86rem; color:var(--text-secondary); font-weight:600;">Clue APM 관제 백서</span>
+      </div>
+
+      <nav class="nav-links-menu" aria-label="사례 연구 내비게이션">
+        <a class="nav-item-link" href="#features">6대 핵심 기능</a>
+        <a class="nav-item-link" href="#screens">실제 관제 화면</a>
+        <a class="nav-item-link" href="#pillars">4대 설계 기둥</a>
+        <a class="nav-item-link" href="#metrics">APM 메트릭</a>
+        <a class="nav-item-link" href="#sdk">SDK &amp; API</a>
+      </nav>
+
+      <div class="nav-actions-group">
+        <a class="nav-btn-primary" href="https://clue-5mpi.onrender.com/#/clue" target="_blank" rel="noopener">
+          <span>게스트 콘솔 열기 (Live)</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="case-main" class="shell">
+
+    <!-- Case Hero Stage -->
+    <section class="case-hero-stage" aria-labelledby="case-title">
+      <div class="award-badge-pill animate-hero-1" style="margin-bottom: 20px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span>1인 단독 개인 개발 (Solo Project) · RENDER 라이브 데모 가동 중</span>
+      </div>
+
+      <h1 class="case-headline-lg animate-hero-2" id="case-title">
+        Clue Observability — 엔터프라이즈 APM<br>
+        <span class="hero-headline-gradient">크래시 추적, 웹뷰 브릿지 지연 및 실시간 관제 아키텍처</span>
+      </h1>
+
+      <p class="case-lead-p animate-hero-3">
+        기획부터 UI 디자인, 프론트엔드·백엔드, 텔레메트리 파이프라인 및 멀티 플랫폼 SDK까지 <strong>100% 1인 개인 개발</strong>한 하이브리드 APM 관제 시스템입니다. 
+        현재 <strong>Render 클라우드에 실제 데모 버전으로 배포되어 모든 기능이 실시간으로 정상 작동</strong>하고 있으며,
+        웹뷰 비동기 RPC 오류와 Android/iOS 네이티브 크래시, Web Vitals 성능 지표를 단일 Correlation ID로 결합해 실시간 관제합니다.
+      </p>
+
+      <!-- Solo Project Meta Grid -->
+      <div class="animate-hero-4" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; padding: 18px 24px; background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-md);">
+        <div>
+          <span style="display:block; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">개발 형태</span>
+          <strong style="font-size:0.92rem; color:var(--text-primary); font-weight:750;">1인 단독 개인 개발</strong>
+        </div>
+        <div>
+          <span style="display:block; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">배포 환경</span>
+          <strong style="font-size:0.92rem; color:var(--accent-primary); font-weight:750;">Render 클라우드 라이브 데모</strong>
+        </div>
+        <div>
+          <span style="display:block; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">기능 동작 상태</span>
+          <strong style="font-size:0.92rem; color:var(--accent-teal); font-weight:750;">6대 관제 시스템 정상 가동 중</strong>
+        </div>
+        <div>
+          <span style="display:block; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">체험 방식</span>
+          <strong style="font-size:0.92rem; color:var(--text-primary); font-weight:750;">가입 없이 게스트 모드 접속</strong>
+        </div>
+      </div>
+
+      <div class="animate-hero-4" style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:40px;">
+        <a class="btn-apple-main" href="https://clue-5mpi.onrender.com/#/clue" target="_blank" rel="noopener">
+          <span>실제 라이브 관제 콘솔 접속 (게스트 데모 · 전 기능 동작 중) ↗</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+        <a class="btn-apple-secondary" href="#features">
+          <span>6대 핵심 기능 탐색 ↓</span>
+        </a>
+        <a class="btn-apple-secondary" href="#screens">
+          <span>실제 관제 화면 갤러리 ↓</span>
+        </a>
+        <a class="btn-apple-secondary" href="#sdk">
+          <span>SDK 연동 규격 ↓</span>
+        </a>
+      </div>
+
+      <!-- Key Metrics Row -->
+      <div class="animate-hero-4" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 40px;">
+        <div style="background: #ffffff; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 22px; box-shadow: var(--shadow-card);">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-primary); font-weight: 700;">CRASH-FREE SESSIONS</div>
+          <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-top: 4px;">98.50%</div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px;">전사 모바일 앱 무장애 안정성 보증</div>
+        </div>
+        <div style="background: #ffffff; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 22px; box-shadow: var(--shadow-card);">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-teal); font-weight: 700;">BRIDGE RPC LATENCY</div>
+          <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-top: 4px;">&lt; 12ms</div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px;">웹-네이티브 비동기 왕복 지연 40% 단축</div>
+        </div>
+        <div style="background: #ffffff; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 22px; box-shadow: var(--shadow-card);">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-indigo); font-weight: 700;">APDEX SCORE</div>
+          <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-top: 4px;">0.94 (최우수)</div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px;">LCP 1.12s 등 6대 웹 성능 표준 충족</div>
+        </div>
+        <div style="background: #ffffff; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 22px; box-shadow: var(--shadow-card);">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-emerald); font-weight: 700;">DEBUGGING SPEED</div>
+          <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-top: 4px;">70% 단축</div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px;">ProGuard / dSYM 실시간 역난독화</div>
+        </div>
+      </div>
+
+      <!-- Main Architecture Visual Banner (Studio Display Frame) -->
+      <div class="studio-screen-frame animate-hero-5" id="diagram" style="aspect-ratio: auto; padding: 12px; background: #ffffff;">
+        <a href="https://clue-5mpi.onrender.com/#/clue" target="_blank" rel="noopener" title="클릭하여 라이브 관제 콘솔 접속">
+          <img src="clue-screen-issues.png" alt="Clue Observability 대시보드 화면" style="width: 100%; height: auto; display: block; border-radius: var(--radius-sm);">
+        </a>
+      </div>
+    </section>
+
+    <!-- SECTION 1: 6 Core Monitoring Features -->
+    <section id="features" class="content-section" aria-labelledby="features-heading">
+      <div class="section-head-apple">
+        <span class="section-eyebrow">CORE PLATFORM CAPABILITIES</span>
+        <h2 class="section-title-apple" id="features-heading">Clue의 6대 핵심 관제 시스템 아키텍처</h2>
+        <p class="section-desc-apple">하이브리드 앱의 모든 레이어(네이티브, 웹뷰, 네트워크, 릴리즈)를 전방위로 관제하는 기능적 구성입니다.</p>
+      </div>
+
+      <div class="modules-catalog-grid">
+        <!-- Feature 01: Issues -->
+        <div class="module-box-item">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-primary); font-weight:700;">// 01 · ISSUES TRACKER</span>
+          <h4 style="font-size:1.15rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">실시간 오류 추적 &amp; 크래시 분석</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">
+            Android Java/JNI 크래시, iOS Objective-C/Swift 예외, WKWebView 자바스크립트 TypeError, Firebase 푸시 파싱 에러를 24시간 타임라인으로 실시간 집계합니다.
+            오류 지문(Fingerprint) 알고리즘을 통해 동일 원인의 예외를 하나의 티켓으로 자동 그룹화하고 영향받은 사용자 수를 산출합니다.
+          </p>
+        </div>
+
+        <!-- Feature 02: Performance -->
+        <div class="module-box-item">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-teal); font-weight:700;">// 02 · PERFORMANCE APM</span>
+          <h4 style="font-size:1.15rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">6대 APM 메트릭 &amp; 브릿지 트랜잭션</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">
+            웹뷰 화면 로딩(LCP P75: 1,120ms), Android 앱 기동(AOS Start: 890ms), iOS 기동(720ms), 화면 끊김(Slow Frames: 2.1%), 앱 멈춤(ANR Rate: 0.08%), 체감 만족도(Apdex: 0.94)를 실시간 관제합니다.
+            화면 렌더링, API 네트워크 통신, 네이티브 브릿지 소요 비중을 폭포수(Waterfall)로 분해합니다.
+          </p>
+        </div>
+
+        <!-- Feature 03: Releases -->
+        <div class="module-box-item">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// 03 · RELEASES &amp; HEALTH</span>
+          <h4 style="font-size:1.15rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">릴리즈 안정성 &amp; 실시간 심볼리케이터</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">
+            배포 버전별(v2.4.0 Stable, v2.3.9 Legacy, v2.3.8 Deprecated) 사용자 채택률과 Crash-Free 세션 비율을 실시간 추적하여 배포 회귀를 방지합니다.
+            내장된 <strong>심볼리케이터(Symbolicator)</strong> 도구로 Android ProGuard/R8 mapping.txt, iOS dSYM, Web SourceMap을 통해 암호화된 스택트레이스를 원본 소스 라인으로 즉시 디매핑합니다.
+          </p>
+        </div>
+
+        <!-- Feature 04: Discover -->
+        <div class="module-box-item">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-emerald); font-weight:700;">// 04 · DISCOVER LOGS</span>
+          <h4 style="font-size:1.15rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">다차원 텔레메트리 쿼리 엔진</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">
+            수집된 수십만 건의 텔레메트리 이벤트를 Event ID, 플랫폼(AOS/iOS/Web), 디바이스 기종(Galaxy S24, iPhone 16 Pro 등), 사용자 세션, 발생 시간대별로 자유롭게 검색하고 정렬합니다.
+            단말 환경, 네트워크 상태, 진단 페이로드를 JSON 규격으로 즉시 익스포트할 수 있습니다.
+          </p>
+        </div>
+
+        <!-- Feature 05: Alerts -->
+        <div class="module-box-item">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-amber); font-weight:700;">// 05 · INTELLIGENT ALERTS</span>
+          <h4 style="font-size:1.15rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">지능형 경보 정책 &amp; 슬랙 전파</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">
+            '크래시율 1% 급증 시 긴급 Slack 전파 (#dev-mobile-urgent)', '결제 트랜잭션 P95 1,500ms 초과 시 경보', '신규 ANR 이벤트 감지 시 긴급 이메일', '네이티브-웹뷰 브릿지 핸드셰이크 실패 감지' 등
+            임계치 기반 알림 규칙을 통해 현업 담당자에게 1분 이내 실시간 전파합니다.
+          </p>
+        </div>
+
+        <!-- Feature 06: SDK & Settings -->
+        <div class="module-box-item">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-primary); font-weight:700;">// 06 · CLIENT SDK &amp; APIS</span>
+          <h4 style="font-size:1.15rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">경량 하이브리드 SDK &amp; REST API</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">
+            사내 Android(JAR), iOS(XCFramework), WebView(JS) 통합 번들을 제공하며, 메인 스레드 블로킹이 0에 수렴하는 비동기 링 버퍼 설계를 적용했습니다.
+            <code>/api/clue/events</code>, <code>/api/clue/performance</code>, <code>/api/clue/symbolicate</code> 등 8개 표준 REST API를 완비했습니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Real System Screen Gallery -->
+    <section id="screens" class="content-section" aria-labelledby="screens-heading">
+      <div class="section-head-apple">
+        <span class="section-eyebrow">ACTUAL PLATFORM SCREENS</span>
+        <h2 class="section-title-apple" id="screens-heading">실제 배포 관제 시스템 스크린샷 갤러리</h2>
+        <p class="section-desc-apple">1인 개인 개발로 완성하여 Render 클라우드에 라이브 배포된 Clue 관제 콘솔의 실제 동작 화면 캡처입니다.</p>
+      </div>
+
+      <div class="slide-deck-grid">
+        <!-- Screen 1: Issues -->
+        <article class="slide-item-card">
+          <div class="slide-thumb-frame">
+            <img src="clue-screen-issues.png" alt="Clue Issues 대시보드 화면" loading="lazy">
+          </div>
+          <div class="slide-card-footer">
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-primary); font-weight:700;">// CONSOLE 01 · ISSUES DASHBOARD</span>
+            <h3 style="font-size:1.15rem; font-weight:750; color:var(--text-primary);">오류 이벤트 타임라인 및 크래시 목록</h3>
+            <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">최근 24시간 플랫폼별(AOS/iOS/웹뷰) 오류 분포와 미해결 8건 이슈의 영향받은 사용자 및 최근 발생 시각</p>
+          </div>
+        </article>
+
+        <!-- Screen 2: Issue Detail -->
+        <article class="slide-item-card">
+          <div class="slide-thumb-frame">
+            <img src="clue-screen-issue-detail.png" alt="Clue Issue 상세 진단 화면" loading="lazy">
+          </div>
+          <div class="slide-card-footer">
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-primary); font-weight:700;">// CONSOLE 02 · ISSUE DETAIL &amp; STACKTRACE</span>
+            <h3 style="font-size:1.15rem; font-weight:750; color:var(--text-primary);">스택트레이스, 탐색경로 &amp; 디바이스 상태</h3>
+            <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">COMMERCE-101 NullPointerException 발생 위치, 단말 기종(Galaxy S24), 배터리/메모리, 브레드크럼 및 Spike 경보</p>
+          </div>
+        </article>
+
+        <!-- Screen 3: Performance -->
+        <article class="slide-item-card">
+          <div class="slide-thumb-frame">
+            <img src="clue-screen-performance.png" alt="Clue Performance APM 화면" loading="lazy">
+          </div>
+          <div class="slide-card-footer">
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-teal); font-weight:700;">// CONSOLE 03 · APM &amp; WEB VITALS</span>
+            <h3 style="font-size:1.15rem; font-weight:750; color:var(--text-primary);">6대 핵심 성능 메트릭 &amp; 브릿지 트랜잭션</h3>
+            <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">LCP 1,120ms, 앱 기동 890ms, Apdex 0.94 관제 및 주문서 결제 등 3개 구간의 P95 병목 소요시간 폭포수 분해</p>
+          </div>
+        </article>
+
+        <!-- Screen 4: Releases -->
+        <article class="slide-item-card">
+          <div class="slide-thumb-frame">
+            <img src="clue-screen-releases.png" alt="Clue Releases 안정성 화면" loading="lazy">
+          </div>
+          <div class="slide-card-footer">
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// CONSOLE 04 · RELEASES &amp; SYMBOLICATOR</span>
+            <h3 style="font-size:1.15rem; font-weight:750; color:var(--text-primary);">버전별 건전도 추적 &amp; 심볼리케이터</h3>
+            <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">v2.4.0 78.4% 채택률, Crash-Free 세션 모니터링 및 ProGuard/dSYM/SourceMap 실시간 역난독화 툴</p>
+          </div>
+        </article>
+
+        <!-- Screen 5: Discover -->
+        <article class="slide-item-card">
+          <div class="slide-thumb-frame">
+            <img src="clue-screen-discover.png" alt="Clue Discover 쿼리 화면" loading="lazy">
+          </div>
+          <div class="slide-card-footer">
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-emerald); font-weight:700;">// CONSOLE 05 · DISCOVER TELEMETRY</span>
+            <h3 style="font-size:1.15rem; font-weight:750; color:var(--text-primary);">다차원 텔레메트리 이벤트 쿼리</h3>
+            <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">Event ID, 플랫폼, 치명도(Fatal/Error/Info), 디바이스 기종 및 단말 진단 페이로드 JSON 익스포트</p>
+          </div>
+        </article>
+
+        <!-- Screen 6: SDK & Settings -->
+        <article class="slide-item-card">
+          <div class="slide-thumb-frame">
+            <img src="clue-screen-sdk.png" alt="Clue SDK 및 API 명세 화면" loading="lazy">
+          </div>
+          <div class="slide-card-footer">
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-primary); font-weight:700;">// CONSOLE 06 · SDK &amp; REST APIS</span>
+            <h3 style="font-size:1.15rem; font-weight:750; color:var(--text-primary);">SDK 다운로드 센터 &amp; REST API 규격</h3>
+            <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">AOS/iOS/WebView 올인원 바이너리 패키지, DSN Client Key 발급 및 8개 수집 엔드포인트 명세</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECTION 3: 4 Architectural Decisions -->
+    <section id="pillars" class="content-section" aria-labelledby="pillars-heading">
+      <div class="section-head-apple">
+        <span class="section-eyebrow">ARCHITECTURAL DECISIONS</span>
+        <h2 class="section-title-apple" id="pillars-heading">4가지 핵심 기술 결정 (ADRs)</h2>
+        <p class="section-desc-apple">모바일 디바이스 성능 저하 없이 고신뢰 관제를 구현하기 위해 내린 아키텍처 판단입니다.</p>
+      </div>
+
+      <div class="adr-cards-grid">
+        <!-- ADR 1 -->
+        <div class="adr-card-item">
+          <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent-primary); font-weight:700;">// ADR 01 · CROSS-CONTEXT CORRELATION</span>
+          <h3 style="font-size:1.2rem; font-weight:800; color:var(--text-primary); margin:8px 0 10px;">하이브리드 웹뷰-네이티브 상관관계 브릿지 관제</h3>
+          <p style="font-size:0.92rem; color:var(--text-secondary); line-height:1.75;">
+            하이브리드 앱의 치명적 결함은 웹뷰에서 발생한 인터랙션이 네이티브 브릿지 호출을 거쳐 크래시로 연결될 때 인과관계가 단절된다는 점이었습니다.
+            이를 극복하기 위해 모든 웹뷰 브릿지 요청에 불변의 <strong>Correlation ID</strong>를 발급하고, 네이티브 핸들러와 네트워크 API 응답까지 동일한 세션 체인으로 연결하여 
+            오류 발생 시 원인 제공 지점부터 크래시까지의 실행 경로를 100% 온전하게 복원했습니다.
+          </p>
+        </div>
+
+        <!-- ADR 2 -->
+        <div class="adr-card-item">
+          <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent-teal); font-weight:700;">// ADR 02 · ZERO OVERHEAD BUFFERING</span>
+          <h3 style="font-size:1.2rem; font-weight:800; color:var(--text-primary); margin:8px 0 10px;">논블로킹 비동기 링 버퍼 (Zero Main-Thread Overhead)</h3>
+          <p style="font-size:0.92rem; color:var(--text-secondary); line-height:1.75;">
+            관제 SDK 자체가 앱의 UI 프레임 드랍을 유발하거나 배터리를 소모해서는 안 됩니다.
+            메인 스레드에서는 원형 링 버퍼(Ring Buffer)에 최소 메모리 구조체만 적재하고, 실제 직렬화 및 서버 전송은 백그라운드 Worker 스레드에서 유휴 시간(Idle time)에 
+            일괄 배치(Batch Sync) 처리하도록 설계하여 SDK 탑재 후에도 앱 실행 오버헤드를 0.5% 미만으로 억제했습니다.
+          </p>
+        </div>
+
+        <!-- ADR 3 -->
+        <div class="adr-card-item">
+          <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent-indigo); font-weight:700;">// ADR 03 · CLOUD SYMBOLICATION</span>
+          <h3 style="font-size:1.2rem; font-weight:800; color:var(--text-primary); margin:8px 0 10px;">서버 사이드 멀티 플랫폼 실시간 심볼리케이터</h3>
+          <p style="font-size:0.92rem; color:var(--text-secondary); line-height:1.75;">
+            상용 배포 앱은 Android ProGuard/R8, iOS Mach-O 난독화, 웹뷰 압축으로 인해 에러 스택이 식별 불가능한 헥사코드로 수집됩니다.
+            서버 사이드에서 릴리즈 빌드 아티팩트(mapping.txt, dSYM, SourceMap)를 버전 키 단위로 캐싱하고, 
+            이벤트 인입 시 비동기 파이프라인에서 원본 파일명, 클래스명, 정확한 코드 라인 번호로 실시간 디매핑(Demapping)하여 현업 엔지니어의 디버깅 시간을 70% 단축시켰습니다.
+          </p>
+        </div>
+
+        <!-- ADR 4 -->
+        <div class="adr-card-item">
+          <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent-emerald); font-weight:700;">// ADR 04 · FINGERPRINT NORMALIZATION</span>
+          <h3 style="font-size:1.2rem; font-weight:800; color:var(--text-primary); margin:8px 0 10px;">오류 지문 정규화 및 스파이크 임계치 자동 감지</h3>
+          <p style="font-size:0.92rem; color:var(--text-secondary); line-height:1.75;">
+            메모리 주소나 동적 매개변수가 달라져 동일한 버그가 수천 개의 별개 오류로 분산되는 문제를 해결하기 위해,
+            스택 트레이스에서 프레임워크 코드를 제외하고 애플리케이션 핵심 함수 시그니처만 추출하여 SHA-256 해시를 산출하는 지문 정규화 엔진을 구현했습니다.
+            단시간 내 동일 지문 발생 빈도가 급증할 경우 즉시 'Velocity Alert'를 격상하여 슬랙으로 자동 전파합니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Return to Portfolio Main & Live Demo Callout -->
+    <section style="margin: 80px 0; padding: clamp(36px, 5vw, 60px); background: #ffffff; border: 1px solid var(--border-medium); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); text-align: center;">
+      <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 16px;">
+        <span class="award-badge-pill">LIVE CLOUD DEMO AVAILABLE</span>
+        <span style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent-primary); font-weight: 700;">NO INSTALLATION REQUIRED</span>
+      </div>
+
+      <h2 style="font-size: clamp(1.8rem, 3.2vw, 2.5rem); font-weight: 850; letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 14px;">
+        지금 라이브 관제 콘솔을 직접 둘러보세요
+      </h2>
+
+      <p style="color: var(--text-secondary); font-size: 1rem; max-width: 680px; margin: 0 auto 32px; line-height: 1.75;">
+        1인 개인 개발로 완성하여 Render 클라우드에 실제 배포된 라이브 데모 버전입니다. 
+        별도 회원가입 없이 '게스트 모드'를 통해 6대 관제 시스템(Issues, Performance, Releases, Discover, Alerts, SDK)이 실시간으로 동작하는 Clue 콘솔을 바로 체험하실 수 있습니다.
+      </p>
+
+      <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+        <a class="btn-apple-main" href="https://clue-5mpi.onrender.com/#/clue" target="_blank" rel="noopener">
+          <span>Clue 라이브 관제 콘솔 열기 (데모 전 기능 동작 중) ↗</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+        <a class="btn-apple-secondary" href="./#project-clue">
+          <span>← 포트폴리오 메인으로 돌아가기</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <div>
+        <strong style="color: var(--text-primary); font-size: 0.95rem;">김기호 · KIM GIHO</strong>
+        <p style="margin-top: 4px; color: var(--text-tertiary);">플랫폼 아키텍트 &amp; 풀스택 엔지니어 (Solo Developer)</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="#top">맨 위로 ↑</a>
+        <a href="/">포트폴리오 홈</a>
+        <a href="ax-frontier.html">AX Frontier 백서</a>
+        <a href="https://clue-5mpi.onrender.com/#/clue" target="_blank" rel="noopener">Clue 라이브 콘솔</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,897 @@
+/* ==========================================================================
+   HEALTH AI // ARCHITECTURE DOSSIER & FEATURE SHOWCASE STYLESHEET
+   Extends ax-frontier.css Porcelain White Design System · Zero Black Bezels
+   Zero Emojis
+   ========================================================================== */
+
+/* Top Press & Award Spotlight Grid */
+.press-spotlight-card {
+  display: grid;
+  grid-template-columns: 1.35fr 0.85fr;
+  gap: 28px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.press-spotlight-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #059669, #1d4ed8, #4f46e5);
+}
+
+.press-award-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.award-crown-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.press-date-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.press-headline {
+  font-size: clamp(20px, 2.3vw, 25px);
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.press-quote-box {
+  background: #f8fafc;
+  border-left: 3px solid var(--accent-primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 14px 18px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin: 16px 0 20px;
+}
+
+.press-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.press-stats-stack {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-content: center;
+}
+
+.press-stat-tile {
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.press-stat-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-medium);
+}
+
+.press-stat-k {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.press-stat-v {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.press-stat-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 3px;
+}
+
+/* Market Differentiation & Business Grid */
+.market-compare-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.market-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.market-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.market-panel-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.tag-legacy {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.tag-health {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.market-panel-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.market-item-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.market-item-list li {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 12px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  align-items: start;
+}
+
+.market-item-k {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 4px 8px;
+  text-align: center;
+}
+
+/* AX-Frontier Style 6-Feature Clean Cards (Borderless Porcelain Screen Frame) */
+.health-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.health-feature-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  cursor: zoom-in;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s ease, border-color 0.24s ease;
+}
+
+.health-feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--border-medium);
+}
+
+.health-feature-thumb {
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f6 100%);
+  padding: 20px 24px 0;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.health-feature-thumb img {
+  width: 72%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 16px 16px 0 0;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-bottom: none;
+  box-shadow: 0 -2px 20px rgba(15, 23, 42, 0.09);
+  transition: transform 0.28s ease;
+}
+
+.health-feature-card:hover .health-feature-thumb img {
+  transform: scale(1.03);
+}
+
+.health-feature-body {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.health-feature-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-indigo);
+  letter-spacing: 0.03em;
+}
+
+.health-feature-title {
+  font-size: 16.5px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.35;
+}
+
+.health-feature-desc {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.health-feature-desc code,
+.module-box-item code,
+.adr-card-copy code,
+.seq-col-desc code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  font-weight: 600;
+  color: #1d4ed8;
+  background: #eff6ff;
+  padding: 1px 6px;
+  border-radius: 5px;
+}
+
+/* Hybrid Bridge Architecture Visual Diagram */
+.hybrid-arch-diagram {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 24px;
+}
+
+.arch-tiers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.arch-tier-card {
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.arch-tier-card.tier-flutter { border-top: 3px solid #4f46e5; }
+.arch-tier-card.tier-vue { border-top: 3px solid #059669; }
+.arch-tier-card.tier-backend { border-top: 3px solid #1d4ed8; }
+
+.arch-tier-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
+
+.arch-tier-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.arch-tier-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.arch-tier-list li {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 8px 11px;
+  line-height: 1.5;
+}
+
+.arch-tier-list code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.bridge-contracts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.bridge-contract-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.bridge-contract-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-medium);
+}
+
+.bridge-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.bridge-channel-name {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--accent-indigo);
+}
+
+.bridge-dir-pill {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.bridge-code-flow {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  background: #f8fafc;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #0f172a;
+  margin: 10px 0 0;
+  line-height: 1.55;
+  overflow-x: auto;
+}
+
+/* Spec Inspector Tabs */
+.spec-inspector-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  margin-top: 28px;
+}
+
+.spec-tab-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 20px;
+}
+
+.spec-tab-btn {
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card-subtle);
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.spec-tab-btn.active {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+}
+
+.spec-panel { display: none; }
+.spec-panel.active { display: block; }
+
+.spec-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.spec-table th,
+.spec-table td {
+  text-align: left;
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: top;
+}
+
+.spec-table th {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  background: #f8fafc;
+}
+
+.spec-table code {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: #1d4ed8;
+  background: #eff6ff;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* 26-Screen Visual Archive Grid — ZERO Black Borders */
+.gallery-filter-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.gallery-filter-btn {
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.gallery-filter-btn.active {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  color: #ffffff;
+}
+
+.screens-archive-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.screen-archive-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  cursor: zoom-in;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen-archive-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--border-medium);
+}
+
+.screen-archive-card.hidden { display: none; }
+
+.screen-thumb-wrap {
+  aspect-ratio: 9 / 15;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f6 100%);
+  padding: 16px 18px 0;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.screen-thumb-wrap img {
+  width: 82%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 14px 14px 0 0;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-bottom: none;
+  box-shadow: 0 -2px 18px rgba(15, 23, 42, 0.09);
+  transition: transform 0.28s ease;
+}
+
+.screen-archive-card:hover .screen-thumb-wrap img {
+  transform: scale(1.03);
+}
+
+.screen-archive-meta {
+  padding: 13px 15px 15px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.screen-archive-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent-primary);
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.screen-archive-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.screen-archive-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+/* Lightbox Override for Vertical Portrait App Screenshots — ZERO Black Bezel */
+.health-lightbox-panel {
+  max-width: 960px;
+}
+
+.health-lightbox-body {
+  position: relative;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 28px;
+  align-items: center;
+  padding: 28px 68px;
+  background: #f8fafc;
+}
+
+.health-lightbox-img-wrap {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 44px rgba(15, 23, 42, 0.12);
+}
+
+.health-lightbox-img-wrap img {
+  width: 100%;
+  max-height: 560px;
+  object-fit: cover;
+  object-position: top center;
+  background: #ffffff;
+  display: block;
+}
+
+.health-lightbox-info h4 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.health-lightbox-info p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.health-lightbox-meta {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #0f172a;
+  line-height: 1.65;
+}
+
+/* Shared Case Header Meta & Metrics Grids */
+.meta-4col-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.meta-4col-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+}
+
+.meta-4col-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.meta-4col-val {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+
+.metric-4col-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.metric-4col-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.metric-4col-num {
+  font-size: 26px;
+  font-weight: 850;
+  letter-spacing: -0.03em;
+  color: var(--accent-primary);
+  margin-bottom: 4px;
+}
+
+.metric-4col-sub {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.adr-card-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: #eff6ff;
+  color: var(--accent-primary);
+  border: 1px solid #bfdbfe;
+  margin-bottom: 10px;
+}
+
+.adr-card-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.adr-card-copy {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+#screens-gallery {
+  padding-bottom: 32px;
+}
+
+.cta-dossier-card {
+  background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius-lg);
+  padding: 34px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.copy-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translate(-50%, 16px);
+  background: #1e272d;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 18px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  z-index: 3000;
+}
+
+.copy-toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Grid & Header Overflow Safety Guards */
+.press-spotlight-card > *,
+.health-feature-grid > *,
+.arch-tiers-grid > *,
+.bridge-contracts-grid > *,
+.market-compare-grid > *,
+.meta-4col-grid > *,
+.metric-4col-grid > *,
+.adr-cards-grid > *,
+.spec-inspector-box {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.footer-inner,
+.footer-nav {
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  max-width: 100%;
+}
+
+.nav-btn-primary,
+.brand-dev,
+.brand-name,
+.brand-home-hint {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1040px) {
+  .press-spotlight-card,
+  .arch-tiers-grid,
+  .market-compare-grid,
+  .bridge-contracts-grid {
+    grid-template-columns: 1fr;
+  }
+  .health-feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .meta-4col-grid,
+  .metric-4col-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .screens-archive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .health-lightbox-body {
+    grid-template-columns: 1fr;
+    padding: 22px 54px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-breadcrumb-sep,
+  .header-breadcrumb-text {
+    display: none;
+  }
+  .nav-btn-primary {
+    font-size: 12px;
+    padding: 7px 12px;
+  }
+  .press-spotlight-card,
+  .hybrid-arch-diagram,
+  .spec-inspector-box,
+  .cta-dossier-card {
+    padding: 18px;
+  }
+  .health-feature-grid,
+  .meta-4col-grid,
+  .metric-4col-grid,
+  .press-stats-stack,
+  .screens-archive-grid {
+    grid-template-columns: 1fr;
+  }
+  .market-item-list li {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .bridge-head { flex-wrap: wrap; }
+  .bridge-code-flow {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .health-lightbox-body {
+    padding: 18px 18px 64px;
+  }
+}

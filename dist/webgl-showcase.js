@@ -1,7 +1,7 @@
 /* ==========================================================================
-   KIM GIHO · 4-FLAGSHIP PORTFOLIO WEBGL 3D CAROUSEL ENGINE
-   3D Cylindrical Perspective Carousel · 16:9 Beveled Glass Cards
-   Zero Emojis · High-DPI Texture Anisotropy · Smooth Scroll Navigation
+   KIM GIHO · APPLE STUDIO COVER FLOW 3D SHOWCASE ENGINE
+   Magnetic Discrete Snapping · 100% Flat Active Card (Zero Skew/Angle Distortion)
+   Gentle Flank Tilt (16°) · Direct Page Navigation · Zero Emojis
    ========================================================================== */
 
 (function () {
@@ -11,50 +11,54 @@
   const projectsData = [
     {
       id: 'frontier',
-      pill: 'FLAGSHIP 01 · 최우수 과제',
+      pill: 'FLAGSHIP 01 · 사내 최우수 과제',
       title: 'AX Frontier · 엔터프라이즈 AI 연동 플랫폼',
       desc: '비정형 요구사항 수집부터 Cursor MCP 연동, 불변 기준선(Baseline ID) 거버넌스 및 Playwright 자동 재검증 파이프라인',
-      img: 'ax-page-3.png',
-      target: '#project-frontier'
+      img: 'ax-frontier-main.png',
+      target: '#project-frontier',
+      pageUrl: 'ax-frontier.html'
     },
     {
-      id: 'mobile',
-      pill: 'FLAGSHIP 02 · 모바일 코어',
-      title: '하이브리드 모바일 앱 런타임 플랫폼',
-      desc: 'iOS WKWebView & Android WebView 저지연 비동기 RPC 통신 엔진, 다중 스택 메모리 누수 방지 및 오프라인 증분 동기화',
-      img: 'mobile-platform.png',
-      target: '#project-mobile'
+      id: 'clue',
+      pill: 'FLAGSHIP 02 · 1인 개인 개발 · Render 라이브 데모',
+      title: 'Clue Observability · 하이브리드 APM 관제 플랫폼',
+      desc: '기획부터 풀스택·SDK까지 100% 1인 개인 개발. 웹뷰 RPC 오류와 AOS·iOS 크래시, 6대 APM 및 심볼리케이터가 Render에서 실제 작동하는 라이브 데모',
+      img: 'clue-screen-issues.png',
+      target: '#project-clue',
+      pageUrl: 'clue.html'
     },
     {
-      id: 'design',
-      pill: 'FLAGSHIP 03 · 디자인 표준',
-      title: '사내 UI 디자인 시스템 & 컴포넌트 코어',
-      desc: '전사 웹·모바일 일관된 UX를 위한 3단계 디자인 토큰 아키텍처 및 Vue 3 / Tailwind CSS 기반 60+ 공통 컴포넌트 카탈로그',
-      img: 'design-system.png',
-      target: '#project-design'
+      id: 'shorts',
+      pill: 'FLAGSHIP 03 · 숏폼 커머스 & AI 챗봇',
+      title: 'Shorts Player · 세로형 비디오 & 샌드박스',
+      desc: 'YouTube Shorts 감성 9:16 세로형 플레이어, 실시간 멀티 슬라이드 제어 샌드박스, AI 리뷰 요약 해시태그 및 대화형 챗봇 연동',
+      img: 'shorts-preview.png',
+      target: '#project-shorts',
+      pageUrl: 'messageai-shorts.html'
     },
     {
-      id: 'kanban',
-      pill: 'FLAGSHIP 04 · 실시간 협업',
-      title: '실시간 협업 칸반 이슈 트래커 (Sprintboard)',
-      desc: 'WebSocket 양방향 브로드캐스팅과 Git 커밋/푸시 웹훅 이벤트 파이프라인을 결합한 이벤트 드리븐 스프린트 트래커',
-      img: 'kanban-platform.png',
-      target: '#project-kanban'
+      id: 'health',
+      pill: 'FLAGSHIP 04 · 사내 AI 경진대회 1등(대상)',
+      title: 'HeAlth AI · 하이브리드 헬스케어 플랫폼',
+      desc: 'Flutter 네이티브 모션 포즈·전신 카메라와 Vue WebView를 4개 브리지로 결합해 GPT-4o 식단·체형·30일 챌린지를 통합한 1위 수상작 (디지털타임스 보도)',
+      img: 'health-ai-preview.png?v=20261113h2',
+      target: '#project-health',
+      pageUrl: 'health-ai.html'
     }
   ];
 
   const totalCards = projectsData.length;
 
-  // --- 2. Three.js Scene Variables ---
+  // --- 2. State & Three.js Variables ---
   let scene, camera, renderer, raycaster;
   let cardMeshes = [];
   let ringGroup;
-  let mouseLight;
   let shadowTexture;
 
-  let currentRotation = 0;
-  let targetRotation = 0;
-  let activeIndex = 0;
+  // Discrete Cover Flow State
+  let targetIndex = 0;
+  let currentIndex = 0;
+  let lastReportedIndex = -1;
   let hoveredIndex = -1;
 
   let mouse = new THREE.Vector2(-999, -999);
@@ -62,27 +66,29 @@
   let targetCameraParallax = { x: 0, y: 0 };
   let currentCameraParallax = { x: 0, y: 0 };
 
-  // --- 3. Responsive 3D Geometry ---
-  function getCylinderRadius() {
-    const aspect = window.innerWidth / window.innerHeight;
-    if (aspect < 0.6) return 2.6;
-    if (aspect < 1.0) return 3.1;
-    return 3.8;
+  // Responsive Dimensions
+  function isMobile() {
+    return window.innerWidth < 768;
   }
 
-  // 16:9 Widescreen Cards to preserve authentic diagram aspect ratios!
   function getCardDimensions() {
-    const aspect = window.innerWidth / window.innerHeight;
-    if (aspect < 0.6) {
-      return { width: 1.7, height: 0.96, radius: 0.06 };
-    }
-    if (aspect < 1.0) {
+    if (isMobile()) {
       return { width: 2.1, height: 1.18, radius: 0.07 };
     }
-    return { width: 2.65, height: 1.49, radius: 0.08 };
+    const aspect = window.innerWidth / window.innerHeight;
+    if (aspect < 1.0) {
+      return { width: 2.4, height: 1.35, radius: 0.075 };
+    }
+    return { width: 2.8, height: 1.575, radius: 0.08 };
   }
 
-  // Helper: Rounded Rect 2D Shape
+  function getFlankSpacing() {
+    if (isMobile()) return 1.95;
+    if (window.innerWidth < 1200) return 2.65;
+    return 3.2;
+  }
+
+  // Rounded Rectangle Shape
   function createRoundedRectShape(w, h, r) {
     const shape = new THREE.Shape();
     const x = -w / 2;
@@ -106,9 +112,9 @@
     canvas.height = 128;
     const ctx = canvas.getContext('2d');
 
-    const grad = ctx.createRadialGradient(64, 64, 20, 64, 64, 64);
-    grad.addColorStop(0, 'rgba(0, 0, 0, 0.28)');
-    grad.addColorStop(0.5, 'rgba(0, 0, 0, 0.08)');
+    const grad = ctx.createRadialGradient(64, 64, 22, 64, 64, 64);
+    grad.addColorStop(0, 'rgba(0, 0, 0, 0.22)');
+    grad.addColorStop(0.5, 'rgba(0, 0, 0, 0.06)');
     grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
     ctx.fillStyle = grad;
@@ -117,49 +123,40 @@
     return new THREE.CanvasTexture(canvas);
   }
 
-  // --- 4. Initialize Three.js WebGL ---
+  // --- 3. Initialize WebGL Scene ---
   function initWebGL() {
     const container = document.getElementById('webgl-container');
     if (!container) return;
 
-    // Scene
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf6f8fa);
 
-    // Camera
     const aspect = window.innerWidth / window.innerHeight;
-    camera = new THREE.PerspectiveCamera(38, aspect, 0.1, 100);
+    camera = new THREE.PerspectiveCamera(36, aspect, 0.1, 100);
     updateCameraPosition();
 
-    // High-DPI Renderer (Razor-sharp text on textures)
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.05;
+    renderer.outputEncoding = THREE.sRGBEncoding;
     container.appendChild(renderer.domElement);
 
-    // Raycaster
     raycaster = new THREE.Raycaster();
 
-    // Studio Lighting - Calibrated for high contrast without washout
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.05);
+    // Studio Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.1);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.15);
     keyLight.position.set(4, 7, 7);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xe2e8f0, 0.6);
+    const fillLight = new THREE.DirectionalLight(0xe2e8f0, 0.55);
     fillLight.position.set(-6, -1, 4);
     scene.add(fillLight);
 
-    // Mouse specular point light
-    mouseLight = new THREE.PointLight(0xffffff, 1.4, 12);
-    mouseLight.position.set(0, 0, 5);
-    scene.add(mouseLight);
-
-    // Rotating 3D Group
     ringGroup = new THREE.Group();
     scene.add(ringGroup);
 
@@ -167,28 +164,29 @@
 
     build3DCards();
     initInteraction();
+    initKeyboard();
     window.addEventListener('resize', onWindowResize);
 
     animate();
 
-    setTimeout(() => {
-      onActiveCardChanged(0);
-    }, 60);
+    const linkedProject = projectsData.findIndex(project => project.target === location.hash);
+    if (linkedProject !== -1) {
+      currentIndex = targetIndex = linkedProject;
+      updateCardPlacements();
+    }
+    updateActiveUI(Math.round(targetIndex));
   }
 
   function updateCameraPosition() {
-    const aspect = window.innerWidth / window.innerHeight;
-    if (aspect < 0.6) {
+    if (isMobile()) {
       camera.position.set(0, 0.05, 8.2);
-    } else if (aspect < 1.0) {
-      camera.position.set(0, 0.1, 7.6);
     } else {
-      camera.position.set(0, 0.15, 6.9);
+      camera.position.set(0, 0.12, 6.8);
     }
-    camera.lookAt(0, -0.65, 0);
+    camera.lookAt(0, -0.68, 0);
   }
 
-  // --- 5. Build 4 Upright 3D Glass Cards ---
+  // --- 4. Build 3D Cards ---
   function build3DCards() {
     cardMeshes.forEach(mesh => {
       ringGroup.remove(mesh);
@@ -205,14 +203,13 @@
     const { width, height, radius } = getCardDimensions();
     const shape = createRoundedRectShape(width, height, radius);
 
-    // Beveled Extrude Geometry
     const geometry = new THREE.ExtrudeGeometry(shape, {
-      depth: 0.04,
+      depth: 0.035,
       bevelEnabled: true,
-      bevelSegments: 4,
+      bevelSegments: 3,
       steps: 1,
-      bevelSize: 0.015,
-      bevelThickness: 0.015
+      bevelSize: 0.012,
+      bevelThickness: 0.012
     });
     geometry.center();
 
@@ -227,60 +224,62 @@
     }
     geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
 
-    const textureLoader = new THREE.TextureLoader();
+    const loadingManager = new THREE.LoadingManager();
+    loadingManager.onLoad = () => {
+      const opening = window.portfolioOpening;
+      if (opening?.active && opening.startedAt === null) opening.startedAt = performance.now();
+    };
+    const textureLoader = new THREE.TextureLoader(loadingManager);
 
-    // Translucent glass bevel edge material with crisp subtle rim
     const glassEdgeMaterial = new THREE.MeshPhysicalMaterial({
       color: 0xe2e8f0,
       roughness: 0.15,
       metalness: 0.05,
       clearcoat: 0.9,
       clearcoatRoughness: 0.05,
-      transmission: 0.2,
+      transmission: 0,
       ior: 1.5,
       transparent: true,
-      opacity: 0.98
+      opacity: 0.95
     });
 
-    // Shadow plane
-    const shadowGeom = new THREE.PlaneGeometry(width * 1.35, height * 1.35);
+    const shadowGeom = new THREE.PlaneGeometry(width * 1.3, height * 1.3);
     const shadowMat = new THREE.MeshBasicMaterial({
       map: shadowTexture,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.38,
       depthWrite: false
     });
 
     const maxAnisotropy = renderer ? renderer.capabilities.getMaxAnisotropy() : 16;
 
     projectsData.forEach((project, index) => {
-      // High anisotropy texture for crisp diagram readability
       const texture = textureLoader.load(project.img);
+      texture.encoding = THREE.sRGBEncoding;
       texture.generateMipmaps = true;
       texture.minFilter = THREE.LinearMipmapLinearFilter;
       texture.magFilter = THREE.LinearFilter;
       texture.anisotropy = maxAnisotropy;
 
-      // Crystal-clear uncompressed texture fidelity
       const frontMaterial = new THREE.MeshBasicMaterial({
-        map: texture
+        map: texture,
+        toneMapped: false,
+        transparent: true,
+        opacity: 1.0
       });
 
       const materials = [frontMaterial, glassEdgeMaterial];
       const mesh = new THREE.Mesh(geometry, materials);
 
-      // Attached shadow
-      const shadowMesh = new THREE.Mesh(shadowGeom, shadowMat);
-      shadowMesh.position.set(0, -0.04, -0.045);
+      const shadowMesh = new THREE.Mesh(shadowGeom, shadowMat.clone());
+      shadowMesh.position.set(0, -0.04, -0.04);
       mesh.add(shadowMesh);
 
       mesh.userData = {
         index: index,
         project: project,
-        currentScale: 1.0,
-        targetScale: 1.0,
-        currentZ: 0,
-        targetZ: 0,
+        frontMat: frontMaterial,
+        shadowMat: shadowMesh.material,
         tiltX: 0,
         tiltY: 0
       };
@@ -292,174 +291,238 @@
     updateCardPlacements();
   }
 
-  // --- 6. Position 4 Cards in 3D Cylindrical Space (All Upright!) ---
-  function updateCardPlacements() {
-    const R = getCylinderRadius();
+  // --- 5. Precision Apple Cover Flow Math ---
+  // Guaranteed: Active card is ALWAYS 100% FLAT (rotation.y = 0, z = front)
+  function updateCardPlacements(now = performance.now()) {
+    const opening = window.portfolioOpening;
+    const progress = opening?.active
+      ? Math.min(1, Math.max(0, (now - (opening.startedAt ?? now)) / opening.duration))
+      : 1;
+    const settle = progress * progress * progress * (progress * (progress * 6 - 15) + 10);
+    const remaining = 1 - settle;
+    const spacing = getFlankSpacing();
+    const yPos = isMobile() ? -0.80 : -0.70;
 
     cardMeshes.forEach((mesh, i) => {
-      // Angle in XZ cylindrical space
-      const angleRad = (i / totalCards) * (Math.PI * 2) + currentRotation;
+      // Calculate circular signed distance from current center
+      let d = (i - currentIndex) % totalCards;
+      if (d > totalCards / 2) d -= totalCards;
+      if (d < -totalCards / 2) d += totalCards;
 
-      // Elliptical XZ placement: front card is closest to camera
-      const x = Math.sin(angleRad) * R;
-      const z = Math.cos(angleRad) * (R * 0.72) - (R * 0.28);
-      const y = -0.75; // Sits comfortably in lower viewport, under the headline
+      const absD = Math.abs(d);
+      let x = 0;
+      let z = 0;
+      let rotY = 0;
+      let scale = 1.0;
+      let opacity = 1.0;
 
-      mesh.userData.currentScale += (mesh.userData.targetScale - mesh.userData.currentScale) * 0.12;
+      if (absD <= 1.0) {
+        // Between Active Center (d = 0) and Flank (d = ±1)
+        x = d * spacing;
+        z = 1.15 - absD * 1.45;
+        // GENTLE Cover Flow Angle (at d=1, angle is -16 degrees, NOT 65 degrees!)
+        rotY = -d * 0.28;
+        scale = 1.16 - absD * 0.26;
+        opacity = 1.0 - absD * 0.38;
+      } else {
+        // Cards wrapping around the back (1.0 < absD <= 2.0)
+        const t = Math.min(1.0, absD - 1.0);
+        const sign = d > 0 ? 1 : -1;
+        x = sign * (spacing * (1.0 - t * 0.92));
+        z = -0.30 - t * 1.8;
+        rotY = -sign * 0.28 * (1.0 - t);
+        scale = 0.90 - t * 0.32;
+        opacity = Math.max(0, 0.62 * (1 - t));
+      }
 
-      mesh.position.set(x, y, z);
+      // Add gentle interactive tilt on active card hover
+      if (absD < 0.3) {
+        mesh.rotation.x = mesh.userData.tiltX;
+        mesh.rotation.y = rotY + mesh.userData.tiltY;
+      } else {
+        mesh.rotation.x = 0;
+        mesh.rotation.y = rotY;
+      }
+      const angle = (i / totalCards) * Math.PI * 2 + progress * Math.PI * 0.55;
+      const orbitRadiusX = isMobile() ? 1.85 : 2.55;
+      mesh.rotation.x += remaining * 0.32;
+      mesh.rotation.y += remaining * Math.sin(angle) * 0.7;
+      mesh.rotation.z = remaining * Math.cos(angle) * 0.14;
+      x = x * settle + Math.cos(angle) * orbitRadiusX * remaining;
+      z = z * settle + (-1.25 + Math.sin(angle) * 0.55) * remaining;
+      scale = (scale * settle + 0.88 * remaining) * (0.20 + 0.80 * settle);
+      opacity = (opacity * settle + 0.96 * Math.pow(remaining, 0.55)) * Math.min(1, progress * 7);
+      const entranceY = Math.sin(angle) * 1.15 * remaining;
 
-      // Tangent to cylinder around Y axis, angled towards viewer
-      // Rotation Z is ALWAYS 0: Cards NEVER rotate sideways or upside down!
-      mesh.rotation.y = angleRad * 0.65 + mesh.userData.tiltY;
-      mesh.rotation.x = mesh.userData.tiltX;
-      mesh.rotation.z = 0;
+      mesh.position.set(x, yPos + entranceY, z);
+      mesh.scale.set(scale, scale, scale);
 
-      mesh.scale.set(
-        mesh.userData.currentScale,
-        mesh.userData.currentScale,
-        mesh.userData.currentScale
-      );
-
-      // Fade back card slightly for depth
-      const depthFactor = Math.max(0, Math.min(1, (z + R) / (2 * R))); // 0 (back) to 1 (front)
-      mesh.traverse(child => {
-        if (child.isMesh && child.material) {
-          const mats = Array.isArray(child.material) ? child.material : [child.material];
-          mats.forEach(m => {
-            if (m.opacity !== undefined && m !== child.parent?.children[0]?.material) {
-              m.opacity = Math.max(0.32, 0.32 + depthFactor * 0.68);
-            }
-          });
-        }
-      });
+      // Apply opacity
+      if (mesh.userData.frontMat) {
+        mesh.userData.frontMat.opacity = Math.max(0, opacity);
+      }
+      if (mesh.userData.shadowMat) {
+        mesh.userData.shadowMat.opacity = opacity * 0.38;
+      }
     });
 
-    // Detect card closest to front center
-    let minDiff = Infinity;
-    let closestIndex = 0;
 
-    for (let i = 0; i < totalCards; i++) {
-      const angleRad = (i / totalCards) * (Math.PI * 2) + currentRotation;
-      const twoPi = Math.PI * 2;
-      const norm = ((angleRad % twoPi) + twoPi) % twoPi;
-      const diff = Math.min(norm, twoPi - norm);
-
-      if (diff < minDiff) {
-        minDiff = diff;
-        closestIndex = i;
-      }
-    }
-
-    if (closestIndex !== activeIndex) {
-      activeIndex = closestIndex;
-      onActiveCardChanged(closestIndex);
-    }
   }
 
-  // --- 7. Update Center Editorial Text ---
-  function onActiveCardChanged(index) {
+  // --- 6. Update Editorial & Controls UI ---
+  function updateActiveUI(index) {
     const project = projectsData[index];
     if (!project) return;
-
-    cardMeshes.forEach((mesh, idx) => {
-      if (idx === index) {
-        mesh.userData.targetScale = 1.1;
-      } else if (idx === hoveredIndex) {
-        mesh.userData.targetScale = 1.02;
-      } else {
-        mesh.userData.targetScale = 0.94;
-      }
-    });
 
     const pill = document.getElementById('center-pill');
     const titleEl = document.getElementById('center-title');
     const descEl = document.getElementById('center-desc');
+    const detailLink = document.getElementById('showcase-detail-link');
 
     if (pill) pill.textContent = project.pill;
 
-    if (titleEl) {
-      titleEl.style.opacity = '0';
-      titleEl.style.transform = 'translateY(6px)';
-      setTimeout(() => {
-        titleEl.textContent = project.title;
-        titleEl.style.opacity = '1';
-        titleEl.style.transform = 'translateY(0)';
-      }, 120);
-    }
+    if (titleEl) titleEl.textContent = project.title;
+    if (descEl) descEl.textContent = project.desc;
 
-    if (descEl) {
-      descEl.style.opacity = '0';
-      descEl.style.transform = 'translateY(6px)';
-      setTimeout(() => {
-        descEl.textContent = project.desc;
-        descEl.style.opacity = '1';
-        descEl.style.transform = 'translateY(0)';
-      }, 140);
-    }
-
-    updateNavSlider(project.id);
-  }
-
-  function updateNavSlider(projectId) {
-    const wrapper = document.getElementById('indicator-wrapper');
-    if (!wrapper) return;
-
-    const buttons = wrapper.querySelectorAll('.nav-step');
-    buttons.forEach(btn => {
-      if (btn.getAttribute('data-project') === projectId) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
+    document.querySelectorAll('.nav-step[data-project]').forEach(link => {
+      const selected = link.dataset.project === project.id;
+      link.classList.toggle('active', selected);
+      if (selected) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
     });
+
+    if (detailLink) {
+      detailLink.href = project.pageUrl;
+      const span = detailLink.querySelector('span');
+      if (span) {
+        span.textContent = `${project.id.toUpperCase()} 심층 연구 페이지 보기`;
+      }
+    }
+
+    const position = document.getElementById('carousel-position');
+    if (position) {
+      const current = String(index + 1).padStart(2, '0');
+      const total = String(totalCards).padStart(2, '0');
+      position.textContent = current + ' / ' + total;
+    }
   }
 
-  // --- 8. Animation Loop ---
-  function animate() {
+  // --- 7. Animation Loop with Magnetic Damping ---
+  let previousFrame;
+  let wasOpening = false;
+  function animate(now = performance.now()) {
     requestAnimationFrame(animate);
+    const frame = Math.min((now - (previousFrame ?? now)) / (1000 / 60), 3);
+    previousFrame = now;
+    const selected = ((Math.round(targetIndex) % totalCards) + totalCards) % totalCards;
+    if (selected !== lastReportedIndex) {
+      lastReportedIndex = selected;
+      updateActiveUI(selected);
+    }
+    if (renderer.domElement.getBoundingClientRect().bottom <= 0) return;
 
-    // Inertia damping
-    const diff = targetRotation - currentRotation;
-    if (Math.abs(diff) > 0.0001) {
-      currentRotation += diff * 0.082;
+    // Smooth Lerp Damping towards target index
+    const diff = targetIndex - currentIndex;
+    if (Math.abs(diff) > 0.0002) {
+      currentIndex += diff * (1 - Math.pow(0.912, frame));
       updateCardPlacements();
     }
 
-    // Camera parallax
-    currentCameraParallax.x += (targetCameraParallax.x - currentCameraParallax.x) * 0.05;
-    currentCameraParallax.y += (targetCameraParallax.y - currentCameraParallax.y) * 0.05;
+    const opening = window.portfolioOpening;
+    if (opening?.active || wasOpening) {
+      updateCardPlacements(now);
+      if (opening?.active && opening.startedAt !== null &&
+          now - opening.startedAt >= opening.duration) {
+        window.dispatchEvent(new Event('showcase-entered'));
+      }
+      wasOpening = Boolean(opening?.active);
+    }
+
+    // Parallax Camera Easing
+    currentCameraParallax.x += (targetCameraParallax.x - currentCameraParallax.x) * (1 - Math.pow(0.95, frame));
+    currentCameraParallax.y += (targetCameraParallax.y - currentCameraParallax.y) * (1 - Math.pow(0.95, frame));
 
     camera.position.x = currentCameraParallax.x;
-    camera.position.y = 0.15 + currentCameraParallax.y;
-
-    if (mouseLight) {
-      mouseLight.position.x = (mousePos.x / window.innerWidth - 0.5) * 7;
-      mouseLight.position.y = -(mousePos.y / window.innerHeight - 0.5) * 5;
-    }
+    camera.position.y = (isMobile() ? 0.05 : 0.12) + currentCameraParallax.y;
 
     renderer.render(scene, camera);
   }
 
-  // --- 9. Interactions ---
-  function initInteraction() {
-    const showcaseStage = document.getElementById('showcase-stage');
+  // --- 8. Public Navigation Commands ---
+  window.navigateStage = function (delta) {
+    targetIndex = Math.round(targetIndex) + delta;
+  };
 
-    showcaseStage.addEventListener('wheel', e => {
-      const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-      targetRotation -= delta * 0.0022;
-    }, { passive: true });
+  window.rotateToIndex = function (index) {
+    const currentInt = Math.round(currentIndex);
+    const currentNorm = ((currentInt % totalCards) + totalCards) % totalCards;
+    let diff = index - currentNorm;
+    if (diff > totalCards / 2) diff -= totalCards;
+    if (diff < -totalCards / 2) diff += totalCards;
+    targetIndex = currentInt + diff;
+  };
+
+  window.scrollToActiveProject = function () {
+    const activeInt = ((Math.round(currentIndex) % totalCards) + totalCards) % totalCards;
+    const project = projectsData[activeInt];
+    if (project && project.target) {
+      const el = document.querySelector(project.target);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  window.scrollToProject = function (selector) {
+    const el = document.querySelector(selector);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // --- 9. Interactions: Drag, Touch, Wheel, Click ---
+  function initInteraction() {
+    const stage = document.getElementById('showcase-stage');
+    if (!stage) return;
 
     let isDragging = false;
     let startX = 0;
     let lastX = 0;
+    let dragDistance = 0;
     let velocity = 0;
+    let lastWheelEvent = -Infinity;
 
-    showcaseStage.addEventListener('mousedown', e => {
+    document.querySelectorAll('.nav-step[data-project]').forEach(link => {
+      link.addEventListener('click', () => {
+        const index = projectsData.findIndex(project => project.id === link.dataset.project);
+        if (index !== -1) window.rotateToIndex(index);
+      });
+    });
+
+    stage.addEventListener('wheel', event => {
+      if (event.ctrlKey || event.target !== renderer.domElement) return;
+      const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+      if (!delta) return;
+
+      const bounds = renderer.domElement.getBoundingClientRect();
+      mouse.set((event.clientX - bounds.left) / bounds.width * 2 - 1,
+        1 - (event.clientY - bounds.top) / bounds.height * 2);
+      raycaster.setFromCamera(mouse, camera);
+      if (!raycaster.intersectObjects(cardMeshes).some(({ object }) => object.userData.frontMat.opacity > 0.1)) return;
+
+      event.preventDefault();
+      const now = performance.now();
+      if (now - lastWheelEvent > 160) window.navigateStage(Math.sign(delta));
+      lastWheelEvent = now;
+    }, { passive: false });
+
+    // Mouse Drag
+    stage.addEventListener('mousedown', e => {
       if (e.target.closest('button, a')) return;
       isDragging = true;
       startX = e.clientX;
       lastX = e.clientX;
+      dragDistance = 0;
       velocity = 0;
     });
 
@@ -467,12 +530,13 @@
       mousePos.x = e.clientX;
       mousePos.y = e.clientY;
 
-      targetCameraParallax.x = (e.clientX / window.innerWidth - 0.5) * 0.4;
-      targetCameraParallax.y = -(e.clientY / window.innerHeight - 0.5) * 0.2;
+      targetCameraParallax.x = (e.clientX / window.innerWidth - 0.5) * 0.32;
+      targetCameraParallax.y = -(e.clientY / window.innerHeight - 0.5) * 0.16;
 
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
+      // Raycast for hover
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObjects(cardMeshes);
 
@@ -488,8 +552,8 @@
         }
 
         const localPoint = intersects[0].point;
-        hit.userData.tiltX = -(localPoint.y - hit.position.y) * 0.08;
-        hit.userData.tiltY = (localPoint.x - hit.position.x) * 0.08;
+        hit.userData.tiltX = -(localPoint.y - hit.position.y) * 0.05;
+        hit.userData.tiltY = (localPoint.x - hit.position.x) * 0.05;
       } else {
         if (hoveredIndex !== -1) {
           hoveredIndex = -1;
@@ -498,50 +562,68 @@
       }
 
       if (!isDragging) return;
+
       const dx = e.clientX - lastX;
+      dragDistance += Math.abs(dx);
       velocity = dx;
-      targetRotation += dx * 0.0038;
+
+      // Drag sensitivity calibrated for smooth tracking
+      targetIndex -= dx * 0.0032;
       lastX = e.clientX;
     });
 
     window.addEventListener('mouseup', () => {
-      if (isDragging) {
-        isDragging = false;
-        targetRotation += velocity * 0.008;
+      if (!isDragging) return;
+      isDragging = false;
+
+      // Magnetic Snap to nearest integer with flick detection
+      if (Math.abs(velocity) > 6) {
+        targetIndex = Math.round(targetIndex - Math.sign(velocity) * 0.4);
+      } else {
+        targetIndex = Math.round(targetIndex);
       }
     });
 
     // Touch Support
-    showcaseStage.addEventListener('touchstart', e => {
+    stage.addEventListener('touchstart', e => {
       if (e.target.closest('button, a')) return;
       if (e.touches.length > 0) {
         isDragging = true;
         startX = e.touches[0].clientX;
         lastX = e.touches[0].clientX;
+        dragDistance = 0;
         velocity = 0;
       }
     }, { passive: true });
 
     window.addEventListener('touchmove', e => {
       if (!isDragging || e.touches.length === 0) return;
-      const dx = e.touches[0].clientX - lastX;
+      const clientX = e.touches[0].clientX;
+      const dx = clientX - lastX;
+      dragDistance += Math.abs(dx);
       velocity = dx;
-      targetRotation += dx * 0.0045;
-      lastX = e.touches[0].clientX;
+
+      targetIndex -= dx * 0.004;
+      lastX = clientX;
     }, { passive: true });
 
     window.addEventListener('touchend', () => {
-      if (isDragging) {
-        isDragging = false;
-        targetRotation += velocity * 0.008;
+      if (!isDragging) return;
+      isDragging = false;
+
+      if (Math.abs(velocity) > 5) {
+        targetIndex = Math.round(targetIndex - Math.sign(velocity) * 0.4);
+      } else {
+        targetIndex = Math.round(targetIndex);
       }
     });
 
-    // Click on 3D Card:
-    // If active card clicked -> Smoothly scroll down to that project's case study (NO POPUP!)
-    // If side card clicked -> Rotate that card to front smoothly!
-    showcaseStage.addEventListener('click', e => {
+    // Card Click Handler:
+    // If ACTIVE card clicked -> Direct navigation to dedicated page!
+    // If FLANK card clicked -> Snap that card into active center!
+    stage.addEventListener('click', e => {
       if (e.target.closest('button, a')) return;
+      if (dragDistance > 8) return; // Prevent click on drag release
 
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObjects(cardMeshes);
@@ -551,73 +633,45 @@
         const clickedIndex = clickedMesh.userData.index;
         const project = clickedMesh.userData.project;
 
-        if (clickedIndex === activeIndex) {
-          scrollToProject(project.target);
+        const activeInt = ((Math.round(currentIndex) % totalCards) + totalCards) % totalCards;
+
+        if (clickedIndex === activeInt) {
+          // Direct navigation to dedicated case study page!
+          window.location.href = project.pageUrl;
         } else {
-          rotateToIndex(clickedIndex);
+          // Bring flank card smoothly to center
+          window.rotateToIndex(clickedIndex);
         }
       }
     });
   }
 
-  // --- 10. Smooth Scrolling & Navigation ---
-  window.scrollToProject = function (selector) {
-    const el = document.querySelector(selector);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  // --- 10. Keyboard Accessibility ---
+  function initKeyboard() {
+    window.addEventListener('keydown', e => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
-  window.scrollToActiveProject = function () {
-    const project = projectsData[activeIndex];
-    if (project) {
-      scrollToProject(project.target);
-    }
-  };
-
-  window.rotateToIndex = function (index) {
-    if (index < 0) index = totalCards - 1;
-    if (index >= totalCards) index = 0;
-
-    const twoPi = Math.PI * 2;
-    const cardAngle = (index / totalCards) * twoPi;
-    const desired = -cardAngle;
-
-    const diff = (desired - currentRotation) % twoPi;
-    let shortestDiff = diff;
-    if (shortestDiff > Math.PI) shortestDiff -= twoPi;
-    if (shortestDiff < -Math.PI) shortestDiff += twoPi;
-
-    targetRotation = currentRotation + shortestDiff;
-  };
-
-  // --- 11. ScrollSpy ---
-  function initScrollSpy() {
-    const sections = document.querySelectorAll('.project-case-study');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          const matchProject = projectsData.find(p => p.target === `#${id}`);
-          if (matchProject) {
-            updateNavSlider(matchProject.id);
-            const index = projectsData.indexOf(matchProject);
-            if (index !== -1) rotateToIndex(index);
-          }
+      if (e.key === 'ArrowLeft') {
+        window.navigateStage(-1);
+      } else if (e.key === 'ArrowRight') {
+        window.navigateStage(1);
+      } else if (e.key === 'Enter') {
+        const activeInt = ((Math.round(currentIndex) % totalCards) + totalCards) % totalCards;
+        const project = projectsData[activeInt];
+        if (project && document.activeElement.id === 'showcase-stage') {
+          window.location.href = project.pageUrl;
         }
-      });
-    }, { rootMargin: '-20% 0px -60% 0px' });
-
-    sections.forEach(sec => observer.observe(sec));
+      }
+    });
   }
 
-  // --- 12. Dot Cursor ---
+  // --- 11. Dot Cursor ---
   function initDotCursor() {
     const cursor = document.getElementById('dot-cursor');
     if (!cursor) return;
 
-    let mouseX = window.innerWidth * 0.15;
-    let mouseY = window.innerHeight * 0.15;
+    let mouseX = window.innerWidth * 0.2;
+    let mouseY = window.innerHeight * 0.2;
     let curX = mouseX;
     let curY = mouseY;
 
@@ -627,8 +681,8 @@
     });
 
     function renderCursor() {
-      curX += (mouseX - curX) * 0.25;
-      curY += (mouseY - curY) * 0.25;
+      curX += (mouseX - curX) * 0.22;
+      curY += (mouseY - curY) * 0.22;
       cursor.style.left = `${curX}px`;
       cursor.style.top = `${curY}px`;
       requestAnimationFrame(renderCursor);
@@ -641,7 +695,22 @@
     });
   }
 
-  // --- 13. Toast ---
+  // --- 11. Header Logo Click: Smooth Scroll to Top & Clean Hash ---
+  function initHeaderLogo() {
+    const brand = document.querySelector('.header-brand');
+    if (!brand) return;
+    brand.addEventListener('click', (e) => {
+      // If we are on the homepage, scroll smoothly to the top and reset the 3D showcase
+      if (window.location.hash) {
+        history.pushState('', document.title, window.location.pathname);
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.rotateToIndex(0);
+      e.preventDefault();
+    });
+  }
+
+  // --- 12. Toast for Email Copy ---
   window.copyEmail = function () {
     const email = 'gihokim@uracle.co.kr';
     if (navigator.clipboard) {
@@ -660,23 +729,23 @@
     }, 2800);
   }
 
-  // --- 14. Resize ---
+  // --- 13. Window Resize ---
   function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     updateCameraPosition();
     camera.updateProjectionMatrix();
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
     build3DCards();
   }
 
-  // --- 15. Init ---
+  // --- 14. Bootstrapping ---
   document.addEventListener('DOMContentLoaded', () => {
     initWebGL();
-    initScrollSpy();
     initDotCursor();
+    initHeaderLogo();
   });
 
 })();

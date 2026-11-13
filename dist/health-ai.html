@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="김기호의 HeAlth AI 모바일 헬스케어 하이브리드 앱 심층 사례 연구. 사내 AI 경진대회 1등(대상) 수상 및 디지털타임스 보도. Flutter 네이티브 포즈 트래킹과 Vue WebView 아키텍처를 설명합니다.">
+  <title>HEALTH AI // ARCHITECTURE DOSSIER · KIM GIHO</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231d4ed8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='12 2 2 7 12 12 22 7 12 2'/%3E%3Cpolyline points='2 17 12 22 22 17'/%3E%3Cpolyline points='2 12 12 17 22 12'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;850&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="ax-frontier.css?v=20261113h2">
+  <link rel="stylesheet" href="health-ai.css?v=20261113h3">
+  <script src="health-ai.js?v=20261113h2" defer></script>
+</head>
+<body id="top">
+  <div id="reading-progress" class="reading-progress-bar"></div>
+  <div id="dot-cursor" class="dot-cursor" aria-hidden="true"></div>
+  <a class="skip" href="#case-main" style="position:absolute; top:-100px;">본문으로 건너뛰기</a>
+
+  <div class="ambient-backdrop-aura" aria-hidden="true">
+    <div class="aura-orb-top"></div>
+    <div class="aura-orb-mid"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="nav-bar-container">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <a class="brand-dev" href="/" aria-label="김기호 포트폴리오 홈으로 이동">
+          <span class="brand-logo-mark" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </span>
+          <span class="brand-name">KIM GIHO</span>
+          <span class="brand-home-hint">← 홈</span>
+        </a>
+        <span class="header-breadcrumb-sep" style="color:var(--border-medium); font-weight:300;">/</span>
+        <span class="header-breadcrumb-text" style="font-size:0.86rem; color:var(--text-secondary); font-weight:600;">HeAlth AI 아키텍처 백서</span>
+      </div>
+
+      <nav class="nav-links-menu" aria-label="사례 연구 내비게이션">
+        <a class="nav-item-link" href="#press-award">수상 &amp; 보도</a>
+        <a class="nav-item-link" href="#features">핵심 기능</a>
+        <a class="nav-item-link" href="#sequence">6단계 시퀀스</a>
+        <a class="nav-item-link" href="#catalog">12개 모듈</a>
+        <a class="nav-item-link" href="#architecture">Flutter↔Vue 브리지</a>
+        <a class="nav-item-link" href="#screens-gallery">화면 26종</a>
+      </nav>
+
+      <div class="nav-actions-group">
+        <a class="nav-btn-primary" href="https://www.dt.co.kr/article/11639125" target="_blank" rel="noopener noreferrer">
+          <span>디지털타임스 기사</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="case-main" class="shell">
+
+    <!-- Case Study Hero Stage -->
+    <section class="case-hero-stage" aria-labelledby="case-title">
+      <div class="award-badge-pill animate-hero-1" style="margin-bottom: 20px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+        </svg>
+        <span>사내 AI 경진대회 1등 (대상) 수상 · 디지털타임스 2025.01 언론 보도 · Flutter + Vue WebView 하이브리드</span>
+      </div>
+
+      <h1 class="case-headline-lg animate-hero-2" id="case-title">
+        HeAlth AI — 하이브리드 AI 헬스케어 플랫폼<br>
+        <span class="hero-headline-gradient">기능 및 시스템 아키텍처 심층 연구</span>
+      </h1>
+
+      <p class="case-lead-p animate-hero-3">
+        운동·식단·체형·건강 뉴스가 각각 별도 앱으로 파편화되고 수동 입력이 번거롭다는 시장 페인 포인트를 해결하기 위해,
+        <strong>Flutter 네이티브 카메라/스켈레톤 포즈 엔진</strong>과 <strong>Vue 2 WebView SPA</strong>를
+        4개의 양방향 <code>JavascriptChannel</code>로 결합한 원앱 통합 AI 헬스케어 서비스입니다.
+        사내 AI 경진대회에서 <strong>30개 예선 팀 중 1등(대상)</strong>을 차지하며 디지털타임스에 소개되었습니다.
+      </p>
+
+      <div class="animate-hero-4" style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:42px;">
+        <a class="btn-apple-main" href="#features">
+          <span>핵심 기능 아키텍처 보기</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>
+          </svg>
+        </a>
+        <a class="btn-apple-secondary" href="https://www.dt.co.kr/article/11639125" target="_blank" rel="noopener noreferrer">
+          <span>디지털타임스 보도 기사 원문 (dt.co.kr)</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+        <a class="btn-apple-secondary" href="#screens-gallery">실구동 화면 26종 전체 보기</a>
+      </div>
+
+      <!-- Borderless Porcelain Studio Banner -->
+      <div class="studio-screen-frame animate-hero-5" onclick="openHealthLightbox(6)" role="button" tabindex="0" aria-label="HeAlth AI 실구동 스튜디오 화면 크게 보기">
+        <img src="health-ai-preview.png?v=20261113h2" alt="HeAlth AI 홈 브리핑, 실시간 Flutter 스쿼트 포즈 트래킹, GPT-4o 식단 분석, 30일 AI 챌린지 스튜디오 프리뷰">
+        <div class="screen-hover-overlay">
+          <div class="hover-expand-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+            </svg>
+            클릭하여 실구동 앱 상세 뷰어 열기
+          </div>
+        </div>
+      </div>
+
+      <!-- 4-Column Project Metadata -->
+      <div class="meta-4col-grid">
+        <div class="meta-4col-card">
+          <div class="meta-4col-label">ROLE &amp; TEAM</div>
+          <div class="meta-4col-val">3인 공동 프로젝트 (김기호 포함)<br>하이브리드 브리지·웹뷰·AI 백엔드 구현</div>
+        </div>
+        <div class="meta-4col-card">
+          <div class="meta-4col-label">HYBRID ARCHITECTURE</div>
+          <div class="meta-4col-val">Flutter Native Camera/Pose<br>+ Vue 2.5.2 WebView SPA</div>
+        </div>
+        <div class="meta-4col-card">
+          <div class="meta-4col-label">AI &amp; BACKEND STACK</div>
+          <div class="meta-4col-val">Express · MongoDB Atlas · Cloudinary<br>GPT-4o / 4-Turbo / 4 / 3.5-Turbo</div>
+        </div>
+        <div class="meta-4col-card">
+          <div class="meta-4col-label">RECOGNITION</div>
+          <div class="meta-4col-val">사내 AI 경진대회 1등 (대상)<br>디지털타임스 2025.01.13 보도</div>
+        </div>
+      </div>
+
+      <!-- 4-Column Quantified Metrics -->
+      <div class="metric-4col-grid">
+        <div class="metric-4col-card">
+          <div class="metric-4col-num">1위 · 대상</div>
+          <div class="metric-4col-sub">30개 참가팀 · 15개 본선팀 중 최우수</div>
+        </div>
+        <div class="metric-4col-card">
+          <div class="metric-4col-num">4 Channels</div>
+          <div class="metric-4col-sub">Flutter ↔ Vue 양방향 JavascriptChannel</div>
+        </div>
+        <div class="metric-4col-card">
+          <div class="metric-4col-num">4 Models</div>
+          <div class="metric-4col-sub">비전·판정·루틴·영양계산 멀티모델 분담</div>
+        </div>
+        <div class="metric-4col-card">
+          <div class="metric-4col-num">26 Screens</div>
+          <div class="metric-4col-sub">전 기능 실구동 시연 모바일 화면 캡처</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 1: Award, Press & Product Strategy -->
+    <section class="content-section" id="press-award">
+      <div class="section-head-apple">
+        <div class="section-eyebrow">01 · AWARD, PRESS &amp; PRODUCT STRATEGY</div>
+        <h2 class="section-title-apple">사내 AI 경진대회 대상(1등) &amp; 디지털타임스 언론 보도</h2>
+        <p class="section-desc-apple">
+          약 3개월간 진행된 사내 AI 경진대회에서 총 30개 예선 팀 중 본선 15개 팀이 경합한 끝에
+          운동·식단·체형·콘텐츠를 단일 하이브리드 앱으로 통합한 <strong>HeAlth AI</strong>가 대상(1등)을 수상했습니다.
+        </p>
+      </div>
+
+      <article class="press-spotlight-card">
+        <div>
+          <div class="press-award-header">
+            <span class="award-crown-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              GRAND PRIZE · 대상 (1등)
+            </span>
+            <span class="press-date-pill">디지털타임스 · 2025-01-13 보도</span>
+          </div>
+
+          <h3 class="press-headline">
+            전신 체형 분석부터 모션 포즈 교정·식단·뉴스 큐레이션까지,<br>AI 기반 통합 모바일 헬스케어로 최우수상 수상
+          </h3>
+
+          <blockquote class="press-quote-box">
+            "대상은 운동, 식단, 건강 콘텐츠가 통합된 AI 헬스케어 앱을 개발한 팀이 차지했다.
+            전신 촬영을 통한 체형 분석, 그에 맞는 운동과 식단 추천, 모션 인식을 통한 운동 지도,
+            연관 콘텐츠 큐레이션 등 종합적인 건강관리를 개인 맞춤형으로 지원한다."
+            <footer style="margin-top:8px; font-size:12px; color:var(--text-tertiary); font-family:var(--font-mono);">
+              — 디지털타임스 기사 본문 요약 (dt.co.kr/article/11639125, 2025.01.13)
+            </footer>
+          </blockquote>
+
+          <div class="press-actions-row">
+            <a class="btn-apple-main" href="https://www.dt.co.kr/article/11639125" target="_blank" rel="noopener noreferrer">
+              <span>디지털타임스 기사 원문 보기</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </a>
+            <a class="btn-apple-secondary" href="#features">6대 핵심 기능 자세히 보기 ↓</a>
+          </div>
+        </div>
+
+        <div class="press-stats-stack">
+          <div class="press-stat-tile">
+            <div class="press-stat-k">COMPETITION SCALE</div>
+            <div class="press-stat-v">30팀 -> 15팀</div>
+            <div class="press-stat-sub">약 3개월 예·본선 레이스 (총상금 1,300만 원)</div>
+          </div>
+          <div class="press-stat-tile">
+            <div class="press-stat-k">FINAL RANKING</div>
+            <div class="press-stat-v">1위 (대상)</div>
+            <div class="press-stat-sub">발표 평가 및 실앱 구동 시연 최고점</div>
+          </div>
+          <div class="press-stat-tile">
+            <div class="press-stat-k">DELIVERY DATE</div>
+            <div class="press-stat-v">2024.12.24</div>
+            <div class="press-stat-sub">발표 완료 · 2025.01.13 언론 보도</div>
+          </div>
+          <div class="press-stat-tile">
+            <div class="press-stat-k">B2C · B2B MODEL</div>
+            <div class="press-stat-v">5년 167억 목표</div>
+            <div class="press-stat-sub">단기 8.5억 · 중기 50억 · B2B 라이선스 설계</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Market Differentiation from PPTX -->
+      <div class="market-compare-grid">
+        <div class="market-panel">
+          <div class="market-panel-head">
+            <span class="market-panel-title">기존 모바일 헬스케어 시장의 구조적 한계</span>
+            <span class="market-panel-tag tag-legacy">AS-IS · PAIN POINTS</span>
+          </div>
+          <ul class="market-item-list">
+            <li>
+              <span class="market-item-k">분절된 앱</span>
+              <span>플랜핏(운동 루틴), 파스타(혈당), 또박케어(영양제)처럼 단일 도메인만 다뤄 사용자가 여러 앱을 오가야 했습니다.</span>
+            </li>
+            <li>
+              <span class="market-item-k">입력 피로도</span>
+              <span>식단 무게와 영양 성분을 사용자가 일일이 수동 검색·입력해야 해 기록 유지율과 앱 리텐션이 급감했습니다.</span>
+            </li>
+            <li>
+              <span class="market-item-k">획일적 통계</span>
+              <span>체형·전일 식사·실제 운동 자세 각도를 종합 연계하지 못해 깊이 있는 개인화 코칭을 제공하지 못했습니다.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="market-panel">
+          <div class="market-panel-head">
+            <span class="market-panel-title">HeAlth AI의 차별화 및 P4 웰니스 해법</span>
+            <span class="market-panel-tag tag-health">TO-BE · DIFFERENTIATION</span>
+          </div>
+          <ul class="market-item-list">
+            <li>
+              <span class="market-item-k">입력 최소화</span>
+              <span>음식 사진 한 장(GPT-4o)과 전신 카메라·포즈 스켈레톤(Flutter)만으로 수동 입력 없이 즉시 분석을 완료합니다.</span>
+            </li>
+            <li>
+              <span class="market-item-k">원앱 통합</span>
+              <span>체형분석 · 모션 운동코칭 · 식단 비전 · 30일 챌린지 · 새벽 03:00 맞춤 뉴스/유튜브를 단일 WebView 앱으로 통합했습니다.</span>
+            </li>
+            <li>
+              <span class="market-item-k">P4 선순환</span>
+              <span>예측(Predictive) · 예방(Preventive) · 맞춤(Personalized) · 참여(Participatory) 구조와 구독($9.99/$14.99)·B2B 수익화를 설계했습니다.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: AX Frontier Style 6 Core Feature Showcase -->
+    <section class="content-section" id="features">
+      <div class="section-head-apple">
+        <div class="section-eyebrow">02 · CORE CAPABILITIES &amp; USER FEATURES</div>
+        <h2 class="section-title-apple">HeAlth AI 6대 핵심 기능 쇼케이스</h2>
+        <p class="section-desc-apple">
+          각 기능 카드를 클릭하면 해당 화면의 고해상도 상세 설명 및 Flutter ↔ Vue 연동 경로를 뷰어로 확인할 수 있습니다.
+        </p>
+      </div>
+
+      <div class="health-feature-grid">
+        <article class="health-feature-card" onclick="openHealthLightbox(1)">
+          <div class="health-feature-thumb">
+            <img src="assets/health/s11-main-advice.png?v=20261113h2" alt="홈 AI 일일 브리핑 화면">
+          </div>
+          <div class="health-feature-body">
+            <span class="health-feature-tag">// FEATURE 01 · HOME &amp; 03:00 BATCH</span>
+            <h3 class="health-feature-title">매일 03:00 AI 일일 건강 조언 &amp; 홈 리포트</h3>
+            <p class="health-feature-desc">
+              전일 섭취 식단과 운동 이력을 <code>node-cron</code> 배치로 분석해 매일 아침 식단·운동·수분 섭취 조언 3건과 19대 영양 밸런스 리포트를 제공합니다.
+            </p>
+          </div>
+        </article>
+
+        <article class="health-feature-card" onclick="openHealthLightbox(6)">
+          <div class="health-feature-thumb">
+            <img src="assets/health/s23-fitness-pose1.jpg?v=20261113h2" alt="Flutter 실시간 스켈레톤 운동 포즈 추적">
+          </div>
+          <div class="health-feature-body">
+            <span class="health-feature-tag">// FEATURE 02 · FLUTTER POSE ML</span>
+            <h3 class="health-feature-title">Flutter 실시간 모션 포즈 인식 &amp; 교정</h3>
+            <p class="health-feature-desc">
+              2.4x 줌 뷰파인더 위에서 스쿼트 등 5종 동작의 관절 각도(<code>kneeAngle</code>, <code>elbowAngle</code>, <code>torsoStability</code>)를 추적하고 GPT-4 자세 교정을 생성합니다.
+            </p>
+          </div>
+        </article>
+
+        <article class="health-feature-card" onclick="openHealthLightbox(13)">
+          <div class="health-feature-thumb">
+            <img src="assets/health/s33-meal-result1.png?v=20261113h2" alt="GPT-4o 식단 비전 분석 화면">
+          </div>
+          <div class="health-feature-body">
+            <span class="health-feature-tag">// FEATURE 03 · GPT-4o MEAL VISION</span>
+            <h3 class="health-feature-title">사진 한 장 칼로리·탄단지 &amp; 30ms 타이핑 코칭</h3>
+            <p class="health-feature-desc">
+              음식 사진 촬영만으로 Cloudinary 업로드 및 <code>gpt-4o</code> 비전 분석을 수행해 칼로리·탄단지(g)·조리법·보완 페어링을 30ms 타이핑 연출로 출력합니다.
+            </p>
+          </div>
+        </article>
+
+        <article class="health-feature-card" onclick="openHealthLightbox(17)">
+          <div class="health-feature-thumb">
+            <img src="assets/health/s43-body-result1.png?v=20261113h2" alt="바디라인 전신 체형 진단 화면">
+          </div>
+          <div class="health-feature-body">
+            <span class="health-feature-tag">// FEATURE 04 · BODY SHAPE AI</span>
+            <h3 class="health-feature-title">전신 실루엣 촬영 체형 진단 &amp; 코디 추천</h3>
+            <p class="health-feature-desc">
+              Flutter <code>bodyCheck</code> 인체 가이드라인으로 정면 체형을 촬영하면 <code>gpt-4-turbo</code>가 체형 유형을 판별하고 맞춤 스타일링·운동 루틴을 연결합니다.
+            </p>
+          </div>
+        </article>
+
+        <article class="health-feature-card" onclick="openHealthLightbox(22)">
+          <div class="health-feature-thumb">
+            <img src="assets/health/s54-challenge-result.png?v=20261113h2" alt="30일 AI 챌린지 스탬프 화면">
+          </div>
+          <div class="health-feature-body">
+            <span class="health-feature-tag">// FEATURE 05 · 30-DAY AI CHALLENGE</span>
+            <h3 class="health-feature-title">부정 인증 차단 GPT 챌린지 &amp; 스탬프</h3>
+            <p class="health-feature-desc">
+              <code>"1"/"0"/"FAIL"</code> 이진 비전 가드레일로 미션과 무관한 사진을 즉시 반려하고, 검증을 통과한 인증샷만 30일 챌린지 캘린더에 각인합니다.
+            </p>
+          </div>
+        </article>
+
+        <article class="health-feature-card" onclick="openHealthLightbox(24)">
+          <div class="health-feature-thumb">
+            <img src="assets/health/s62-youtube1.png?v=20261113h2" alt="맞춤 건강 뉴스 및 유튜브 큐레이션 화면">
+          </div>
+          <div class="health-feature-body">
+            <span class="health-feature-tag">// FEATURE 06 · CURATION &amp; CACHE</span>
+            <h3 class="health-feature-title">네이버 뉴스 &amp; 유튜브 맞춤 콘텐츠 큐레이션</h3>
+            <p class="health-feature-desc">
+              관심 키워드 기반 뉴스·영상을 2계층 인메모리 캐시(<code>Map</code> + <code>ImageCollector</code>)로 빠르게 서빙하며 <code>FlutterOpenBrowser</code>로 외부 연결합니다.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Section 3: AX Frontier Style 6-Phase Execution Sequence -->
+    <section class="content-section" id="sequence" aria-labelledby="sequence-heading">
+      <div class="section-head-apple">
+        <span class="section-eyebrow">03 · PIPELINE EXECUTION SEQUENCE</span>
+        <h2 class="section-title-apple" id="sequence-heading">6-Phase 엔드투엔드 기능 실행 시퀀스</h2>
+        <p class="section-desc-apple">각 단계를 선택하면 클라이언트 트리거, 하이브리드 브리지/API, AI 모델 및 DB 처리 흐름을 한눈에 확인할 수 있습니다.</p>
+      </div>
+
+      <div class="sequence-stepper-rail" id="sequence-stepper"></div>
+      <div class="sequence-detail-card" id="sequence-detail"></div>
+    </section>
+
+    <!-- Section 4: AX Frontier Style 12-Module Feature Catalog -->
+    <section class="content-section" id="catalog" aria-labelledby="catalog-heading">
+      <div class="section-head-apple">
+        <span class="section-eyebrow">04 · FUNCTIONAL SPECIFICATIONS</span>
+        <h2 class="section-title-apple" id="catalog-heading">12개 핵심 기능 &amp; 시스템 모듈 카탈로그</h2>
+        <p class="section-desc-apple">카테고리 필터를 선택하여 하이브리드 앱·AI 엔진·백엔드 인프라 모듈별 구현 세부 사항을 확인하세요.</p>
+      </div>
+
+      <div class="module-tabs-rail">
+        <button type="button" class="module-tab-item active" data-filter="all">전체 모듈 (12)</button>
+        <button type="button" class="module-tab-item" data-filter="motion">01. MOTION &amp; BODY</button>
+        <button type="button" class="module-tab-item" data-filter="nutrition">02. NUTRITION &amp; CHALLENGE</button>
+        <button type="button" class="module-tab-item" data-filter="bridge">03. HYBRID BRIDGE</button>
+        <button type="button" class="module-tab-item" data-filter="infra">04. AI &amp; INFRASTRUCTURE</button>
+      </div>
+
+      <div class="modules-catalog-grid">
+        <div class="module-box-item" data-category="motion">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// MOD-01 · MOTION</span>
+          <h4 style="font-size:1.12rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">실시간 5종 운동 스켈레톤 포즈 추적</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">스쿼트·컬·푸시업·풀업·레그레이즈 5개 동작을 Flutter 카메라 2.4x 줌 위에서 실시간 추적하고 관절 각도와 반복 횟수/세트를 카운팅합니다.</p>
+        </div>
+        <div class="module-box-item" data-category="motion">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// MOD-02 · MOTION</span>
+          <h4 style="font-size:1.12rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">GPT-4 (2+2+3) 분할 주간 운동 플래너</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">긴 7일 루틴 생성 시 응답 타임아웃을 막기 위해 2일+2일+3일 단위로 분할 생성한 뒤 일자별 목표와 자세 코칭 이력을 연계합니다.</p>
+        </div>
+        <div class="module-box-item" data-category="motion">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// MOD-03 · BODY LINE</span>
+          <h4 style="font-size:1.12rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">전신 실루엣 가이드 &amp; 체형·스타일 진단</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">인체 윤곽·적색 키포인트 가이드를 따라 정면을 촬영하면 GPT-4-Turbo가 BMI·신체 비율을 분석해 모래시계형 등 체형과 코디를 추천합니다.</p>
+        </div>
+
+        <div class="module-box-item" data-category="nutrition">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// MOD-04 · NUTRITION</span>
+          <h4 style="font-size:1.12rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">GPT-4o 식단 비전 분석 &amp; 30ms 타이핑 UI</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">식단 사진 한 장으로 총 칼로리와 탄수화물·단백질·지방(g), 주재료/조리법, 목표 대비 적합성 평가를 추출하고 30ms 스트림 연출로 출력합니다.</p>
+        </div>
+        <div class="module-box-item" data-category="nutrition">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// MOD-05 · NUTRITION</span>
+          <h4 style="font-size:1.12rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">GPT-3.5 19대 개인별 영양 목표 계산기</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">온보딩 성별·연령·신장·체중·목표를 바탕으로 기초대사량 및 19개 세부 영양소 권장량을 산출해 매일 섭취량과 실시간 대조합니다.</p>
+        </div>
+        <div class="module-box-item" data-category="nutrition">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// MOD-06 · CHALLENGE</span>
+          <h4 style="font-size:1.12rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">30일 습관 챌린지 &amp; "1/0/FAIL" AI 가드레일</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">저칼로리 식단 등 챌린지 사진 제출 시 GPT-4-Turbo가 미션 부합 여부를 엄격히 판별해 비부합 인증을 차단하고 통과 샷만 스탬프로 저장합니다.</p>
+        </div>
+
+        <div class="module-box-item" data-category="bridge">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// MOD-07 · BRIDGE</span>
+          <h4 style="font-size:1.12rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">4종 JavascriptChannel 양방향 네이티브 브리지</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;"><code>FlutterChannel</code>, <code>FlutterBodyCheck</code>, <code>FlutterFitnessPose</code>, <code>FlutterOpenBrowser</code>와 전역 JS 콜백 3종으로 웹뷰와 하드웨어를 결합했습니다.</p>
+        </div>
+        <div class="module-box-item" data-category="bridge">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// MOD-08 · WEBVIEW SPA</span>
+          <h4 style="font-size:1.12rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">Axios 401 Silent Refresh Token 자동 재시도</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">웹뷰 장기 세션 중 Access Token(2h) 만료 시 인터셉터가 14d Refresh Token으로 무중단 재발급 후 실패한 API 요청을 투명하게 재전송합니다.</p>
+        </div>
+        <div class="module-box-item" data-category="bridge">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// MOD-09 · COMMUNITY</span>
+          <h4 style="font-size:1.12rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">Toast UI 마크다운 커뮤니티 &amp; Sentry 관측</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">운동·식단 노하우 공유를 위한 Toast UI 기반 게시글 에디터(<code>BoardWrite.vue</code>)와 <code>@sentry/vue</code> 프론트엔드 예외 추적을 탑재했습니다.</p>
+        </div>
+
+        <div class="module-box-item" data-category="infra">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// MOD-10 · BATCH</span>
+          <h4 style="font-size:1.12rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">03:00 node-cron 배치 &amp; BatchHistory 멱등성</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">매일 새벽 03:00(<code>0 3 * * *</code>) 배치 잡이 날짜별 중복 실행 방지 락을 확인한 뒤 전날 기록 기반 일일 조언 3건과 최신 건강 뉴스를 사전 생성합니다.</p>
+        </div>
+        <div class="module-box-item" data-category="infra">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// MOD-11 · MEDIA CACHE</span>
+          <h4 style="font-size:1.12rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">Cloudinary 100MB 파이프라인 &amp; 2계층 캐시</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">고화질 식단·체형 Base64 페이로드(100mb 제한)를 Cloudinary CDN에 저장하고, 네이버/유튜브 응답을 <code>Map</code> + <code>ImageCollector</code>로 캐싱합니다.</p>
+        </div>
+        <div class="module-box-item" data-category="infra">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// MOD-12 · PERSISTENCE</span>
+          <h4 style="font-size:1.12rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">MongoDB arrayFilters 원자 갱신 &amp; Few-Shot</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">중첩 주간 운동 루틴을 <code>$[weekElem].days.$[dayElem]</code> 필터로 부분 업데이트하며, <code>GptHistory</code>에 성공 프롬프트 예시를 누적해 JSON 안정성을 높였습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Hybrid Bridge Architecture -->
+    <section class="content-section" id="architecture">
+      <div class="section-head-apple">
+        <div class="section-eyebrow">05 · FLUTTER + VUE WEBVIEW HYBRID ARCHITECTURE</div>
+        <h2 class="section-title-apple">네이티브 센서 연산과 웹 UI 생산성을 결합한 3-Tier 브리지</h2>
+        <p class="section-desc-apple">
+          카메라 실시간 골격(Pose) 추적과 전신 실루엣 가이드 촬영처럼 기기 하드웨어 제어가 필수적인 계층은 Flutter 네이티브로 구현하고,
+          복합 폼·차트·게시판 UX는 Vue 2 WebView SPA로 분리해 4개의 양방향 채널로 통신합니다.
+        </p>
+      </div>
+
+      <div class="hybrid-arch-diagram">
+        <div class="arch-tiers-grid">
+          <div class="arch-tier-card tier-flutter">
+            <div class="arch-tier-eyebrow">TIER 01 · FLUTTER NATIVE SHELL</div>
+            <h3 class="arch-tier-title">하드웨어 카메라 &amp; 포즈 엔진</h3>
+            <ul class="arch-tier-list">
+              <li><strong>실시간 스켈레톤 트래킹:</strong> 2.4x 줌 뷰파인더 위에서 <code>squat</code>, <code>curl</code>, <code>pushUp</code>, <code>pullUp</code>, <code>legRaise</code> 관절 각도 계측</li>
+              <li><strong>전신 실루엣 정렬 촬영:</strong> <code>bodyCheck</code> 인체 가이드라인 및 적색 키포인트 오버레이 카메라</li>
+              <li><strong>식단·챌린지 캡처 &amp; 외부 브라우저:</strong> Base64 이미지 반환 및 기사/유튜브 OS 브라우저 실행</li>
+            </ul>
+          </div>
+
+          <div class="arch-tier-card tier-vue">
+            <div class="arch-tier-eyebrow">TIER 02 · VUE 2.5.2 WEBVIEW SPA</div>
+            <h3 class="arch-tier-title">웹뷰 인터페이스 &amp; 브리지 라우터</h3>
+            <ul class="arch-tier-list">
+              <li><strong>전역 콜백 수신 &amp; 상태 동기화:</strong> <code>Vuex</code> + <code>Vue Router</code>로 네이티브 콜백 데이터를 즉시 화면 전환</li>
+              <li><strong>무중단 인증 큐(JWT Refresh):</strong> 401 응답 인터셉터가 <code>/api/auth/token</code>으로 토큰 재발급 후 원요청 재시도</li>
+              <li><strong>고밀도 헬스 UI:</strong> 30ms 식단 타이핑 오버레이, <code>vue2-datepicker</code>, Toast UI 게시판, <code>@sentry/vue</code> 관측</li>
+            </ul>
+          </div>
+
+          <div class="arch-tier-card tier-backend">
+            <div class="arch-tier-eyebrow">TIER 03 · EXPRESS + AI + MONGODB</div>
+            <h3 class="arch-tier-title">멀티모델 AI 오케스트레이션 &amp; 배치</h3>
+            <ul class="arch-tier-list">
+              <li><strong>OpenAI 4종 모델 라우팅:</strong> <code>gpt-4o</code>(음식 비전), <code>gpt-4-turbo</code>(체형·챌린지 검증), <code>gpt-4</code>(루틴·자세 코칭), <code>gpt-3.5-turbo</code>(영양 계산)</li>
+              <li><strong>Express + Cloudinary + Atlas:</strong> 100mb 페이로드 수용, 이미지 CDN 호스팅, <code>arrayFilters</code> 중첩 배열 원자 갱신</li>
+              <li><strong>03:00 자동 배치 &amp; 캐시:</strong> <code>node-cron</code>(<code>0 3 * * *</code>) + <code>BatchHistory</code> 멱등성 + 2계층 <code>Map</code>/<code>ImageCollector</code> 캐시</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bridge-contracts-grid">
+        <article class="bridge-contract-card">
+          <div class="bridge-head">
+            <span class="bridge-channel-name">01 · FlutterFitnessPose Channel</span>
+            <span class="bridge-dir-pill">Bidirectional Stream</span>
+          </div>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.55;">
+            웹뷰의 운동 종목·세트 정보를 Flutter 포즈 카메라에 전달하고, 세트 완료 후 관절 각도 배열과 실제 수행 시간을 역콜백으로 수신합니다.
+          </p>
+          <pre class="bridge-code-flow">Vue -&gt; Flutter: window.FlutterFitnessPose.postMessage('fitnessPose&amp;' + JSON.stringify(info))
+Flutter -&gt; Vue: window.handlePoseAnalysisResult(poseDataList, actualDuration)</pre>
+        </article>
+
+        <article class="bridge-contract-card">
+          <div class="bridge-head">
+            <span class="bridge-channel-name">02 · FlutterChannel (Image Capture)</span>
+            <span class="bridge-dir-pill">Camera / Gallery I/O</span>
+          </div>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.55;">
+            식단 사진 분석과 30일 챌린지 인증 촬영 시 네이티브 카메라를 호출하고 Base64 인코딩 이미지를 웹뷰 콜백으로 돌려줍니다.
+          </p>
+          <pre class="bridge-code-flow">Vue -&gt; Flutter: window.FlutterChannel.postMessage('captureImage')
+Flutter -&gt; Vue: window.handleCapturedImage(base64ImageData)</pre>
+        </article>
+
+        <article class="bridge-contract-card">
+          <div class="bridge-head">
+            <span class="bridge-channel-name">03 · FlutterBodyCheck Channel</span>
+            <span class="bridge-dir-pill">Body Silhouette Guide</span>
+          </div>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.55;">
+            <code>userId</code> 컨텍스트와 함께 전신 체형 정렬 카메라를 실행하여 인체 가이드라인이 맞춰진 전신 촬영 이미지를 반환합니다.
+          </p>
+          <pre class="bridge-code-flow">Vue -&gt; Flutter: window.FlutterBodyCheck.postMessage('bodyCheck&amp;' + userId)
+Flutter -&gt; Vue: window.handledBodyCheck(base64BodyImage)</pre>
+        </article>
+
+        <article class="bridge-contract-card">
+          <div class="bridge-head">
+            <span class="bridge-channel-name">04 · FlutterOpenBrowser Channel</span>
+            <span class="bridge-dir-pill">External Web Launch</span>
+          </div>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.55;">
+            03:00 배치로 큐레이션된 네이버 건강 뉴스 원문과 유튜브 운동 영상 시청 URL을 WebView 이탈 없이 OS 외부 브라우저로 실행합니다.
+          </p>
+          <pre class="bridge-code-flow">Vue -&gt; Flutter: window.FlutterOpenBrowser.postMessage(targetExternalUrl)</pre>
+        </article>
+      </div>
+    </section>
+
+    <!-- Section 6: ADRs & Technical Spec Inspector -->
+    <section class="content-section" id="adr-specs">
+      <div class="section-head-apple">
+        <div class="section-eyebrow">06 · ARCHITECTURE DECISIONS &amp; TECHNICAL SPECS</div>
+        <h2 class="section-title-apple">성능·비용·정합성을 확보한 4가지 핵심 설계 결정 (ADRs)</h2>
+        <p class="section-desc-apple">
+          개발과 대회 시연 과정에서 직면한 AI 응답 지연, 이미지 페이로드 처리, 부정 인증 차단, API 쿼터 한계에 대한 아키텍처 해결 전략입니다.
+        </p>
+      </div>
+
+      <div class="adr-cards-grid">
+        <article class="adr-card-item">
+          <span class="adr-card-badge">ADR-01 · HYBRID BOUNDARY</span>
+          <h3 class="adr-card-title">모션·카메라는 Flutter 네이티브, UI·차트·커뮤니티는 Vue WebView</h3>
+          <p class="adr-card-copy">
+            브라우저 WebRTC 포즈 추론보다 기기 카메라 프레임 접근과 지연 면에서 유리한 Flutter 네이티브로 스켈레톤 오버레이를 분리하고,
+            단기 3개월 일정 내 20여 개 복합 화면은 Vue 2 WebView로 빠르게 구축해 개발 효율과 네이티브 UX를 모두 달성했습니다.
+          </p>
+        </article>
+
+        <article class="adr-card-item">
+          <span class="adr-card-badge">ADR-02 · MULTI-MODEL &amp; FEW-SHOT</span>
+          <h3 class="adr-card-title">작업 난이도별 4종 GPT 모델 분담 및 GptHistory Few-Shot 재사용</h3>
+          <p class="adr-card-copy">
+            복합 음식 인식엔 <code>gpt-4o</code>, 체형/챌린지 판정(<code>"1"/"0"/"FAIL"</code>)엔 <code>gpt-4-turbo</code>,
+            루틴(2+2+3 분할)과 자세 교정엔 <code>gpt-4</code>, 정형 수치 산출(19대 영양 지표)엔 <code>gpt-3.5-turbo</code>를 배정해 비용과 속도를 최적화했습니다.
+          </p>
+        </article>
+
+        <article class="adr-card-item">
+          <span class="adr-card-badge">ADR-03 · BATCH &amp; TWO-TIER CACHE</span>
+          <h3 class="adr-card-title">03:00 야간 배치 멱등성(BatchHistory) &amp; 2계층 메모리 이미지 캐시</h3>
+          <p class="adr-card-copy">
+            홈 진입 시마다 AI 조언과 뉴스·유튜브를 실시간 호출하면 첫 화면 지연이 3~6초 이상 발생합니다.
+            <code>node-cron</code>(<code>0 3 * * *</code>) 배치와 일자별 <code>BatchHistory</code> 중복 방지 락으로 사전 연산하고,
+            네이버/유튜브 결과를 <code>Map</code> 및 <code>ImageCollector</code> 캐시로 즉시 서빙했습니다.
+          </p>
+        </article>
+
+        <article class="adr-card-item">
+          <span class="adr-card-badge">ADR-04 · ATOMIC DB &amp; AUTH QUEUE</span>
+          <h3 class="adr-card-title">Axios 401 Silent Refresh &amp; MongoDB arrayFilters 원자적 루틴 갱신</h3>
+          <p class="adr-card-copy">
+            WebView 장기 체류 중 Access Token(2h)이 만료되어 운동 완료 저장이 실패하지 않도록 Axios 인터셉터가 <code>/api/auth/token</code>으로
+            14d Refresh Token을 자동 교환하고, MongoDB <code>FitnessPlan</code>은 <code>$[weekElem].days.$[dayElem]</code> 필터로 부분 동시 업데이트합니다.
+          </p>
+        </article>
+      </div>
+
+      <!-- Tabbed Spec Inspector -->
+      <div class="spec-inspector-box">
+        <div class="spec-tab-rail" role="tablist" aria-label="기술 스펙 명세 탭">
+          <button type="button" class="spec-tab-btn active" data-spec="bridge">Flutter↔Vue 브리지 계약</button>
+          <button type="button" class="spec-tab-btn" data-spec="api">Express API &amp; AI 모델 매트릭스</button>
+          <button type="button" class="spec-tab-btn" data-spec="schema">MongoDB Atlas 스키마 &amp; 인덱스</button>
+          <button type="button" class="spec-tab-btn" data-spec="scheduler">03:00 배치 &amp; 미디어 파이프라인</button>
+        </div>
+
+        <div id="spec-panel-bridge" class="spec-panel active">
+          <div class="spec-table-wrap">
+            <table class="spec-table">
+              <thead>
+                <tr>
+                  <th>JavascriptChannel</th>
+                  <th>Vue WebView 호출 시그니처</th>
+                  <th>Flutter 네이티브 수행</th>
+                  <th>JS Callback 수신 계약</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>FlutterChannel</code></td>
+                  <td><code>postMessage('captureImage')</code></td>
+                  <td>식단·챌린지 카메라 촬영 &amp; Base64 변환</td>
+                  <td><code>window.handleCapturedImage(base64)</code></td>
+                </tr>
+                <tr>
+                  <td><code>FlutterBodyCheck</code></td>
+                  <td><code>postMessage('bodyCheck&amp;' + userId)</code></td>
+                  <td>전신 실루엣 + 적색 키포인트 가이드 촬영</td>
+                  <td><code>window.handledBodyCheck(base64)</code></td>
+                </tr>
+                <tr>
+                  <td><code>FlutterFitnessPose</code></td>
+                  <td><code>postMessage('fitnessPose&amp;' + JSON)</code></td>
+                  <td>5종 동작 실시간 관절 각도/안정성 계측 (2.4x)</td>
+                  <td><code>window.handlePoseAnalysisResult(poseDataList, duration)</code></td>
+                </tr>
+                <tr>
+                  <td><code>FlutterOpenBrowser</code></td>
+                  <td><code>postMessage(externalUrl)</code></td>
+                  <td>기사·유튜브 외부 브라우저 안전 실행</td>
+                  <td>One-way Intent Dispatch</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="spec-panel-api" class="spec-panel">
+          <div class="spec-table-wrap">
+            <table class="spec-table">
+              <thead>
+                <tr>
+                  <th>Express Endpoint</th>
+                  <th>담당 OpenAI 모델</th>
+                  <th>주요 입력 페이로드</th>
+                  <th>핵심 출력 &amp; 처리 전략</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>POST /api/food/analyzeImage</code></td>
+                  <td><code>gpt-4o</code></td>
+                  <td>Base64 (100mb limit) + 끼니구분</td>
+                  <td>Cloudinary <code>imgHosting</code> 업로드 후 칼로리·탄단지 g 추론</td>
+                </tr>
+                <tr>
+                  <td><code>POST /api/fitnessPlan</code></td>
+                  <td><code>gpt-4</code></td>
+                  <td>목표·신체정보·주간일정</td>
+                  <td>타임아웃 회피용 2일+2일+3일 분할 7일 운동 루틴 생성</td>
+                </tr>
+                <tr>
+                  <td><code>POST /api/fitnessPlan/updateDayPlan</code></td>
+                  <td><code>gpt-4</code></td>
+                  <td><code>poseDataList</code> + <code>actualDuration</code></td>
+                  <td><code>arrayFilters</code> DB 갱신 및 5단계 <code>&lt;ol&gt;</code> 자세 교정 HTML</td>
+                </tr>
+                <tr>
+                  <td><code>POST /api/gpt/bodyshape</code></td>
+                  <td><code>gpt-4-turbo</code></td>
+                  <td>전신 사진 Base64 + 키·몸무게</td>
+                  <td>체형 분류 + 스타일링 + 네이버 이미지 캐시 연동</td>
+                </tr>
+                <tr>
+                  <td><code>POST /api/gpt/imageCheck</code></td>
+                  <td><code>gpt-4-turbo</code></td>
+                  <td>챌린지 기준 + 인증사진</td>
+                  <td>결정론적 <code>"1"</code> / <code>"0"</code> / <code>"FAIL"</code> 부정 인증 가드레일</td>
+                </tr>
+                <tr>
+                  <td><code>POST /api/gpt/calculateNutrition</code></td>
+                  <td><code>gpt-3.5-turbo</code></td>
+                  <td>성별·연령·신체스펙·목표</td>
+                  <td>19개 세부 영양 지표 권장량 JSON 산출</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="spec-panel-schema" class="spec-panel">
+          <div class="spec-table-wrap">
+            <table class="spec-table">
+              <thead>
+                <tr>
+                  <th>Collection</th>
+                  <th>주요 구조 및 중첩 필드</th>
+                  <th>인덱스 / 업데이트 최적화</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>User</code> / <code>Nutrition</code></td>
+                  <td>프로필, 관심 키워드, Refresh Token, 19대 권장 영양치</td>
+                  <td><code>maxPoolSize: 10</code> 연결 풀 기반 빠른 인증 조회</td>
+                </tr>
+                <tr>
+                  <td><code>FitnessPlan</code></td>
+                  <td><code>weeks[].days[]</code>(종목, 세트, <code>poseData[]</code>, 교정피드백)</td>
+                  <td><code>$[weekElem].days.$[dayElem]</code> 포지셔널 원자적 업데이트</td>
+                </tr>
+                <tr>
+                  <td><code>Food</code> / <code>Challenge</code></td>
+                  <td>식단 이미지 Cloudinary URL, 칼로리/탄단지, 30일 스탬프</td>
+                  <td>사용자 + 날짜 복합 인덱스(Compound Index) 정렬 스캔</td>
+                </tr>
+                <tr>
+                  <td><code>GptHistory</code> / <code>BatchHistory</code></td>
+                  <td>성공 프롬프트 <code>system</code> 캐시, 날짜별 배치 완료 마커</td>
+                  <td>새벽 03:00 배치 중복 실행 방지 및 Few-Shot 프롬프트 이력 관리</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="spec-panel-scheduler" class="spec-panel">
+          <div class="spec-table-wrap">
+            <table class="spec-table">
+              <thead>
+                <tr>
+                  <th>컴포넌트</th>
+                  <th>트리거 / 라이브러리</th>
+                  <th>상세 동작</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>일일 조언 &amp; 뉴스 배치</td>
+                  <td><code>node-cron</code> (<code>0 3 * * *</code>)</td>
+                  <td>전일 식단·운동 요약 기반 일일 <code>Advice</code> 생성 및 네이버 관심 뉴스 동기화</td>
+                </tr>
+                <tr>
+                  <td>미디어 &amp; 이미지 캐시</td>
+                  <td><code>Map</code> + <code>ImageCollector</code></td>
+                  <td>네이버 이미지·블로그 및 YouTube Data API v3 검색 결과 메모리 캐싱</td>
+                </tr>
+                <tr>
+                  <td>이미지 영구 호스팅</td>
+                  <td><code>Cloudinary SDK</code> (<code>imgHosting</code>)</td>
+                  <td>100mb 제한 Express 수신 이미지를 CDN URL로 변환해 DB 용량 절감</td>
+                </tr>
+                <tr>
+                  <td>에러·성능 관측 &amp; 문서화</td>
+                  <td><code>@sentry/vue</code> · Swagger <code>/api-docs</code></td>
+                  <td>웹뷰 런타임 예외 추적 및 팀 내 REST API 명세 자동 공유</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: 26-Screen Full Visual Archive (Borderless) -->
+    <section class="content-section" id="screens-gallery">
+      <div class="section-head-apple">
+        <div class="section-eyebrow">07 · COMPLETE MOBILE SCREEN ARCHIVE (26 SCREENS)</div>
+        <h2 class="section-title-apple">실앱 구동 전체 스크린샷 아카이브 (26장)</h2>
+        <p class="section-desc-apple">
+          사내 AI 경진대회 심사 당시 실제 모바일 기기에서 구동된 26개 전체 화면입니다. 시스템 상/하단 바 및 불필요한 테두리를 정리해 깔끔하게 살펴볼 수 있습니다.
+        </p>
+      </div>
+
+      <div class="gallery-filter-rail" role="tablist" aria-label="앱 화면 카테고리 필터">
+        <button type="button" class="gallery-filter-btn active" data-cat="all">전체 26장</button>
+        <button type="button" class="gallery-filter-btn" data-cat="home">홈 · 인트로 (4)</button>
+        <button type="button" class="gallery-filter-btn" data-cat="fitness">운동 · 포즈 인식 (7)</button>
+        <button type="button" class="gallery-filter-btn" data-cat="meal">식단 비전 (4)</button>
+        <button type="button" class="gallery-filter-btn" data-cat="body">전신 체형분석 (4)</button>
+        <button type="button" class="gallery-filter-btn" data-cat="challenge">30일 챌린지 (4)</button>
+        <button type="button" class="gallery-filter-btn" data-cat="media">뉴스 · 유튜브 (3)</button>
+      </div>
+
+      <div id="screens-archive-grid" class="screens-archive-grid"></div>
+    </section>
+
+    <!-- Final Navigation CTA -->
+    <div class="cta-dossier-card">
+      <div>
+        <div class="section-eyebrow" style="margin-bottom:6px;">NEXT EXPLORATION</div>
+        <h3 style="font-size:20px; font-weight:800; color:var(--text-primary); margin-bottom:4px;">
+          HeAlth AI 수상 기사와 다른 아키텍처 포트폴리오도 함께 확인하세요
+        </h3>
+        <p style="font-size:14px; color:var(--text-secondary);">
+          디지털타임스 보도 기사 원문 또는 포트폴리오 메인 쇼케이스로 이동할 수 있습니다.
+        </p>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <a class="btn-apple-main" href="https://www.dt.co.kr/article/11639125" target="_blank" rel="noopener noreferrer">
+          디지털타임스 기사 원문 ↗
+        </a>
+        <a class="btn-apple-secondary" href="/">메인 쇼케이스로 돌아가기</a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <div>
+        <strong style="color:var(--text-primary); font-weight:800;">KIM GIHO</strong>
+        <span style="margin-left:10px; font-size:0.86rem; color:var(--text-tertiary);">Client Web Developer</span>
+      </div>
+      <div class="footer-nav">
+        <a href="ax-frontier.html">AX Frontier</a>
+        <a href="clue.html">Clue</a>
+        <a href="messageai-shorts.html">Shorts Player</a>
+        <a href="/">홈으로</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox Modal for App Screenshots (Clean Porcelain Card, Zero Black Bezel) -->
+  <div id="health-lightbox-modal" class="modal-lightbox" role="dialog" aria-modal="true" aria-labelledby="hlb-heading">
+    <div class="lightbox-box health-lightbox-panel">
+      <div class="lightbox-head">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span id="hlb-counter" style="font-family:var(--font-mono); font-size:0.8rem; font-weight:700; color:var(--accent-primary);">[ 01 / 26 ]</span>
+          <span id="hlb-title" style="font-family:var(--font-mono); font-size:0.78rem; font-weight:600; color:var(--text-secondary);">HOME</span>
+        </div>
+        <button type="button" class="nav-btn-outline" onclick="closeHealthLightbox()">ESC 닫기</button>
+      </div>
+      <div class="health-lightbox-body">
+        <button type="button" class="lightbox-arrow left" onclick="navHealthLightbox(-1)" aria-label="이전 화면">&#8249;</button>
+        <div class="health-lightbox-img-wrap">
+          <img id="hlb-img" src="assets/health/s00-intro.png?v=20261113h2" alt="확대 화면">
+        </div>
+        <div class="health-lightbox-info">
+          <h4 id="hlb-heading">화면 제목</h4>
+          <p id="hlb-desc">상세 설명</p>
+          <div id="hlb-meta" class="health-lightbox-meta"></div>
+        </div>
+        <button type="button" class="lightbox-arrow right" onclick="navHealthLightbox(1)" aria-label="다음 화면">&#8250;</button>
+      </div>
+      <div class="lightbox-foot">
+        <span style="font-size:12.5px; color:var(--text-tertiary); font-family:var(--font-mono);">
+          키보드 좌/우 화살표(&larr; / &rarr;)로 26개 실앱 화면을 연속 탐색할 수 있습니다.
+        </span>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="김기호의 세로형 숏폼 플레이어 심층 아키텍처 및 인터랙티브 테스트 샌드박스. 9:16 세로형 비디오 플레이어, AI 리뷰 요약 해시태그, 대화형 챗봇 연동 및 실시간 데이터 제어 패널을 제공합니다.">
+  <title>SHORTS COMMERCE PLAYER // ARCHITECTURE &amp; LIVE SANDBOX · KIM GIHO</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d946ef' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='5 3 19 12 5 21 5 3'/></svg>">
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;850&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="ax-frontier.css">
+  <link rel="stylesheet" href="shorts-sandbox.css">
+  <script src="ax-frontier.js" defer></script>
+  <script src="shorts-sandbox.js" defer></script>
+</head>
+<body id="top">
+  <!-- Top Reading Progress Bar -->
+  <div id="reading-progress" class="reading-progress-bar"></div>
+
+  <a class="skip" href="#case-main" style="position:absolute; top:-100px;">본문으로 건너뛰기</a>
+
+  <!-- Ambient Backdrop Lighting -->
+  <div class="ambient-backdrop-aura" aria-hidden="true">
+    <div class="aura-orb-top" style="background: radial-gradient(circle, rgba(217, 70, 239, 0.08) 0%, rgba(29, 78, 216, 0.04) 50%, transparent 70%);"></div>
+    <div class="aura-orb-mid" style="background: radial-gradient(circle, rgba(96, 165, 250, 0.06) 0%, transparent 60%);"></div>
+  </div>
+
+  <!-- Apple-Style Frosted Header -->
+  <header class="site-header">
+    <div class="nav-bar-container">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <a class="brand-dev" href="/" aria-label="김기호 포트폴리오 홈으로 이동">
+          <span class="brand-logo-mark" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </span>
+          <span class="brand-name">KIM GIHO</span>
+          <span class="brand-home-hint">← 홈</span>
+        </a>
+        <span style="color:var(--border-medium); font-weight:300;">/</span>
+        <span style="font-size:0.86rem; color:var(--text-secondary); font-weight:600;">숏츠 플레이어 백서 &amp; 샌드박스</span>
+      </div>
+
+      <nav class="nav-links-menu" aria-label="사례 연구 내비게이션">
+        <a class="nav-item-link" href="#sandbox">인터랙티브 샌드박스</a>
+        <a class="nav-item-link" href="#features">6대 엔지니어링 특징</a>
+        <a class="nav-item-link" href="#pillars">4대 아키텍처 (ADRs)</a>
+        <a class="nav-item-link" href="#api">API 규격서</a>
+      </nav>
+
+      <div class="nav-actions-group">
+        <a class="nav-btn-primary" href="#sandbox">
+          <span>라이브 샌드박스 체험</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="case-main" class="shell">
+
+    <!-- Case Hero Stage -->
+    <section class="case-hero-stage" aria-labelledby="case-title">
+      <div class="award-badge-pill animate-hero-1" style="margin-bottom: 20px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        <span>PORTFOLIO 03 · 1인 개발 양방향 숏폼 커머스 &amp; AI 챗봇 플레이어</span>
+      </div>
+
+      <h1 class="case-headline-lg animate-hero-2" id="case-title">
+        Shorts Commerce Player — 양방향 숏폼<br>
+        <span class="hero-headline-gradient">세로형 비디오, AI 리뷰 요약 및 실시간 샌드박스</span>
+      </h1>
+
+      <p class="case-lead-p animate-hero-3">
+        YouTube Shorts / TikTok 스타일의 <strong>9:16 세로형 모바일 플레이어</strong> 환경에서 
+        동영상과 10종 이미지 인터랙션 슬라이더, <strong>AI 생성 리뷰 해시태그 팝오버</strong>, 원클릭 구매 전환 CTA, 
+        그리고 <strong>대화형 AI 쇼핑 어시스턴트</strong>를 완벽히 결합한 차세대 숏폼 커머스 프론트엔드 솔루션입니다.
+        현재 백엔드 서버가 비활성화된 환경에서도 포트폴리오 방문자가 직접 데이터를 실시간 조작하고 검증할 수 있도록 
+        <strong>독립형 목(Mock) 데이터 파이프라인 및 인터랙티브 스튜디오 샌드박스</strong>를 구축했습니다.
+      </p>
+
+      <!-- Key Project Metadata Box -->
+      <div class="animate-hero-4 hero-4col-grid hero-meta-summary">
+        <div>
+          <span style="display:block; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">개발 형태</span>
+          <strong style="font-size:0.92rem; color:var(--text-primary); font-weight:750;">1인 단독 프론트엔드 개발</strong>
+        </div>
+        <div>
+          <span style="display:block; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">핵심 아키텍처</span>
+          <strong style="font-size:0.92rem; color:var(--accent-primary); font-weight:750;">9:16 비디오 &amp; 10종 이미지 엔진</strong>
+        </div>
+        <div>
+          <span style="display:block; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">상호작용 기능</span>
+          <strong style="font-size:0.92rem; color:var(--accent-teal); font-weight:750;">AI 리뷰 해시태그 &amp; 챗봇 연동</strong>
+        </div>
+        <div>
+          <span style="display:block; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted); font-weight:600; text-transform:uppercase;">테스트 환경</span>
+          <strong style="font-size:0.92rem; color:var(--text-primary); font-weight:750;">실시간 목 샌드박스 (프리셋 3종)</strong>
+        </div>
+      </div>
+
+      <!-- Core Stat Highlights -->
+      <div class="animate-hero-4 hero-4col-grid hero-stats-summary">
+        <div style="background: #ffffff; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 22px; box-shadow: var(--shadow-card);">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-primary); font-weight: 700;">VIEWPORT OPTIMIZATION</div>
+          <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-top: 4px;">9:16 Ratio</div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px;">모바일 숏츠 최적화 풀스크린 뷰</div>
+        </div>
+        <div style="background: #ffffff; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 22px; box-shadow: var(--shadow-card);">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-teal); font-weight: 700;">DUAL MEDIA ENGINE</div>
+          <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-top: 4px;">Video &amp; 10 Sliders</div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px;">YouTube/MP4 + 10종 이미지 전환</div>
+        </div>
+        <div style="background: #ffffff; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 22px; box-shadow: var(--shadow-card);">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-indigo); font-weight: 700;">AI COMMERCE OVERLAY</div>
+          <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-top: 4px;">Dynamic Popover</div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px;">키워드 리뷰 요약 및 인앱 상품 상담</div>
+        </div>
+        <div style="background: #ffffff; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 22px; box-shadow: var(--shadow-card);">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-emerald); font-weight: 700;">OFFLINE TEST SANDBOX</div>
+          <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-top: 4px;">100% Mock Ready</div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px;">서버 없이도 실시간 데이터 검증</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 1: INTERACTIVE LIVE SANDBOX & STUDIO WORKBENCH
+         Left: iPhone 16 Pro Canvas · Right: Dual-Mode Studio Data Controller
+         ========================================================================= -->
+    <section id="sandbox" class="content-section" aria-labelledby="sandbox-heading">
+      <div class="section-head-apple">
+        <span class="section-eyebrow">INTERACTIVE STUDIO SANDBOX</span>
+        <h2 class="section-title-apple" id="sandbox-heading">듀얼 모드 스튜디오 &amp; 실시간 샌드박스 (Video + 10 Image FX)</h2>
+        <p class="section-desc-apple">
+          숏츠 플레이어는 <strong>영상 모드(YouTube / MP4)</strong>와 <strong>이미지 효과 모드(10종 동적 트랜지션)</strong> 두 가지를 지원합니다.
+          오른쪽 스튜디오 패널에서 모드와 이펙트, 타이틀, 리뷰 데이터를 조작하면 왼쪽 스마트폰 화면에 즉시 반영됩니다.
+        </p>
+      </div>
+
+      <div class="workbench-container">
+
+        <!-- Left Column: iPhone 16 Pro Canvas -->
+        <div class="phone-stage-wrapper">
+          <div class="phone-stage-topbar">
+            <span class="phone-status-indicator">
+              <span class="phone-status-dot"></span>
+              <span id="phone-mode-badge">VIDEO MODE · LIVE</span>
+            </span>
+            <span class="phone-model-label">iPhone 16 Pro · 9:16</span>
+          </div>
+
+          <div class="iphone-frame">
+            <div class="iphone-screen">
+              <!-- Dynamic Island -->
+              <div class="dynamic-island">
+                <div class="dynamic-island-camera"></div>
+                <div class="dynamic-island-sensor"></div>
+              </div>
+
+              <!-- Real Vertical Shorts Swiper Viewport -->
+              <div class="shorts-swiper-container" id="shorts-swiper-container" tabindex="0" aria-label="쇼츠 세로 스와이프 플레이어">
+                <div class="shorts-swiper-track" id="shorts-swiper-track">
+                  <!-- Dynamic slides populated by JavaScript (Slide 0, Slide 1, Slide 2...) -->
+                </div>
+              </div>
+
+              <!-- Centered Video Status Flash Icon (Play/Pause Feedback) -->
+              <div class="video-status-flash" id="video-status-flash" aria-hidden="true"></div>
+
+              <!-- Floating Slide Navigation Arrows & Counter (Positioned top-right cleanly away from bottom controls) -->
+              <div class="phone-vertical-nav" aria-label="쇼츠 슬라이드 컨트롤">
+                <button class="phone-nav-arrow phone-nav-prev" id="phone-nav-prev" type="button" aria-label="이전 쇼츠">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="18 15 12 9 6 15"/>
+                  </svg>
+                </button>
+                <span class="phone-nav-counter" id="phone-nav-counter">1 / 3</span>
+                <button class="phone-nav-arrow phone-nav-next" id="phone-nav-next" type="button" aria-label="다음 쇼츠">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Left Side Vertical Pagination Dots -->
+              <div class="phone-pagination-dots" id="phone-pagination-dots" aria-label="슬라이드 위치">
+                <!-- Dynamically generated dots -->
+              </div>
+
+              <!-- Swipe Tutorial Hint Badge (Pulsing, dismisses on first gesture) -->
+              <div class="phone-swipe-hint" id="phone-swipe-hint">
+                <span class="swipe-hint-icon">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 19V5M5 12l7-7 7 7"/>
+                  </svg>
+                </span>
+                <span>위아래로 슬라이드 (터치 · 휠 · 드래그)</span>
+              </div>
+
+              <!-- In-Phone AI Chatbot Modal -->
+              <div class="inphone-chatbot-popover" id="inphone-chatbot-modal" role="dialog" aria-label="AI 상품 상담 어시스턴트">
+                <div class="chatbot-pop-header">
+                  <span class="chatbot-pop-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
+                    </svg>
+                    <span>AI 상품 상담 어시스턴트</span>
+                  </span>
+                  <button class="chatbot-pop-close" id="inphone-chatbot-close" type="button" aria-label="닫기">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="chatbot-chat-body" id="inphone-chat-body">
+                  <div class="chat-bubble ai">
+                    안녕하세요! 현재 시청 중인 상품의 스펙, 배송 일정, 실구매 후기를 즉시 안내해 드리는 AI 쇼핑 어시스턴트입니다.
+                  </div>
+                </div>
+                <div class="chatbot-quick-prompts" id="chatbot-quick-prompts">
+                  <button type="button" class="chatbot-quick-chip" data-prompt="오늘 주문하면 언제 배송되나요?">배송 일정</button>
+                  <button type="button" class="chatbot-quick-chip" data-prompt="핵심 스펙과 장점을 요약해 주세요.">핵심 스펙</button>
+                  <button type="button" class="chatbot-quick-chip" data-prompt="실구매자 리뷰 반응은 어떤가요?">리뷰 요약</button>
+                </div>
+                <div class="chatbot-input-bar">
+                  <input class="chatbot-input-field" id="inphone-chat-input" type="text" placeholder="상품에 대해 질문해 보세요..." />
+                  <button class="chatbot-send-btn" id="inphone-chat-send" type="button" aria-label="전송">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- In-Phone Share Modal -->
+              <div class="inphone-share-modal" id="inphone-share-modal" role="dialog" aria-label="상품 URL 공유하기">
+                <div class="share-modal-sheet">
+                  <div class="share-sheet-head">
+                    <span class="share-sheet-title">상품 URL 공유하기</span>
+                    <button class="share-sheet-close" id="inphone-share-close" type="button" aria-label="닫기">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="share-options-row">
+                    <button class="share-opt-btn" id="btn-share-copy-link" type="button">
+                      <div class="share-opt-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                      </div>
+                      <span class="share-opt-label">링크 복사</span>
+                    </button>
+                    <button class="share-opt-btn" id="btn-share-kakao" type="button">
+                      <div class="share-opt-icon" style="background:#fee500; border-color:#fada0a;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#3c1e1e">
+                          <path d="M12 3c-4.97 0-9 3.18-9 7.11 0 2.56 1.71 4.8 4.29 6.04-.19.67-.68 2.45-.78 2.82-.12.46.17.45.36.33.15-.1 2.39-1.63 3.36-2.29.57.08 1.16.12 1.77.12 4.97 0 9-3.18 9-7.11S16.97 3 12 3z"/>
+                        </svg>
+                      </div>
+                      <span class="share-opt-label">카카오톡</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Studio Data Controller Panel -->
+        <div class="controller-panel">
+          <!-- Compact Studio Header -->
+          <div class="controller-header">
+            <div class="controller-title-block">
+              <div class="controller-title-row">
+                <h2 class="controller-title">스튜디오 실시간 조작 패널</h2>
+                <span class="studio-live-pill">
+                  <span class="studio-live-dot"></span>
+                  <span>LIVE SYNC</span>
+                </span>
+              </div>
+              <p class="controller-desc">
+                영상(YouTube) 모드와 10종 이미지 이펙트 모드를 전환하며 슬라이드 데이터를 실시간 테스트할 수 있습니다.
+              </p>
+            </div>
+            <button class="btn-controller-outline btn-compact-json" id="btn-copy-mock-json" type="button" title="현재 슬라이드 데이터 JSON 복사">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span>JSON 복사</span>
+            </button>
+          </div>
+
+          <!-- Slide Deck & Management Strip -->
+          <div class="slide-tabs-container">
+            <div class="slide-tabs-head">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <path d="M10 4v16"/>
+                </svg>
+                <span class="slide-tabs-title">슬라이드 덱 관리 (MULTI-SLIDE DECK)</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span id="active-slide-badge" class="active-slide-badge">SLIDE 1 / 3</span>
+              </div>
+            </div>
+
+            <!-- Slide Selection Tabs -->
+            <div class="slide-tabs-list" id="slide-tabs-list">
+              <!-- Dynamically populated slide tabs by JS -->
+            </div>
+
+            <!-- Slide Actions Toolbar -->
+            <div class="slide-actions-toolbar">
+              <div style="display:flex; gap:6px;">
+                <button class="slide-toolbar-btn" id="btn-slide-prev" type="button" aria-label="이전 슬라이드로 이동">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+                  <span>이전</span>
+                </button>
+                <button class="slide-toolbar-btn" id="btn-slide-next" type="button" aria-label="다음 슬라이드로 이동">
+                  <span>다음</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              </div>
+
+              <div style="display:flex; gap:6px;">
+                <button class="slide-toolbar-btn btn-add-slide" id="btn-add-slide" type="button" aria-label="새 슬라이드 추가">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  <span>새 슬라이드 추가</span>
+                </button>
+                <button class="slide-toolbar-btn btn-delete-slide" id="btn-delete-slide" type="button" aria-label="현재 슬라이드 삭제">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                  <span>삭제</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preset 1, 2, 3 Selector -->
+          <div class="presets-section">
+            <div class="presets-label-row">
+              <span class="presets-label">// 테스트 데이터 1 · 2 · 3 원클릭 프리셋</span>
+              <span class="presets-desc">현재 선택된 슬라이드에 프리셋을 즉시 덮어쓰거나 테스트할 수 있습니다</span>
+            </div>
+
+            <div class="presets-grid">
+              <button class="preset-card-btn active" type="button" data-preset="preset1">
+                <div class="preset-card-top">
+                  <span class="preset-btn-badge">PRESET 01</span>
+                  <span class="preset-mode-chip mode-video">영상 (M)</span>
+                </div>
+                <strong class="preset-btn-name">스마트 데스크 독</strong>
+                <span class="preset-btn-sub">YouTube Shorts 세로 영상</span>
+              </button>
+
+              <button class="preset-card-btn" type="button" data-preset="preset2">
+                <div class="preset-card-top">
+                  <span class="preset-btn-badge">PRESET 02</span>
+                  <span class="preset-mode-chip mode-image">이펙트 (P)</span>
+                </div>
+                <strong class="preset-btn-name">레트로 러너 스니커즈</strong>
+                <span class="preset-btn-sub">3D 카드 스택 (cards2Slider)</span>
+              </button>
+
+              <button class="preset-card-btn" type="button" data-preset="preset3">
+                <div class="preset-card-top">
+                  <span class="preset-btn-badge">PRESET 03</span>
+                  <span class="preset-mode-chip mode-video">영상 (M)</span>
+                </div>
+                <strong class="preset-btn-name">시그니처 에스프레소</strong>
+                <span class="preset-btn-sub">YouTube ASMR 추출 영상</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Studio Panel Sub-Navigation Tabs -->
+          <div class="studio-subtabs-nav" role="tablist" aria-label="스튜디오 편집 카테고리">
+            <button class="studio-subtab-btn active" type="button" role="tab" aria-selected="true" data-studio-tab="media">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+              </svg>
+              <span>01. 모드 &amp; 미디어</span>
+            </button>
+            <button class="studio-subtab-btn" type="button" role="tab" aria-selected="false" data-studio-tab="typography">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>
+              </svg>
+              <span>02. 타이틀 &amp; 스타일</span>
+            </button>
+            <button class="studio-subtab-btn" type="button" role="tab" aria-selected="false" data-studio-tab="commerce">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span>03. 리뷰 · 챗봇 · JSON</span>
+            </button>
+          </div>
+
+          <!-- Tab Panels Container -->
+          <div class="studio-tab-panels">
+
+            <!-- TAB 1: Mode & Media Pipeline -->
+            <div class="studio-tab-pane active" data-studio-pane="media">
+              <!-- Mode Selector (Two Core Modes) -->
+              <div class="mode-switcher-card">
+                <div class="mode-switcher-head">
+                  <span class="field-label">플레이어 재생 모드 선택 (mediaTp)</span>
+                  <span class="mode-active-spec" id="mode-active-spec-tag">mediaTp: "M" (Video)</span>
+                </div>
+                <div class="media-type-toggle-group">
+                  <button class="media-type-btn active" id="btn-media-video" type="button" data-media="video">
+                    <div class="media-type-icon-box">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                    </div>
+                    <div class="media-type-text-col">
+                      <strong>영상 스트리밍 모드 (M)</strong>
+                      <span>YouTube Shorts / 세로형 비디오</span>
+                    </div>
+                  </button>
+                  <button class="media-type-btn" id="btn-media-gallery" type="button" data-media="image">
+                    <div class="media-type-icon-box">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </div>
+                    <div class="media-type-text-col">
+                      <strong>이미지 효과 모드 (P)</strong>
+                      <span>10종 동적 트랜지션 &amp; 3D 카드</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              <!-- 1A. Video Mode Settings -->
+              <div class="form-group-card mode-config-panel" id="panel-video-config">
+                <div class="control-fields-grid">
+                  <div class="form-field full">
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                      <label class="field-label" for="input-youtube-url">YouTube URL 또는 Shorts 비디오 ID</label>
+                      <div class="video-player-ctrl-btns">
+                        <button type="button" class="mini-ctrl-btn" id="btn-video-toggle-play" title="재생 / 일시정지">
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                          <span>재생/정지</span>
+                        </button>
+                        <button type="button" class="mini-ctrl-btn" id="btn-video-toggle-mute" title="음소거 / 소리 켜기">
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                          <span id="label-video-mute">음소거 중</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="input-with-btn">
+                      <input class="field-input" id="input-youtube-url" type="text" placeholder="예: NigF_-PhkTQ 또는 https://youtube.com/shorts/..." />
+                      <button class="btn-inline-apply" id="btn-apply-youtube" type="button">적용</button>
+                    </div>
+                  </div>
+
+                  <div class="form-field full">
+                    <span class="field-label">추천 쇼츠 샘플 빠른 선택</span>
+                    <div class="sample-chips-row">
+                      <button type="button" class="sample-chip-btn" data-sample-yt="NigF_-PhkTQ">테크 스마트 독 (NigF_-PhkTQ)</button>
+                      <button type="button" class="sample-chip-btn" data-sample-yt="kHB7PxyEL58">스니커즈 스튜디오 (kHB7PxyEL58)</button>
+                      <button type="button" class="sample-chip-btn" data-sample-yt="WdWZPxJfnR8">에스프레소 ASMR (WdWZPxJfnR8)</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 1B. Image Effect Mode Settings (10 Effects + Playback + Image List) -->
+              <div class="form-group-card mode-config-panel" id="panel-image-config" style="display:none;">
+                <div class="effect-picker-header">
+                  <div>
+                    <span class="field-label">이미지 트랜지션 이펙트 10종 (imgDisplayTp)</span>
+                    <span class="effect-active-hint" id="effect-active-hint">현재 효과: cards2Slider</span>
+                  </div>
+                  <div class="effect-playback-bar">
+                    <button type="button" class="mini-ctrl-btn" id="btn-fx-prev" title="이전 이미지">◀</button>
+                    <span class="fx-img-counter" id="fx-img-counter">1 / 4</span>
+                    <button type="button" class="mini-ctrl-btn" id="btn-fx-next" title="다음 이미지">▶</button>
+                    <button type="button" class="mini-ctrl-btn accent" id="btn-fx-replay" title="효과 즉시 다시 재생">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                      <span>재실행</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- 10 Effects Grid -->
+                <div class="effects-grid-10" id="effects-grid-10">
+                  <!-- Populated cleanly via HTML/JS -->
+                </div>
+
+                <!-- Speed & Auto-play + Image Thumbnails -->
+                <div class="effect-meta-row">
+                  <div class="effect-thumbs-strip" id="effect-thumbs-strip">
+                    <!-- Clickable image thumbnails -->
+                  </div>
+                  <div class="effect-speed-controls">
+                    <label class="toggle-switch-label compact">
+                      <input class="toggle-switch-input" id="toggle-fx-autoplay" type="checkbox" checked />
+                      <span class="toggle-slider"></span>
+                      <span class="toggle-text">자동 전환</span>
+                    </label>
+                    <select class="field-select compact" id="select-fx-interval" aria-label="전환 속도">
+                      <option value="2200">2.2초 (빠름)</option>
+                      <option value="3200" selected>3.2초 (표준)</option>
+                      <option value="4500">4.5초 (여유)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-field full" style="margin-top:8px;">
+                  <label class="field-label" for="input-selected-img-url">선택된 이미지 URL 수정 (<span id="selected-img-slot">1번 이미지</span>)</label>
+                  <div class="input-with-btn">
+                    <input class="field-input" id="input-selected-img-url" type="url" placeholder="https://..." />
+                    <button class="btn-inline-apply" id="btn-apply-img-url" type="button">반영</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Common Product Identity -->
+              <div class="form-group-card compact-card">
+                <div class="control-fields-grid">
+                  <div class="form-field">
+                    <label class="field-label" for="input-product-name">상품명 (productNm)</label>
+                    <input class="field-input" id="input-product-name" type="text" />
+                  </div>
+                  <div class="form-field">
+                    <label class="field-label" for="input-product-url">구매 랜딩 링크 (productUrl)</label>
+                    <input class="field-input" id="input-product-url" type="url" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 2: Typography & Overlay Styles -->
+            <div class="studio-tab-pane" data-studio-pane="typography">
+              <div class="form-group-card">
+                <div class="control-fields-grid">
+                  <div class="form-field">
+                    <label class="field-label" for="input-top-title">상단 메인 타이틀 (contentTop)</label>
+                    <input class="field-input" id="input-top-title" type="text" />
+                  </div>
+                  <div class="form-field">
+                    <label class="field-label" for="input-top-color">상단 타이틀 색상 (contentTopFont)</label>
+                    <div class="color-swatch-row">
+                      <input class="field-color-input" id="input-top-color" type="color" value="#ffffff" />
+                      <button type="button" class="swatch-btn" data-target="top" data-color="#ffffff" style="background:#ffffff;" title="화이트"></button>
+                      <button type="button" class="swatch-btn" data-target="top" data-color="#ee5050" style="background:#ee5050;" title="코랄 레드"></button>
+                      <button type="button" class="swatch-btn" data-target="top" data-color="#1cc7b0" style="background:#1cc7b0;" title="민트"></button>
+                      <button type="button" class="swatch-btn" data-target="top" data-color="#fde047" style="background:#fde047;" title="옐로우"></button>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label class="field-label" for="input-mid-title">중간 강조 타이틀 (contentMid)</label>
+                    <input class="field-input" id="input-mid-title" type="text" />
+                  </div>
+                  <div class="form-field">
+                    <label class="field-label" for="input-mid-color">중간 타이틀 색상 (contentMidFont)</label>
+                    <div class="color-swatch-row">
+                      <input class="field-color-input" id="input-mid-color" type="color" value="#60a5fa" />
+                      <button type="button" class="swatch-btn" data-target="mid" data-color="#60a5fa" style="background:#60a5fa;" title="스카이 블루"></button>
+                      <button type="button" class="swatch-btn" data-target="mid" data-color="#f472b6" style="background:#f472b6;" title="네온 핑크"></button>
+                      <button type="button" class="swatch-btn" data-target="mid" data-color="#fbbf24" style="background:#fbbf24;" title="골드 앰버"></button>
+                      <button type="button" class="swatch-btn" data-target="mid" data-color="#ffffff" style="background:#ffffff;" title="화이트"></button>
+                    </div>
+                  </div>
+
+                  <div class="form-field full">
+                    <label class="field-label" for="input-aux-content">하단 보조 설명문 (content)</label>
+                    <textarea class="field-textarea" id="input-aux-content"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 3: Commerce CTA, Review Tags, Chatbot & JSON -->
+            <div class="studio-tab-pane" data-studio-pane="commerce">
+              <div class="form-group-card">
+                <div class="control-fields-grid">
+                  <div class="form-field">
+                    <label class="field-label" for="input-buy-btn-text">구매하기 CTA 버튼 문구</label>
+                    <input class="field-input" id="input-buy-btn-text" type="text" />
+                  </div>
+
+                  <div class="form-field">
+                    <label class="field-label">CTA 버튼 테마 색상</label>
+                    <div class="color-swatch-row">
+                      <button type="button" class="cta-color-btn active" data-cta-gradient="linear-gradient(135deg, #ec4899, #d946ef)" style="background:linear-gradient(135deg, #ec4899, #d946ef);" title="시그니처 핑크"></button>
+                      <button type="button" class="cta-color-btn" data-cta-gradient="linear-gradient(135deg, #2563eb, #1d4ed8)" style="background:linear-gradient(135deg, #2563eb, #1d4ed8);" title="로열 블루"></button>
+                      <button type="button" class="cta-color-btn" data-cta-gradient="linear-gradient(135deg, #f59e0b, #d97706)" style="background:linear-gradient(135deg, #f59e0b, #d97706);" title="골드 앰버"></button>
+                      <button type="button" class="cta-color-btn" data-cta-gradient="linear-gradient(135deg, #111827, #374151)" style="background:linear-gradient(135deg, #111827, #374151);" title="미드나잇 블랙"></button>
+                    </div>
+                  </div>
+
+                  <div class="form-field full" style="display:flex; flex-direction:row; gap:24px; align-items:center; flex-wrap:wrap; padding-top:4px;">
+                    <label class="toggle-switch-label">
+                      <input class="toggle-switch-input" id="toggle-chatbot" type="checkbox" checked />
+                      <span class="toggle-slider"></span>
+                      <span class="toggle-text">AI 챗봇 노출 (chatbotYn)</span>
+                    </label>
+                    <label class="toggle-switch-label">
+                      <input class="toggle-switch-input" id="toggle-review" type="checkbox" checked />
+                      <span class="toggle-slider"></span>
+                      <span class="toggle-text">AI 리뷰 해시태그 (reviewYn)</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Live API Schema JSON Inspector -->
+              <div class="form-group-card" style="margin-top:14px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                  <span class="field-label">// LIVE SHORTSLIST PAYLOAD PREVIEW</span>
+                  <button type="button" class="mini-ctrl-btn" id="btn-export-json">전체 JSON 복사</button>
+                </div>
+                <pre class="live-json-preview" id="live-json-preview"></pre>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Actions Bar -->
+          <div class="controller-actions-bar">
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn-controller-primary" id="btn-apply-all-changes" type="button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span>현재 설정 전체 동기화</span>
+              </button>
+              <button class="btn-controller-outline" id="btn-reset-all-slides" type="button">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                <span>기본 데모 데이터 복원</span>
+              </button>
+            </div>
+            <span class="autosync-status-tag">REACTIVE SYNC: ON</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 2: 6 CORE ENGINEERING PILLARS
+         ========================================================================= -->
+    <section id="features" class="content-section" aria-labelledby="features-heading">
+      <div class="section-head-apple">
+        <span class="section-eyebrow">CORE PLATFORM CAPABILITIES</span>
+        <h2 class="section-title-apple" id="features-heading">인터랙티브 숏폼 플레이어의 6대 핵심 엔지니어링 특징</h2>
+        <p class="section-desc-apple">
+          세로형 비디오 스트리밍, 대화형 AI 상담, 그리고 이커머스 전환 극대화를 위해 설계된 핵심 프론트엔드 아키텍처입니다.
+        </p>
+      </div>
+
+      <div class="modules-catalog-grid">
+        <!-- 01. 9:16 Viewport -->
+        <div class="module-box-item">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-primary); font-weight:700;">// 01 · 9:16 VERTICAL ENGINE</span>
+          <h4 style="font-size:1.15rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">9:16 모바일 세로형 뷰포트 최적화</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">
+            iOS Safari Safe Area 및 안드로이드 내비게이션 바에 완벽 대응하는 반응형 세로형 뷰포트를 구현했습니다.
+            Swiper 기반 상하 버티컬 스와이프 제스처를 통해 슬라이드 전환 시 이전 비디오 자동 일시정지와 다음 비디오 프리로딩 파이프라인을 동작시킵니다.
+          </p>
+        </div>
+
+        <!-- 02. Dual Media Engine -->
+        <div class="module-box-item">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-teal); font-weight:700;">// 02 · DUAL MEDIA ENGINE</span>
+          <h4 style="font-size:1.15rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">비디오 &amp; 10종 이미지 인터랙션 듀얼 지원</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">
+            비디오 미디어(`mediaTp: M`)뿐 아니라, 린더(Tinder) 감성의 스와이프 카드(`cards2Slider`), 3D 큐브 회전(`cubeSlider`), 페이드/플립 등 
+            10종의 이미지 전환 알고리즘을 지원하여 동영상 제작 비용이 부담되는 상품도 숏폼 콘텐츠로 즉시 전환할 수 있습니다.
+          </p>
+        </div>
+
+        <!-- 03. AI Review Hashtags -->
+        <div class="module-box-item">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-indigo); font-weight:700;">// 03 · AI REVIEW SUMMARY</span>
+          <h4 style="font-size:1.15rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">AI 리뷰 요약 해시태그 &amp; 다이내믹 팝오버</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">
+            쇼핑몰의 수백 개 구매 후기에서 배송, 품질, 가격, 디자인 등 핵심 가치를 LLM으로 자동 추출하여 해시태그로 시각화했습니다.
+            사용자가 태그를 탭하면 영상 재생을 가리지 않는 인터랙티브 말풍선 팝오버로 구체적 실구매자 평가를 즉시 펼쳐 보여줍니다.
+          </p>
+        </div>
+
+        <!-- 04. In-Player Chatbot -->
+        <div class="module-box-item">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-emerald); font-weight:700;">// 04 · INTERACTIVE CHATBOT</span>
+          <h4 style="font-size:1.15rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">대화형 AI 쇼핑 챗봇 인플레이어 연동</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">
+            영상을 시청하다가 우측 '챗봇' 아이콘을 누르면 앱 전환 없이 플레이어 화면 내부에서 즉시 대화형 AI 상담이 열립니다.
+            현재 보고 있는 상품의 상세 스펙, 사이즈 가이드, 실시간 재고 및 혜택 정보를 자연어로 묻고 답변받을 수 있습니다.
+          </p>
+        </div>
+
+        <!-- 05. Analytics Tracking -->
+        <div class="module-box-item">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-amber); font-weight:700;">// 05 · REALTIME ANALYTICS</span>
+          <h4 style="font-size:1.15rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">정밀 텔레메트리 &amp; 전환율 애널리틱스 수집</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">
+            슬라이드 전환(SHORTS), 좋아요(FINE), 챗봇 열람(CHAT), 리뷰 태그 클릭(RV), 구매하기 클릭(PLINK) 등 
+            모든 사용자 행동을 `cuid` 및 `shortsSendSeq`와 결합하여 초단위 체류시간 및 최종 전환율을 측정하는 수집 엔진을 내장했습니다.
+          </p>
+        </div>
+
+        <!-- 06. Mock Sandbox Pipeline -->
+        <div class="module-box-item">
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-primary); font-weight:700;">// 06 · STANDALONE MOCK PIPELINE</span>
+          <h4 style="font-size:1.15rem; font-weight:750; color:var(--text-primary); margin:6px 0 8px;">독립형 목 데이터 파이프라인 &amp; 오프라인 샌드박스</h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.65;">
+            외부 API 서버 의존성을 분리하여 백엔드가 없는 로컬 및 포트폴리오 환경에서도 100% 동작하는 독립 샌드박스를 구축했습니다.
+            동적 폼 컨트롤러를 통해 방문자가 원하는 비디오 및 상품 데이터를 주입하여 즉시 시뮬레이션할 수 있습니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 3: 4 ARCHITECTURAL DECISIONS (ADRs)
+         ========================================================================= -->
+    <section id="pillars" class="content-section" aria-labelledby="pillars-heading">
+      <div class="section-head-apple">
+        <span class="section-eyebrow">ARCHITECTURAL DECISIONS</span>
+        <h2 class="section-title-apple" id="pillars-heading">4가지 핵심 기술 결정 (ADRs)</h2>
+        <p class="section-desc-apple">모바일 환경에서 성능 저하 없이 매끄러운 숏폼 경험을 구현하기 위한 설계 판단입니다.</p>
+      </div>
+
+      <div class="adr-cards-grid">
+        <!-- ADR 1 -->
+        <div class="adr-card-item">
+          <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent-primary); font-weight:700;">// ADR 01 · ZERO JITTER MEDIA PIPELINE</span>
+          <h3 style="font-size:1.2rem; font-weight:800; color:var(--text-primary); margin:8px 0 10px;">세로형 비디오 뷰포트 버퍼링 최소화 및 논블로킹 로딩</h3>
+          <p style="font-size:0.92rem; color:var(--text-secondary); line-height:1.75;">
+            세로형 숏폼 플레이어에서 가장 빈번한 이탈 요인은 영상 전환 시의 버퍼링 지연입니다.
+            현재 활성화된 슬라이드 인덱스를 기준으로 앞뒤 인접 슬라이드의 비디오 메타데이터를 선제 프리페치하고, 
+            슬라이드가 화면에 완전히 진입하는 순간 백그라운드 재생(Muted Autoplay)을 트리거하여 전환 랙을 0ms 수준으로 수렴시켰습니다.
+          </p>
+        </div>
+
+        <!-- ADR 2 -->
+        <div class="adr-card-item">
+          <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent-teal); font-weight:700;">// ADR 02 · POSTMESSAGE BRIDGE PROTOCOL</span>
+          <h3 style="font-size:1.2rem; font-weight:800; color:var(--text-primary); margin:8px 0 10px;">하이브리드 앱 임베디드 웹뷰 PostMessage 브릿지 통신</h3>
+          <p style="font-size:0.92rem; color:var(--text-secondary); line-height:1.75;">
+            숏츠 플레이어가 네이티브 앱(Android/iOS) 내 웹뷰나 iframe에 삽입될 때 상위 컨테이너와의 통신이 원활해야 합니다.
+            `iframeClose`, `videoStateChange`, `authExpired` 등 규격화된 `postMessage` 채널을 열어 
+            네이티브 상단 바 제어, 닫기 버튼 이벤트 전달, 그리고 외부 카카오톡 앱 호출을 안전하게 연계했습니다.
+          </p>
+        </div>
+
+        <!-- ADR 3 -->
+        <div class="adr-card-item">
+          <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent-indigo); font-weight:700;">// ADR 03 · TEMPLATE FACTORY PATTERN</span>
+          <h3 style="font-size:1.2rem; font-weight:800; color:var(--text-primary); margin:8px 0 10px;">비디오 및 10종 이미지 템플릿의 팩토리 패턴 추상화</h3>
+          <p style="font-size:0.92rem; color:var(--text-secondary); line-height:1.75;">
+            비디오(`videoSlideTemplate.js`)와 이미지(`imageSlideTemplate.js`) 슬라이더는 내부 렌더링 라이프사이클이 다릅니다.
+            미디어 유형(`mediaTp: M/P`)과 이미지 표시 타입(`imgDisplayTp`)에 따라 적합한 DOM 구조체와 이벤트 핸들러를 조립하는 
+            템플릿 팩토리 패턴을 구축하여 신규 애니메이션 이펙트 추가 시 기존 코드 변경을 최소화했습니다.
+          </p>
+        </div>
+
+        <!-- ADR 4 -->
+        <div class="adr-card-item">
+          <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent-emerald); font-weight:700;">// ADR 04 · REACTIVE ISOLATED STATE</span>
+          <h3 style="font-size:1.2rem; font-weight:800; color:var(--text-primary); margin:8px 0 10px;">상태 격리형 오프라인 샌드박스 및 실시간 반응형 데이터 바인딩</h3>
+          <p style="font-size:0.92rem; color:var(--text-secondary); line-height:1.75;">
+            서버 가용성이 보장되지 않는 포트폴리오 전시 환경에서 안정성을 확보하기 위해, 
+            런타임 상태 객체(`currentState`)를 기반으로 UI와 미디어 뷰포트를 실시간 업데이트하는 순수 자바스크립트 반응형 바인딩 엔진을 구현했습니다.
+            외부 라이브러리 없이도 실시간 프리뷰와 표준 API 규격 JSON 내보내기가 완벽히 동기화됩니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 4: REST API SPECIFICATION
+         ========================================================================= -->
+    <section id="api" class="content-section" aria-labelledby="api-heading">
+      <div class="section-head-apple">
+        <span class="section-eyebrow">API SPECIFICATION</span>
+        <h2 class="section-title-apple" id="api-heading">표준 REST API 인터페이스 명세</h2>
+        <p class="section-desc-apple">인터랙티브 숏폼 플레이어가 백엔드 및 모바일 클라이언트와 통신하는 3대 핵심 API 엔드포인트입니다.</p>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <!-- API 1 -->
+        <div style="background:#ffffff; border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:20px 24px; box-shadow:var(--shadow-card);">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+            <span style="background:#22c55e; color:#ffffff; font-family:var(--font-mono); font-size:0.75rem; font-weight:750; padding:3px 8px; border-radius:4px;">GET</span>
+            <code style="font-family:var(--font-mono); font-size:0.92rem; color:var(--text-primary); font-weight:700;">/api/shorts/content/{sendKey}</code>
+            <span style="font-size:0.8rem; color:var(--text-muted); margin-left:auto;">일반 사용자 숏폼 컨텐츠 조회</span>
+          </div>
+          <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+            전송 키(`sendKey`)를 기반으로 해당 사용자의 상품 숏츠 리스트(`shortsList`), 고유 식별자(`cuid`), 비디오 경로 및 AI 리뷰 정보를 반환합니다.
+          </p>
+        </div>
+
+        <!-- API 2 -->
+        <div style="background:#ffffff; border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:20px 24px; box-shadow:var(--shadow-card);">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+            <span style="background:#22c55e; color:#ffffff; font-family:var(--font-mono); font-size:0.75rem; font-weight:750; padding:3px 8px; border-radius:4px;">GET</span>
+            <code style="font-family:var(--font-mono); font-size:0.92rem; color:var(--text-primary); font-weight:700;">/api/shorts/preview/{type}/{idx}</code>
+            <span style="font-size:0.8rem; color:var(--text-muted); margin-left:auto;">관리자 어드민 미리보기 조회</span>
+          </div>
+          <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+            어드민 편집기에서 등록 중인 숏츠/숏폼 컨텐츠 ID(`idx`)의 실시간 프리뷰 데이터를 로드하며, X 버튼 표시 여부 및 닫기 이벤트를 제어합니다.
+          </p>
+        </div>
+
+        <!-- API 3 -->
+        <div style="background:#ffffff; border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:20px 24px; box-shadow:var(--shadow-card);">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+            <span style="background:#3b82f6; color:#ffffff; font-family:var(--font-mono); font-size:0.75rem; font-weight:750; padding:3px 8px; border-radius:4px;">POST</span>
+            <code style="font-family:var(--font-mono); font-size:0.92rem; color:var(--text-primary); font-weight:700;">/api/shorts/analytics</code>
+            <span style="font-size:0.8rem; color:var(--text-muted); margin-left:auto;">시청 시간 및 클릭 이벤트 수집</span>
+          </div>
+          <p style="font-size:0.88rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+            슬라이드 시청 시간, 좋아요 클릭, 공유 이벤트, 리뷰 태그 조회, 챗봇 상담 열람, 구매 링크 전환(CTR) 데이터를 배치 전송합니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Return to Portfolio Main Callout -->
+    <section style="margin: 80px 0; padding: clamp(36px, 5vw, 60px); background: #ffffff; border: 1px solid var(--border-medium); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); text-align: center;">
+      <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 16px;">
+        <span class="award-badge-pill">STANDALONE INTERACTION ENGINE</span>
+        <span style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent-primary); font-weight: 700;">100% OPERATIONAL</span>
+      </div>
+
+      <h2 style="font-size: clamp(1.8rem, 3.2vw, 2.5rem); font-weight: 850; letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 14px;">
+        포트폴리오 메인에서 다른 프로젝트를 확인해보세요
+      </h2>
+
+      <p style="color: var(--text-secondary); font-size: 1rem; max-width: 680px; margin: 0 auto 32px; line-height: 1.75;">
+        사내 최우수 과제로 선정된 AI 협업 플랫폼 <strong>AX Frontier</strong>와 
+        실제 클라우드에 가동 중인 <strong>Clue Observability APM</strong>도 함께 탐색하실 수 있습니다.
+      </p>
+
+      <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+        <a class="btn-apple-main" href="/">
+          <span>← 포트폴리오 메인으로 돌아가기</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </a>
+        <a class="btn-apple-secondary" href="clue.html">
+          <span>Clue APM 백서 보기 →</span>
+        </a>
+        <a class="btn-apple-secondary" href="ax-frontier.html">
+          <span>AX Frontier 백서 보기 →</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <div>
+        <strong style="color: var(--text-primary); font-size: 0.95rem;">김기호 · KIM GIHO</strong>
+        <p style="margin-top: 4px; color: var(--text-tertiary);">프론트엔드 엔지니어 &amp; UI 아키텍트 (Lead Developer)</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="#top">맨 위로 ↑</a>
+        <a href="/">포트폴리오 홈</a>
+        <a href="ax-frontier.html">AX Frontier</a>
+        <a href="clue.html">Clue APM</a>
+      </nav>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -2,6 +2,9 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="엔터프라이즈 AI 연동 플랫폼과 하이브리드 모바일 시스템을 설계하는 소프트웨어 엔지니어 김기호의 포트폴리오입니다.">
   <title>김기호 · 엔터프라이즈 AI 플랫폼 &amp; 모바일 아키텍트</title>
@@ -12,13 +15,14 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@350;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231e272d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='12 2 2 7 12 12 22 7 12 2'/%3E%3Cpolyline points='2 17 12 22 22 17'/%3E%3Cpolyline points='2 12 12 17 22 12'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20261113h4">
 
   <!-- Three.js Core & WebGL 4-Card 3D Engine -->
   <script src="lib/three.min.js"></script>
-  <script src="webgl-showcase.js" defer></script>
+  <script src="webgl-showcase.js?v=20261113h4" defer></script>
 </head>
 <body>
+  <script src="opening.js?v=20261113h4"></script>
 
   <!-- Custom Dot Cursor -->
   <div class="dot-cursor" id="dot-cursor"></div>
@@ -26,7 +30,16 @@
   <!-- Top Navigation Bar -->
   <header class="inkwell-header">
     <div class="header-left">
-      <a href="#showcase-stage" class="header-brand">KIM GIHO</a>
+      <a href="/" class="header-brand" aria-label="김기호 포트폴리오 홈">
+        <span class="brand-logo-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+            <polyline points="2 17 12 22 22 17"/>
+            <polyline points="2 12 12 17 22 12"/>
+          </svg>
+        </span>
+        <span class="brand-name">KIM GIHO</span>
+      </a>
       <span class="header-sub">PORTFOLIO</span>
     </div>
 
@@ -34,16 +47,11 @@
     <nav class="header-nav-track" aria-label="포트폴리오 네비게이션">
       <div class="indicator-wrapper" id="indicator-wrapper">
         <a class="nav-step active" href="#project-frontier" data-project="frontier">01 · AX FRONTIER</a>
-        <a class="nav-step" href="#project-mobile" data-project="mobile">02 · MOBILE CORE</a>
-        <a class="nav-step" href="#project-design" data-project="design">03 · DESIGN SYSTEM</a>
-        <a class="nav-step" href="#project-kanban" data-project="kanban">04 · REALTIME KANBAN</a>
+        <a class="nav-step" href="#project-clue" data-project="clue">02 · CLUE</a>
+        <a class="nav-step" href="#project-shorts" data-project="shorts">03 · SHORTS PLAYER</a>
+        <a class="nav-step" href="#project-health" data-project="health">04 · HEALTH AI</a>
       </div>
     </nav>
-
-    <div class="header-right">
-      <button class="btn-header-action" type="button" onclick="copyEmail()">이메일 복사</button>
-      <a class="btn-header-action accent" href="ax-frontier.html">백서 전문</a>
-    </div>
   </header>
 
   <!-- SECTION 1: Inkwell 3D 4-Card Showcase Hero -->
@@ -52,6 +60,10 @@
     <!-- Three.js Interactive 3D Canvas -->
     <div id="webgl-container" class="webgl-container"></div>
 
+    <!-- Floating Prev / Next Arrow Controls -->
+    <button class="stage-nav-arrow prev" type="button" onclick="navigateStage(-1)" aria-label="이전 프로젝트">‹</button>
+    <button class="stage-nav-arrow next" type="button" onclick="navigateStage(1)" aria-label="다음 프로젝트">›</button>
+
     <!-- Center Dynamic Editorial Content -->
     <div class="showcase-center-box" id="center-box">
       <div class="showcase-pill" id="center-pill">FLAGSHIP 01</div>
@@ -59,19 +71,26 @@
         AX Frontier · 엔터프라이즈 AI 연동 플랫폼
       </h1>
       <p class="showcase-desc" id="center-desc">
-        비정형 요구사항 수집부터 IDE 에이전트 연동, Playwright 자동 검증과 배포까지 하나의 불변 기준선으로 설계합니다.
+        비정형 요구사항 수집부터 Cursor MCP 연동, 불변 기준선(Baseline ID) 거버넌스 및 Playwright 자동 재검증 파이프라인
       </p>
       
       <div class="showcase-actions">
-        <button class="showcase-scroll-btn" type="button" onclick="scrollToActiveProject()">
-          <span>포트폴리오 상세 보기</span>
+        <a class="showcase-scroll-btn" id="showcase-detail-link" href="ax-frontier.html">
+          <span>프로젝트 심층 연구 페이지 보기</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"/>
-            <polyline points="19 12 12 19 5 12"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
           </svg>
+        </a>
+        <button class="showcase-sub-btn" type="button" onclick="scrollToActiveProject()">
+          <span>본문 요약 보기 ↓</span>
         </button>
-        <span class="showcase-hint">SCROLL OR DRAG CARDS</span>
       </div>
+    </div>
+
+    <div class="carousel-pagination" id="carousel-pagination" role="status" aria-atomic="true">
+      <span class="carousel-position-label">프로젝트</span>
+      <span id="carousel-position">01 / 04</span>
     </div>
 
   </section>
@@ -116,7 +135,7 @@
         <!-- High-Resolution Architecture Diagram Stage (Uncropped Image 1) -->
         <div class="diagram-hero-stage">
           <div class="diagram-top-bar">
-            <span class="diagram-label">AX FRONTIER · 핵심 플랫폼 아키텍처 및 책임 분리도</span>
+            <span class="diagram-label">AX FRONTIER · 엔터프라이즈 프로젝트 워크스페이스 실서버 콘솔</span>
             <a class="diagram-ext-link" href="ax-frontier.html">
               <span>아키텍처 백서 원문 보기</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -129,17 +148,17 @@
 
           <!-- Razor-sharp uncropped diagram -->
           <div class="diagram-img-frame">
-            <img src="ax-page-3.png" alt="AX 프론티어 전체 아키텍처 구성도 및 책임 분리" loading="eager">
+            <img src="ax-frontier-main.png" alt="AX Frontier 워크스페이스 실서버 대시보드 및 운영 현황" loading="eager">
           </div>
 
           <div class="diagram-caption">
             <div class="caption-col">
-              <strong>설계 판단</strong>
-              <p>사용자 기능과 에이전트 연동을 분리하고, 업무 기준·상태·이력은 플랫폼에서 중앙 관리하도록 설계했습니다.</p>
+              <strong>실제 관제 화면</strong>
+              <p>브랜치 이상(8건), 비정형 인입 메일(168건), Cursor IDE 실시간 연동 현황, 위험 요약 차트 및 AI 챗봇을 통합 관제하는 실서버 워크스페이스입니다.</p>
             </div>
             <div class="caption-col">
-              <strong>책임의 경계</strong>
-              <p>저장소·CI는 GitLab, 업무 연결은 Redmine/메일/Slack, 실제 코드 작성은 IDE 에이전트가 담당합니다.</p>
+              <strong>엔터프라이즈 거버넌스</strong>
+              <p>불변 기준선(Baseline ID)을 중심으로 비정형 요구사항과 IDE 에이전트 코드 변경, 브라우저 자동 재검증 상태를 실시간 결합합니다.</p>
             </div>
           </div>
         </div>
@@ -190,251 +209,329 @@
           <span class="tech-tag">MongoDB Atlas</span>
         </div>
 
+        <div class="btn-case-detail-wrap">
+          <a class="btn-case-detail" href="ax-frontier.html">
+            <span>AX Frontier 공식 발표 자료 &amp; 심층 백서 전문 보기</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+
       </div>
     </article>
 
-    <!-- PROJECT 02: Hybrid Mobile Platform -->
-    <article class="project-case-study" id="project-mobile">
+    <article class="project-case-study" id="project-clue">
       <div class="case-study-inner">
 
         <div class="case-header">
           <div class="case-badge-row">
             <span class="case-badge">PORTFOLIO 02</span>
-            <span class="case-award">유라클 대규모 엔터프라이즈 모바일 코어</span>
+            <span class="case-award">1인 개인 개발 · Render 클라우드 라이브 데모 가동 중</span>
           </div>
-          <h2 class="case-title">하이브리드 모바일 앱 런타임 플랫폼</h2>
+          <h2 class="case-title">Clue Observability · 하이브리드 앱 APM 관제 시스템</h2>
           <p class="case-summary">
-            iOS(WKWebView) 및 Android(WebView) 환경에서 네이티브 리소스와 웹뷰 간의 초저지연 비동기 통신을 보증하는 브릿지 플랫폼 아키텍처입니다.
-            복수 웹뷰 스택 관리 및 장기 실행 앱의 메모리 누수 방지 아키텍처를 총괄했습니다.
+            기획부터 UI 디자인, 프론트엔드·백엔드, 텔레메트리 파이프라인 및 멀티 플랫폼 SDK까지 100% 1인 개인 개발한 하이브리드 APM 관제 시스템입니다.
+            현재 Render 클라우드에 실제 데모 버전으로 배포되어 웹뷰 비동기 오류, 네이티브 크래시, 6대 APM 지표, 심볼리케이터 등 전 기능이 실시간 동작하고 있습니다.
           </p>
 
           <div class="case-meta-grid">
             <div class="meta-item">
-              <span class="meta-label">ROLE</span>
-              <span class="meta-value">하이브리드 모바일 플랫폼 아키텍트</span>
+              <span class="meta-label">DEVELOPMENT</span>
+              <span class="meta-value">1인 단독 개인 개발 (기획·설계·풀스택 100%)</span>
             </div>
             <div class="meta-item">
-              <span class="meta-label">KEY STACK</span>
-              <span class="meta-value">iOS (Swift / Obj-C), Android (Kotlin / Java), WKWebView, Custom RPC</span>
+              <span class="meta-label">DEPLOYMENT</span>
+              <span class="meta-value">Render 클라우드 라이브 데모 (실제 기능 가동 중)</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">CORE IMPACT</span>
-              <span class="meta-value">웹뷰 간 화면 전환 지연 40% 단축, 장기 실행 시 메모리 누수 0건 달성</span>
+              <span class="meta-value">웹-네이티브 결합 추적, 6대 APM 수집, 실시간 역난독화 심볼리케이터</span>
             </div>
           </div>
         </div>
 
         <div class="diagram-hero-stage">
           <div class="diagram-top-bar">
-            <span class="diagram-label">HYBRID CORE · 네이티브 브릿지 RPC 통신 및 생명주기 통제 구조</span>
+            <span class="diagram-label">CLUE · 1인 개발 실시간 관제 콘솔 (Render 라이브 데모 동작 중)</span>
+            <a class="diagram-ext-link" href="https://clue-5mpi.onrender.com/#/clue" target="_blank" rel="noopener">
+              <span>라이브 데모 콘솔 열기 (전 기능 동작) ↗</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </a>
           </div>
           <div class="diagram-img-frame">
-            <img src="mobile-platform.png" alt="하이브리드 모바일 앱 브릿지 플랫폼 구조" loading="lazy">
+            <img src="clue-screen-issues.png" alt="Clue Issues 대시보드 화면" loading="lazy">
           </div>
         </div>
 
         <div class="pillars-grid">
           <div class="pillar-card">
             <span class="pillar-num">01</span>
-            <h3 class="pillar-title">Promise 기반 비동기 RPC 프로토콜</h3>
+            <h3 class="pillar-title">하이브리드 상관관계 브릿지 관제</h3>
             <p class="pillar-desc">
-              네이티브 플러그인 호출 시 콜백 지옥을 제거하고 타입 세이프한 Promise RPC 브릿지를 설계하여 웹과 네이티브 간 데이터 교환 무결성을 보증했습니다.
+              웹뷰에서 발생한 인터랙션과 네이티브 브릿지 호출을 단일 Correlation ID로 묶어, 웹-네이티브 경계를 넘나드는 크래시 원인을 100% 추적합니다.
             </p>
           </div>
           <div class="pillar-card">
             <span class="pillar-num">02</span>
-            <h3 class="pillar-title">웹뷰 메모리 누수 방지 &amp; 라이프사이클 통제</h3>
+            <h3 class="pillar-title">6대 APM 메트릭 &amp; 폭포수 분석</h3>
             <p class="pillar-desc">
-              다중 웹뷰 네비게이션 시 미해제되는 DOM/JS 인스턴스를 강제 가비지 컬렉션하고, 백그라운드 전환 시 리소스를 회수하여 크래시율을 0.01% 이하로 억제했습니다.
+              LCP(1.12s), 앱 기동(AOS 890ms / iOS 720ms), ANR율(0.08%), Apdex(0.94)를 실시간 관제하고 화면·API·네이티브 브릿지 소요 비중을 폭포수로 분해합니다.
             </p>
           </div>
           <div class="pillar-card">
             <span class="pillar-num">03</span>
-            <h3 class="pillar-title">생체인증 및 암호화 로컬 스토리지</h3>
+            <h3 class="pillar-title">실시간 스택 역난독화 (Symbolicator)</h3>
             <p class="pillar-desc">
-              FaceID/TouchID 생체인증 연동 및 iOS Keychain, Android EncryptedSharedPreferences와 웹뷰 세션을 안전하게 동기화하는 보안 브릿지를 구축했습니다.
+              Android ProGuard/R8, iOS dSYM, Web SourceMap을 통해 암호화된 스택트레이스를 원본 소스 파일/라인으로 즉시 디매핑하여 디버깅 속도를 70% 단축했습니다.
             </p>
           </div>
           <div class="pillar-card">
             <span class="pillar-num">04</span>
-            <h3 class="pillar-title">오프라인 캐싱 &amp; 웹 리소스 증분 동기화</h3>
+            <h3 class="pillar-title">오류 지문 정규화 &amp; 스파이크 경보</h3>
             <p class="pillar-desc">
-              네트워크 단절 환경에서도 업무가 가능하도록 로컬 리소스 무결성 검증(MD5 Checksum)과 원격 증분 패치 ZIP 배포 파이프라인을 운영했습니다.
+              동일 결함의 스택 시그니처를 SHA-256 지문으로 정규화하여 142회 등 급증 감지 시(Velocity Alert) 슬랙으로 1분 내 전파합니다.
             </p>
           </div>
         </div>
 
         <div class="case-tech-footer">
-          <span class="tech-tag">Swift</span>
-          <span class="tech-tag">Kotlin</span>
-          <span class="tech-tag">WKWebView</span>
-          <span class="tech-tag">JavaScript RPC</span>
-          <span class="tech-tag">Security Keychain</span>
-          <span class="tech-tag">Offline Storage</span>
+          <span class="tech-tag">Vue 3</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Node.js Express</span>
+          <span class="tech-tag">Tailwind CSS</span>
+          <span class="tech-tag">Android SDK</span>
+          <span class="tech-tag">iOS Framework</span>
+          <span class="tech-tag">PrimeVue</span>
+          <span class="tech-tag">MongoDB Atlas</span>
+        </div>
+
+        <div class="btn-case-detail-wrap" style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a class="btn-case-detail" href="clue.html">
+            <span>Clue 시스템 아키텍처 및 6대 기능 백서 보기 →</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+          <a class="btn-case-detail" href="https://clue-5mpi.onrender.com/#/clue" target="_blank" rel="noopener" style="background:transparent; color:var(--text-primary); border:1px solid var(--border-medium); box-shadow:none;">
+            <span>라이브 관제 콘솔 열기 (게스트 데모) ↗</span>
+          </a>
         </div>
 
       </div>
     </article>
 
-    <!-- PROJECT 03: Design System -->
-    <article class="project-case-study" id="project-design">
+    <!-- PROJECT 03: Shorts Commerce Player -->
+    <article class="project-case-study" id="project-shorts">
       <div class="case-study-inner">
 
         <div class="case-header">
           <div class="case-badge-row">
             <span class="case-badge">PORTFOLIO 03</span>
-            <span class="case-award">전사 디자인 표준화 &amp; 컴포넌트 코어</span>
+            <span class="case-award">1인 개발 양방향 숏폼 커머스 &amp; 인터랙티브 샌드박스</span>
           </div>
-          <h2 class="case-title">사내 UI 디자인 시스템 &amp; 컴포넌트 코어</h2>
+          <h2 class="case-title">Shorts Commerce Player · 세로형 숏폼 커머스 솔루션</h2>
           <p class="case-summary">
-            전사 웹 애플리케이션 및 모바일 웹뷰 전반에 일관된 사용자 경험(UX)을 부여하고 개발 생산성을 혁신하기 위해 구축한 디자인 토큰 기반 공통 UI 컴포넌트 시스템입니다.
+            YouTube Shorts / TikTok 스타일의 9:16 모바일 세로형 비디오와 10종 이미지 인터랙션 슬라이더, 
+            AI 리뷰 요약 해시태그 팝오버, 원클릭 구매 전환, 그리고 대화형 AI 쇼핑 어시스턴트를 결합한 숏폼 커머스 프론트엔드 솔루션입니다. 
+            서버가 오프라인인 환경에서도 방문자가 직접 데이터를 실시간 조작해볼 수 있는 인터랙티브 샌드박스를 제공합니다.
           </p>
 
           <div class="case-meta-grid">
             <div class="meta-item">
               <span class="meta-label">ROLE</span>
-              <span class="meta-value">프론트엔드 리드 · 디자인 시스템 아키텍트</span>
+              <span class="meta-value">1인 단독 프론트엔드 개발 (기획·설계·UI 100%)</span>
             </div>
             <div class="meta-item">
-              <span class="meta-label">KEY STACK</span>
-              <span class="meta-value">Vue 3, TypeScript, Tailwind CSS, Storybook, Vite</span>
+              <span class="meta-label">VIEWPORT</span>
+              <span class="meta-value">9:16 모바일 세로형 (Swiper.js 제스처 제어)</span>
             </div>
             <div class="meta-item">
-              <span class="meta-label">CORE IMPACT</span>
-              <span class="meta-value">신규 프로덕트 개발 속도 2.5배 향상, UI 중복 구현 85% 제거</span>
+              <span class="meta-label">CORE FEATURE</span>
+              <span class="meta-value">비디오 &amp; 10종 이미지, AI 리뷰 해시태그, 대화형 AI 챗봇</span>
             </div>
           </div>
         </div>
 
         <div class="diagram-hero-stage">
           <div class="diagram-top-bar">
-            <span class="diagram-label">DESIGN SYSTEM · 토큰 계층화 및 60+ 공통 컴포넌트 카탈로그</span>
+            <span class="diagram-label">SHORTS PLAYER · 인터랙티브 샌드박스 &amp; 라이브 플레이어</span>
+            <a class="diagram-ext-link" href="messageai-shorts.html#sandbox">
+              <span>라이브 샌드박스 열기 ↗</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </a>
           </div>
           <div class="diagram-img-frame">
-            <img src="design-system.png" alt="디자인 시스템 컴포넌트 코어 구조" loading="lazy">
+            <img src="shorts-preview.png" alt="Shorts Commerce Player 인터랙티브 샌드박스 화면" loading="lazy">
+          </div>
+          <div class="diagram-caption">
+            <div class="caption-col">
+              <strong>실시간 데이터 조작 샌드박스</strong>
+              <p>서버가 오프라인인 상태에서도 사용자가 3가지 프리셋을 선택하거나 YouTube URL, 텍스트, 태그를 직접 수정하며 즉각적인 렌더링을 테스트할 수 있습니다.</p>
+            </div>
+            <div class="caption-col">
+              <strong>양방향 커머스 인터랙션</strong>
+              <p>동영상 시청 중 AI 리뷰 요약 말풍선 확인, 인플레이어 AI 챗봇 상담, 원클릭 구매 전환까지 매끄럽게 연결됩니다.</p>
+            </div>
           </div>
         </div>
 
         <div class="pillars-grid">
           <div class="pillar-card">
             <span class="pillar-num">01</span>
-            <h3 class="pillar-title">3단계 디자인 토큰 아키텍처</h3>
+            <h3 class="pillar-title">9:16 버티컬 뷰포트 &amp; 제스처 제어</h3>
             <p class="pillar-desc">
-              Global Token (원시 색상/폰트), Semantic Token (역할별 의미), Component Token의 3단계로 분리하여 다크/라이트 테마 변경 시 0초 자동 전파를 구현했습니다.
+              모바일 화면에 최적화된 풀스크린 9:16 비율과 상하 스와이프 제스처를 결합하여 숏츠 및 숏폼 사용자에게 가장 친숙한 시청 경험을 제공합니다.
             </p>
           </div>
           <div class="pillar-card">
             <span class="pillar-num">02</span>
-            <h3 class="pillar-title">Vue 3 Composable 기반 상태 추상화</h3>
+            <h3 class="pillar-title">비디오 &amp; 10종 이미지 듀얼 엔진</h3>
             <p class="pillar-desc">
-              모달, 드롭다운, 토스트, 가상 스크롤 등 복잡한 UI 인터랙션의 로직을 UI 렌더링과 완벽히 분리하여 헤드리스(Headless) 형태로 재사용성을 극대화했습니다.
+              YouTube/MP4 비디오뿐 아니라 스와이프 카드, 3D 큐브 등 10종의 이미지 모핑 슬라이더를 팩토리 패턴으로 지원하여 리소스 제약 없이 콘텐츠를 발행합니다.
             </p>
           </div>
           <div class="pillar-card">
             <span class="pillar-num">03</span>
-            <h3 class="pillar-title">Storybook 자동 문서화 및 시각적 회귀 테스트</h3>
+            <h3 class="pillar-title">AI 리뷰 요약 해시태그 팝오버</h3>
             <p class="pillar-desc">
-              디자이너와 개발자 간의 단일 진실 공급원(Single Source of Truth)을 위해 Storybook 카탈로그를 자동 배포하고 컴포넌트 시각적 회귀를 검증했습니다.
+              수백 개의 구매 후기를 LLM으로 분석하여 배송·품질·가격·디자인 등 핵심 가치를 해시태그로 시각화하고, 탭 시 말풍선으로 요약문을 펼쳐 보여줍니다.
             </p>
           </div>
           <div class="pillar-card">
             <span class="pillar-num">04</span>
-            <h3 class="pillar-title">WCAG 2.1 AA 접근성(A11y) 표준 준수</h3>
+            <h3 class="pillar-title">인플레이어 대화형 AI 챗봇 연동</h3>
             <p class="pillar-desc">
-              키보드 포커스 트랩(Focus Trap), 스크린 리더 ARIA 속성, 명도 대비 4.5:1 이상을 모든 공통 컴포넌트에 의무 적용했습니다.
+              영상 재생 중 우측 챗봇 버튼을 누르면 화면 전환 없이 플레이어 내부에서 AI 상담 대화창이 열려 상품 상세 정보를 즉시 질의응답할 수 있습니다.
             </p>
           </div>
         </div>
 
         <div class="case-tech-footer">
-          <span class="tech-tag">Vue 3</span>
-          <span class="tech-tag">TypeScript</span>
-          <span class="tech-tag">Tailwind CSS</span>
-          <span class="tech-tag">Storybook</span>
-          <span class="tech-tag">WCAG 2.1 AA</span>
-          <span class="tech-tag">Vite</span>
+          <span class="tech-tag">JavaScript (ES6+)</span>
+          <span class="tech-tag">Swiper.js</span>
+          <span class="tech-tag">YouTube IFrame API</span>
+          <span class="tech-tag">Plyr</span>
+          <span class="tech-tag">Markdown-It</span>
+          <span class="tech-tag">HTML5 Video</span>
+          <span class="tech-tag">PostMessage Bridge</span>
+        </div>
+
+        <div class="btn-case-detail-wrap">
+          <a class="btn-case-detail" href="messageai-shorts.html">
+            <span>Shorts Player 아키텍처 및 실시간 샌드박스 열기</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
         </div>
 
       </div>
     </article>
 
-    <!-- PROJECT 04: Realtime Kanban -->
-    <article class="project-case-study" id="project-kanban">
+    <!-- PROJECT 04: HeAlth AI -->
+    <article class="project-case-study" id="project-health">
       <div class="case-study-inner">
 
         <div class="case-header">
           <div class="case-badge-row">
             <span class="case-badge">PORTFOLIO 04</span>
-            <span class="case-award">개발팀 애자일 스프린트 생산성 엔진</span>
+            <span class="case-award">사내 AI 경진대회 1등(대상) 수상 · 디지털타임스 2025.01 보도</span>
           </div>
-          <h2 class="case-title">실시간 협업 칸반 이슈 트래커 (Sprintboard)</h2>
+          <h2 class="case-title">HeAlth AI · Flutter + Vue WebView 하이브리드 AI 헬스케어</h2>
           <p class="case-summary">
-            개발팀의 스프린트 진행 상태, Git 커밋 및 브랜치 푸시 이벤트를 실시간으로 동기화하는 이벤트 드리븐 협업 플랫폼입니다.
+            Flutter 네이티브 카메라/실시간 모션 포즈 엔진과 Vue 2 WebView SPA를 4개의 양방향 JavascriptChannel 브리지로 결합해
+            전신 체형 분석, 실시간 스켈레톤 운동 코칭, GPT-4o 식단 비전 분석, 30일 AI 인증 챌린지, 03:00 자동 배치 콘텐츠 큐레이션을 하나로 통합한 모바일 헬스케어 플랫폼입니다.
           </p>
 
           <div class="case-meta-grid">
             <div class="meta-item">
-              <span class="meta-label">ROLE</span>
-              <span class="meta-value">풀스택 소프트웨어 엔지니어 · 백엔드/프론트엔드 단독 설계</span>
+              <span class="meta-label">ROLE &amp; TEAM</span>
+              <span class="meta-value">3인 공동 개발 · 하이브리드 웹뷰 브리지 · 백엔드/AI 파이프라인 구축</span>
             </div>
             <div class="meta-item">
-              <span class="meta-label">KEY STACK</span>
-              <span class="meta-value">Node.js Express, Socket.io, TypeScript, Vue 3, MongoDB Atlas</span>
+              <span class="meta-label">HYBRID ARCHITECTURE</span>
+              <span class="meta-value">Flutter Native Pose Camera + Vue 2 WebView (4 JavascriptChannel)</span>
             </div>
             <div class="meta-item">
-              <span class="meta-label">CORE IMPACT</span>
-              <span class="meta-value">수백 명 동시 접속 시 웹소켓 동기화 지연 30ms 미만, 스프린트 회고 효율 50% 향상</span>
+              <span class="meta-label">AWARD &amp; PRESS</span>
+              <span class="meta-value">사내 AI 경진대회 30개 팀 중 1위(대상) · 디지털타임스 언론 보도</span>
             </div>
           </div>
         </div>
 
         <div class="diagram-hero-stage">
           <div class="diagram-top-bar">
-            <span class="diagram-label">SPRINTBOARD · 실시간 WebSocket 이벤트 동기화 및 Git 파이프라인</span>
+            <span class="diagram-label">HEALTH AI · 홈 브리핑 · 실시간 스켈레톤 포즈 · GPT-4o 식단 비전 · 30일 AI 챌린지</span>
           </div>
           <div class="diagram-img-frame">
-            <img src="kanban-platform.png" alt="실시간 칸반 협업 보드 화면" loading="lazy">
+            <img src="health-ai-preview.png?v=20261113h4" alt="HeAlth AI Flutter + Vue 하이브리드 모바일 앱 시연 화면 4종">
           </div>
         </div>
 
         <div class="pillars-grid">
           <div class="pillar-card">
             <span class="pillar-num">01</span>
-            <h3 class="pillar-title">WebSocket 양방향 브로드캐스팅</h3>
+            <h3 class="pillar-title">Flutter Native ↔ Vue WebView 양방향 브리지</h3>
             <p class="pillar-desc">
-              카드 드래그앤드롭 및 상태 변경 시 Socket.io 룸(Room) 기반 선택적 브로드캐스팅을 통해 불필요한 네트워크 트래픽을 90% 이상 절감했습니다.
+              <code>FlutterFitnessPose</code>, <code>FlutterChannel</code>, <code>FlutterBodyCheck</code>, <code>FlutterOpenBrowser</code> 4개 채널과 전역 JS 콜백으로 네이티브 포즈·체형 카메라 연산과 웹뷰 UX를 무중단 연동했습니다.
             </p>
           </div>
           <div class="pillar-card">
             <span class="pillar-num">02</span>
-            <h3 class="pillar-title">Git 웹훅 이벤트 파이프라인 연동</h3>
+            <h3 class="pillar-title">실시간 모션 포즈 인식 &amp; GPT-4 교정 코칭</h3>
             <p class="pillar-desc">
-              Git 브랜치 생성, 커밋 푸시, PR 병합 이벤트를 파싱하여 칸반 카드의 상태(In Progress, Review, Done)를 자동 전이하도록 자동화했습니다.
+              스쿼트 등 5종 운동의 관절 각도(<code>kneeAngle</code>, <code>elbowAngle</code>, <code>torsoStability</code>)를 Flutter 2.4x 뷰파인더로 실시간 카운팅하고 MongoDB <code>arrayFilters</code> 원자 저장 후 자세 교정 리포트를 생성합니다.
             </p>
           </div>
           <div class="pillar-card">
             <span class="pillar-num">03</span>
-            <h3 class="pillar-title">낙관적 UI 업데이트 (Optimistic UI)</h3>
+            <h3 class="pillar-title">GPT-4o 식단 비전 &amp; 30일 챌린지 AI 가드레일</h3>
             <p class="pillar-desc">
-              네트워크 응답 대기 없이 클라이언트 UI를 즉시 갱신하고 서버 충돌 발생 시 원상 복구하는 트랜잭션 롤백 메커니즘으로 데스크톱 앱급 반응성을 구현했습니다.
+              사진 한 장(100mb Cloudinary 파이프라인)으로 칼로리·탄단지를 추론하고, GPT-4-Turbo의 이진 판정(<code>"1"/"0"/"FAIL"</code>)으로 부적합 인증샷을 실시간 차단해 챌린지 신뢰도를 확보했습니다.
             </p>
           </div>
           <div class="pillar-card">
             <span class="pillar-num">04</span>
-            <h3 class="pillar-title">고가용성 분산 세션 아키텍처</h3>
+            <h3 class="pillar-title">03:00 야간 배치 스케줄러 &amp; 멀티모델 라우팅</h3>
             <p class="pillar-desc">
-              MongoDB Atlas 세션 스토어와 Redis 어댑터를 연계하여 다중 인스턴스 서버 환경에서도 세션 유실 없는 무중단 서비스를 제공했습니다.
+              <code>node-cron</code>(<code>0 3 * * *</code>) + <code>BatchHistory</code> 멱등성 락으로 매일 새벽 AI 건강 조언·네이버 뉴스를 사전 생성하고 작업 특성에 맞게 GPT-4o/4-Turbo/4/3.5를 최적 분담했습니다.
             </p>
           </div>
         </div>
 
         <div class="case-tech-footer">
-          <span class="tech-tag">Node.js</span>
-          <span class="tech-tag">Socket.io</span>
-          <span class="tech-tag">TypeScript</span>
-          <span class="tech-tag">Vue 3</span>
+          <span class="tech-tag">Flutter Native</span>
+          <span class="tech-tag">Vue 2 WebView</span>
+          <span class="tech-tag">JavascriptChannel Bridge</span>
+          <span class="tech-tag">Node.js Express</span>
           <span class="tech-tag">MongoDB Atlas</span>
-          <span class="tech-tag">Redis Pub/Sub</span>
+          <span class="tech-tag">GPT-4o / 4-Turbo / 4</span>
+          <span class="tech-tag">Cloudinary</span>
+          <span class="tech-tag">node-cron Batch</span>
+        </div>
+
+        <div class="btn-case-detail-wrap" style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
+          <a class="btn-case-detail" href="health-ai.html">
+            <span>HeAlth AI 심층 기능 및 아키텍처 보기</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+          <a class="btn-case-detail" href="https://www.dt.co.kr/article/11639125" target="_blank" rel="noopener noreferrer" style="background:#ffffff; color:#1e272d; border:1px solid rgba(30,39,45,0.18);">
+            <span>디지털타임스 1등 수상 기사 보기</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
         </div>
 
       </div>
@@ -447,22 +544,10 @@
     <div class="footer-inner">
       <div class="footer-left">
         <span class="footer-brand">KIM GIHO</span>
-        <span class="footer-tagline">Software Engineer &amp; Platform Architect</span>
-      </div>
-      <div class="footer-right">
-        <button class="footer-btn" type="button" onclick="copyEmail()">gihokim@uracle.co.kr 복사</button>
-        <a class="footer-btn accent" href="ax-frontier.html">AX 백서 전문 보기</a>
+        <span class="footer-tagline">Client Web Developer</span>
       </div>
     </div>
   </footer>
-
-  <!-- Toast Notification -->
-  <div id="copy-toast" class="copy-toast" role="status" aria-live="polite">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"/>
-    </svg>
-    <span>이메일 주소(gihokim@uracle.co.kr)가 클립보드에 복사되었습니다.</span>
-  </div>
 
 </body>
 </html>
